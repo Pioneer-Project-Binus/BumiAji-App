@@ -1,6 +1,3 @@
-# BumiAji-App
-Pembuatan Website Desa Bumiaji
-
 ```Javascript
 API Documentation
 
