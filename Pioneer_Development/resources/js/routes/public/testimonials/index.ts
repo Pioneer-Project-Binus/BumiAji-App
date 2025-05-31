@@ -1,0 +1,65 @@
+import show from './show'
+import { queryParams, type QueryParams } from './../../../wayfinder'
+
+/**
+ * @see \App\Http\Controllers\TestimonialController::index
+ * @see app\Http\Controllers\TestimonialController.php:17
+ * @route /testimoni
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '\/testimoni',
+}
+
+/**
+ * @see \App\Http\Controllers\TestimonialController::index
+ * @see app\Http\Controllers\TestimonialController.php:17
+ * @route /testimoni
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\TestimonialController::index
+ * @see app\Http\Controllers\TestimonialController.php:17
+ * @route /testimoni
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+/**
+ * @see \App\Http\Controllers\TestimonialController::index
+ * @see app\Http\Controllers\TestimonialController.php:17
+ * @route /testimoni
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+
+
+
+const testimonials = {
+    index, 
+    show,
+}
+
+export default testimonials
