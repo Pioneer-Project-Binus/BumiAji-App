@@ -17,7 +17,7 @@ class ArticleController extends Controller
     // Menampilkan daftar artikel
     public function index(Request $request)
     {
-        $query = Article::with(['category', 'author', 'creator', 'updater']) 
+        $query = Article::with(['category', 'author', 'creator', 'updater'])
             ->where('isDeleted', false)
             ->orderBy('createdAt', 'desc');
 
@@ -72,6 +72,7 @@ class ArticleController extends Controller
     // Menyimpan artikel baru
     public function store(Request $request)
     {
+        // dd($request);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',

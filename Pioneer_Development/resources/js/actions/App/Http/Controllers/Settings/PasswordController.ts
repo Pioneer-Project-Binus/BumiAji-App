@@ -1,9 +1,8 @@
 import { queryParams, type QueryParams } from './../../../../../wayfinder'
-
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::edit
- * @see app\Http\Controllers\Settings\PasswordController.php:18
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::edit
+ * @see app/Http/Controllers/Settings/PasswordController.php:18
+ * @route '/settings/password'
  */
 export const edit = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,22 +14,22 @@ export const edit = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 edit.definition = {
     methods: ['get','head'],
-    url: '\/settings\/password',
+    url: '/settings/password',
 }
 
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::edit
- * @see app\Http\Controllers\Settings\PasswordController.php:18
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::edit
+ * @see app/Http/Controllers/Settings/PasswordController.php:18
+ * @route '/settings/password'
  */
 edit.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return edit.definition.url + queryParams(options)
+    return edit.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::edit
- * @see app\Http\Controllers\Settings\PasswordController.php:18
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::edit
+ * @see app/Http/Controllers/Settings/PasswordController.php:18
+ * @route '/settings/password'
  */
 edit.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -39,11 +38,10 @@ edit.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: edit.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::edit
- * @see app\Http\Controllers\Settings\PasswordController.php:18
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::edit
+ * @see app/Http/Controllers/Settings/PasswordController.php:18
+ * @route '/settings/password'
  */
 edit.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -53,11 +51,10 @@ edit.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::update
- * @see app\Http\Controllers\Settings\PasswordController.php:26
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::update
+ * @see app/Http/Controllers/Settings/PasswordController.php:26
+ * @route '/settings/password'
  */
 export const update = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -69,22 +66,22 @@ export const update = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 
 update.definition = {
     methods: ['put'],
-    url: '\/settings\/password',
+    url: '/settings/password',
 }
 
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::update
- * @see app\Http\Controllers\Settings\PasswordController.php:26
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::update
+ * @see app/Http/Controllers/Settings/PasswordController.php:26
+ * @route '/settings/password'
  */
 update.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return update.definition.url + queryParams(options)
+    return update.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\Settings\PasswordController::update
- * @see app\Http\Controllers\Settings\PasswordController.php:26
- * @route /settings/password
+* @see \App\Http\Controllers\Settings\PasswordController::update
+ * @see app/Http/Controllers/Settings/PasswordController.php:26
+ * @route '/settings/password'
  */
 update.put = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -93,8 +90,6 @@ update.put = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: update.url(options),
     method: 'put',
 })
-
-
 const PasswordController = { edit, update }
 
 export default PasswordController
