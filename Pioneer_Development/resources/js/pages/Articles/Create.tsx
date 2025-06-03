@@ -2,7 +2,7 @@ import {useForm} from "@inertiajs/react"
 import React from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function Create(){
+export default function Create({categories, authors}){
     const {data, setData, errors, post, processing, progress} = useForm({
         title: "",
         content: "",
@@ -11,7 +11,7 @@ export default function Create(){
         categoryId: "",
         authorId: "",
     });
-    console.log(errors);
+
 
     return (
         <>
@@ -118,8 +118,9 @@ export default function Create(){
                                     value={data.categoryId}
                                 >
                                     <option value="">Pilih kategori...</option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Nonaktif">Nonaktif</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
                                 </select>
                                 {errors.categoryId && <p className="text-red-500 text-sm mt-1">Kategori yang dipilih tidak ada.</p>}
                             </div>
@@ -130,16 +131,18 @@ export default function Create(){
                                     Pilih Penulis
                                 </label>
                                 <select
-                                    value={data.authorId}
-                                    onChange={(e) => setData('authorId', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white text-black"
                                     name="author"
                                     id="author"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white text-black"
+                                    onChange={(e) => setData('authorId', e.target.value)}
+                                    value={data.authorId}
                                 >
                                     <option value="">Pilih penulis...</option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Nonaktif">Nonaktif</option>
+                                    {authors.map((author) => (
+                                        <option key={author.id} value={author.id}>{author.name}</option>
+                                    ))}
                                 </select>
+
                                 {errors.authorId && <p className="text-red-500 text-sm mt-1">Penulis yang dipilih tidak ada.</p>}
                             </div>
 

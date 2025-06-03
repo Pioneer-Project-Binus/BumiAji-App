@@ -2,7 +2,7 @@ import {useForm} from "@inertiajs/react"
 import React from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function Create({article, categories, authors}){
+export default function Edit({article, categories, authors}){
     const {data, setData, errors, put, processing, progress} = useForm({
         title: article.title||"",
         content: article.content || "",

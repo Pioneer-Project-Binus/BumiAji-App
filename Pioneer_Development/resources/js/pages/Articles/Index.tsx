@@ -12,11 +12,19 @@ export default function IndexPage({ articles, categories, authors, filters }) {
 }
 
 function Table({ articles, categories, authors, filters }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
-  const [filterCategory, setFilterCategory] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
 
-  const filteredArticles = useMemo(() => {
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+
+    const [selectedArticleSlug, setSelectedArticleSlug] = useState(null);
+
+
+
+    const filteredArticles = useMemo(() => {
     return articles.data.filter((article) => {
       const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = filterStatus ? article.status === filterStatus : true;
@@ -109,27 +117,93 @@ function Table({ articles, categories, authors, filters }) {
                   <td className="px-4 py-3 text-center border-b">{article.author ? article.author.name : '-'}</td>
                   <td className="px-4 py-3 border-b">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
-                      <Link href="#"className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
-                        Detail
-                      </Link>
-                      <Link  href={`/articles/${article.slug}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-1">
-                        Edit
-                      </Link>
+                        <Link href="#"className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
+                            Detail
+                        </Link>
+                        <Link  href={`/articles/${article.slug}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-1">
+                            Edit
+                        </Link>
                         <button
-                        type="button"
-                        onClick={() => {
-                            if (confirm('Yakin ingin menghapus artikel ini?')) {
-                            destroy(`/articles/${article.slug}`, {
-                                method: 'delete',
-                                onSuccess: () => alert('Artikel berhasil dihapus!'),
-                                onError: () => alert('Gagal menghapus artikel.')
-                            });
-                            }
-                        }}
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md px-4 py-1"
+                        onClick={() => setSelectedArticleSlug(article.slug)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                         >
-                        Delete
+                        Hapus Artikel
                         </button>
+
+
+                        {/* Modal Konfirmasi */}
+                        {selectedArticleSlug === article.slug && (
+                        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                            <h2 className="text-lg font-bold mb-2">Konfirmasi</h2>
+                            <p>Yakin ingin menghapus artikel ini?</p>
+                            <div className="mt-4 flex justify-end space-x-2">
+                                <button
+                                onClick={() => setSelectedArticleSlug(null)}
+                                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                                >
+                                Batal
+                                </button>
+                                <button
+                                onClick={() => {
+                                    destroy(`/articles/${article.slug}`, {
+                                    method: 'delete',
+                                    onSuccess: () => {
+                                        setSelectedArticleSlug(null);
+                                        setShowSuccessModal(true); // Sukses akan muncul
+                                    },
+                                    onError: () => {
+                                        setSelectedArticleSlug(null);
+                                        setShowErrorModal(true);
+                                    }
+                                    });
+                                }}
+                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                >
+                                Hapus
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        )}
+
+
+                        {/* Modal Sukses */}
+                        {showSuccessModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                            <h2 className="text-lg font-bold mb-2">Berhasil</h2>
+                            <p>Artikel berhasil dihapus!</p>
+                            <div className="mt-4 flex justify-end">
+                                <button
+                                onClick={() => setShowSuccessModal(false)}
+                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                >
+                                Tutup
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        )}
+
+                        {/* Modal Gagal */}
+                        {showErrorModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                            <h2 className="text-lg font-bold mb-2">Gagal</h2>
+                            <p>Gagal menghapus artikel.</p>
+                            <div className="mt-4 flex justify-end">
+                                <button
+                                onClick={() => setShowErrorModal(false)}
+                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                >
+                                Tutup
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        )}
+
 
 
                     </div>
