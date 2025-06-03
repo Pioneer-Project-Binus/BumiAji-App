@@ -36,7 +36,7 @@ export default function Create(){
                                 placeholder="Masukkan judul artikel..."
                                 onChange={(e) => setData("title", e.target.value)}
                             />
-                            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                            {errors.title && <p className="text-red-500 text-sm mt-1">Judul artikel tidak boleh kosong.</p>}
                         </div>
 
                         {/* Content Field */}
@@ -53,7 +53,7 @@ export default function Create(){
                                 placeholder="Tulis konten artikel di sini..."
                                 onChange={(e) => setData("content", e.target.value)}
                             />
-                            {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content}</p>}
+                            {errors.content && <p className="text-red-500 text-sm mt-1">Konten artikel harus diisi.</p>}
                         </div>
 
                         {/* Image Upload Field */}
@@ -86,7 +86,7 @@ export default function Create(){
                                     </div>
                                 )}
                             </div>
-                            {errors.featuredImage && <p className="text-red-500 text-sm mt-1">{errors.featuredImage}</p>}
+                            {errors.featuredImage && <p className="text-red-500 text-sm mt-1">File gambar utama tidak valid.</p>}
                         </div>
 
                         {/* Category Field */}
@@ -105,7 +105,7 @@ export default function Create(){
                                 <option value="Aktif">Aktif</option>
                                 <option value="Nonaktif">Nonaktif</option>
                             </select>
-                            {errors.categoryId && <p className="text-red-500 text-sm mt-1">{errors.categoryId}</p>}
+                            {errors.categoryId && <p className="text-red-500 text-sm mt-1">Kategori yang dipilih tidak ada.</p>}
                         </div>
 
                         {/* Author Field */}
@@ -124,7 +124,7 @@ export default function Create(){
                                 <option value="Aktif">Aktif</option>
                                 <option value="Nonaktif">Nonaktif</option>
                             </select>
-                            {errors.authorId && <p className="text-red-500 text-sm mt-1">{errors.authorId}</p>}
+                            {errors.authorId && <p className="text-red-500 text-sm mt-1">Penulis yang dipilih tidak ada.</p>}
                         </div>
 
                         {/* Submit Button */}
