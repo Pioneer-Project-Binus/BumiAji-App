@@ -1,6 +1,58 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 import update from './update'
 /**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '/articles',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ArticleController::create
  * @see app/Http/Controllers/ArticleController.php:62
  * @route '/articles/create'
@@ -275,7 +327,8 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     method: 'delete',
 })
 const articles = {
-    create,
+    index,
+create,
 store,
 edit,
 update,

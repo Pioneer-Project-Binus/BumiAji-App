@@ -4,15 +4,15 @@ import { queryParams, type QueryParams } from './../../../../wayfinder'
  * @see app/Http/Controllers/ArticleController.php:18
  * @route '/artikel'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const indexc3fdd506734a8484cd25b42fdc7b5b31 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexc3fdd506734a8484cd25b42fdc7b5b31.url(options),
     method: 'get',
 })
 
-index.definition = {
+indexc3fdd506734a8484cd25b42fdc7b5b31.definition = {
     methods: ['get','head'],
     url: '/artikel',
 }
@@ -22,8 +22,8 @@ index.definition = {
  * @see app/Http/Controllers/ArticleController.php:18
  * @route '/artikel'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+indexc3fdd506734a8484cd25b42fdc7b5b31.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexc3fdd506734a8484cd25b42fdc7b5b31.definition.url + queryParams(options)
 }
 
 /**
@@ -31,11 +31,11 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/ArticleController.php:18
  * @route '/artikel'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexc3fdd506734a8484cd25b42fdc7b5b31.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexc3fdd506734a8484cd25b42fdc7b5b31.url(options),
     method: 'get',
 })
 /**
@@ -43,13 +43,70 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/ArticleController.php:18
  * @route '/artikel'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexc3fdd506734a8484cd25b42fdc7b5b31.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: indexc3fdd506734a8484cd25b42fdc7b5b31.url(options),
     method: 'head',
 })
+
+    /**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+const index8f1eca8cfa0d2952fdb6b90cc946ddf6 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index8f1eca8cfa0d2952fdb6b90cc946ddf6.url(options),
+    method: 'get',
+})
+
+index8f1eca8cfa0d2952fdb6b90cc946ddf6.definition = {
+    methods: ['get','head'],
+    url: '/articles',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index8f1eca8cfa0d2952fdb6b90cc946ddf6.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index8f1eca8cfa0d2952fdb6b90cc946ddf6.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index8f1eca8cfa0d2952fdb6b90cc946ddf6.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index8f1eca8cfa0d2952fdb6b90cc946ddf6.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index8f1eca8cfa0d2952fdb6b90cc946ddf6.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index8f1eca8cfa0d2952fdb6b90cc946ddf6.url(options),
+    method: 'head',
+})
+
+export const index = {
+    '/artikel': indexc3fdd506734a8484cd25b42fdc7b5b31,
+    '/articles': index8f1eca8cfa0d2952fdb6b90cc946ddf6,
+}
 
 /**
 * @see \App\Http\Controllers\ArticleController::show

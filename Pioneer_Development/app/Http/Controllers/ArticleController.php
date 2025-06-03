@@ -128,9 +128,9 @@ class ArticleController extends Controller
     }
 
     // Menampilkan form untuk mengedit artikel
-    public function edit($id)
+    public function edit($slug)
     {
-        $article = Article::where('isDeleted', false)->findOrFail($id);
+        $article = Article::where('isDeleted', false)->where('slug', $slug)->firstOrFail();
         $categories = CategoryArticle::where('isDeleted', false)->orderBy('name')->get();
         $authors = User::orderBy('name')->get();
         return Inertia::render('Articles/Edit', [
@@ -141,7 +141,7 @@ class ArticleController extends Controller
     }
 
     // Memperbarui artikel
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
@@ -159,7 +159,7 @@ class ArticleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $article = Article::where('isDeleted', false)->findOrFail($id);
+        $article = Article::where('isDeleted', false)->where('slug', $slug)->firstOrFail();
         if ($article->title !== $request->title) {
             $article->slug = Str::slug($request->title) . '-' . Str::random(5);
         }
@@ -198,9 +198,9 @@ class ArticleController extends Controller
     }
 
     // Menghapus artikel (soft delete)
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $slug)
     {
-        $article = Article::where('isDeleted', false)->findOrFail($id);
+        $article = Article::where('isDeleted', false)->where('slug', $slug)->firstOrFail();
         $article->isDeleted = true;
         $article->updatedBy = Auth::id();
         $article->save();
