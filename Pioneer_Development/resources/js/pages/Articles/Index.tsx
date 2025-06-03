@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
-import { Link, useForm } from '@inertiajs/react';
-
+import { Link, useForm, router } from '@inertiajs/react';
 
 export default function IndexPage({ articles, categories, authors, filters }) {
   return (
@@ -12,33 +11,63 @@ export default function IndexPage({ articles, categories, authors, filters }) {
 }
 
 function Table({ articles, categories, authors, filters }) {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
-    const [filterCategory, setFilterCategory] = useState('');
+  const [searchTerm, setSearchTerm] = useState(filters.search || '');
+  const [filterStatus, setFilterStatus] = useState(filters.status || '');
+  const [filterCategory, setFilterCategory] = useState(filters.category || '');
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState(null);
 
-    const [selectedArticleSlug, setSelectedArticleSlug] = useState(null);
+  const allStatuses = ['draft', 'published', 'archived'];
+
+  const { delete: destroy } = useForm();
 
 
-
-    const filteredArticles = useMemo(() => {
-    return articles.data.filter((article) => {
+  const filteredArticles = useMemo(() => {
+    return articles.data.filter(article => {
       const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = filterStatus ? article.status === filterStatus : true;
-      const matchesCategory = filterCategory
-        ? article.category && article.category.id.toString() === filterCategory
-        : true;
+      const matchesCategory = filterCategory ? article.category?.id.toString() === filterCategory : true;
       return matchesSearch && matchesStatus && matchesCategory;
     });
   }, [articles.data, searchTerm, filterStatus, filterCategory]);
 
-  const {delete: destroy} = useForm();
-  console.log(articles);
+    function handleSearchChange(e) {
+    const value = e.target.value;
+    setSearchTerm(value);
 
+    router.get('/articles', {
+        search: value.trim() === '' ? undefined : value, // jika kosong jangan kirim parameter search
+        status: filterStatus,
+        category: filterCategory,
+    }, {
+        preserveState: true,
+        replace: true,
+    });
+    }
 
+  function handleStatusChange(e) {
+    const value = e.target.value;
+    setFilterStatus(value);
+
+    router.get('/articles', {
+      search: searchTerm,
+      status: value,
+      category: filterCategory,
+    }, { preserveState: true, replace: true });
+  }
+
+  function handleCategoryChange(e) {
+    const value = e.target.value;
+    setFilterCategory(value);
+
+    router.get('/articles', {
+      search: searchTerm,
+      status: filterStatus,
+      category: value,
+    }, { preserveState: true, replace: true });
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -58,26 +87,27 @@ function Table({ articles, categories, authors, filters }) {
           type="text"
           placeholder="Cari judul artikel..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
           className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={filterStatus}
+        onChange={handleStatusChange}
+        className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">-- Filter Status --</option>
-          {[...new Set(articles.data.map((a) => a.status))].map((status) => (
+        
+        {allStatuses.map((status) => (
             <option key={status} value={status}>
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
             </option>
-          ))}
+        ))}
         </select>
+
 
         <select
           value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
+          onChange={handleCategoryChange}
           className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">-- Filter Kategori --</option>
@@ -109,7 +139,6 @@ function Table({ articles, categories, authors, filters }) {
               </tr>
             ) : (
               filteredArticles.map((article) => (
-
                 <tr key={article.id} className="hover:bg-gray-50 transition">
                   <td className="px-4 py-3 text-center border-b">{article.title}</td>
                   <td className="px-4 py-3 text-center border-b capitalize">{article.status}</td>
@@ -117,94 +146,90 @@ function Table({ articles, categories, authors, filters }) {
                   <td className="px-4 py-3 text-center border-b">{article.author ? article.author.name : '-'}</td>
                   <td className="px-4 py-3 border-b">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
-                        <Link href="#"className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
-                            Detail
-                        </Link>
-                        <Link  href={`/articles/${article.slug}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-1">
-                            Edit
-                        </Link>
-                        <button
+                      <Link href="#" className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
+                        Detail
+                      </Link>
+                      <Link href={`/articles/${article.slug}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-1">
+                        Edit
+                      </Link>
+                      <button
                         onClick={() => setSelectedArticleSlug(article.slug)}
                         className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
-                        >
+                      >
                         Hapus Artikel
-                        </button>
+                      </button>
 
-
-                        {/* Modal Konfirmasi */}
-                        {selectedArticleSlug === article.slug && (
+                      {/* Modal Konfirmasi */}
+                      {selectedArticleSlug === article.slug && (
                         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                          <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
                             <h2 className="text-lg font-bold mb-2">Konfirmasi</h2>
                             <p>Yakin ingin menghapus artikel ini?</p>
                             <div className="mt-4 flex justify-end space-x-2">
-                                <button
+                              <button
                                 onClick={() => setSelectedArticleSlug(null)}
                                 className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                                >
+                              >
                                 Batal
-                                </button>
-                                <button
+                              </button>
+                              <button
                                 onClick={() => {
-                                    destroy(`/articles/${article.slug}`, {
+                                  destroy(`/articles/${article.slug}`, {
                                     method: 'delete',
                                     onSuccess: () => {
-                                        setSelectedArticleSlug(null);
-                                        setShowSuccessModal(true); // Sukses akan muncul
+                                      setSelectedArticleSlug(null);
+                                      setShowSuccessModal(true);
                                     },
                                     onError: () => {
-                                        setSelectedArticleSlug(null);
-                                        setShowErrorModal(true);
+                                      setSelectedArticleSlug(null);
+                                      setShowErrorModal(true);
                                     }
-                                    });
+                                  });
                                 }}
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                >
+                              >
                                 Hapus
-                                </button>
+                              </button>
                             </div>
-                            </div>
+                          </div>
                         </div>
-                        )}
+                      )}
 
-
-                        {/* Modal Sukses */}
-                        {showSuccessModal && (
+                      {/* Modal Sukses */}
+                      {showSuccessModal && (
                         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                          <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
                             <h2 className="text-lg font-bold mb-2">Berhasil</h2>
                             <p>Artikel berhasil dihapus!</p>
                             <div className="mt-4 flex justify-end">
-                                <button
+                              <button
                                 onClick={() => setShowSuccessModal(false)}
                                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                                >
+                              >
                                 Tutup
-                                </button>
+                              </button>
                             </div>
-                            </div>
+                          </div>
                         </div>
-                        )}
+                      )}
 
-                        {/* Modal Gagal */}
-                        {showErrorModal && (
+                      {/* Modal Gagal */}
+                      {showErrorModal && (
                         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-                            <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+                          <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
                             <h2 className="text-lg font-bold mb-2">Gagal</h2>
                             <p>Gagal menghapus artikel.</p>
                             <div className="mt-4 flex justify-end">
-                                <button
+                              <button
                                 onClick={() => setShowErrorModal(false)}
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                >
+                              >
                                 Tutup
-                                </button>
+                              </button>
                             </div>
-                            </div>
+                          </div>
                         </div>
-                        )}
-
-
+                      )}
 
                     </div>
                   </td>
