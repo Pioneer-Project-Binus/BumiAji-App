@@ -1,6 +1,6 @@
-import dashboard from '@/routes/dashboard';
-import login from '@/routes/login';
-import register from '@/routes/register';
+import {dashboard} from '@/routes/index';
+import {login} from '@/routes/index';
+import {register} from '@/routes/index';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 
