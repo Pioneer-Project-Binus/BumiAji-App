@@ -15,7 +15,7 @@ interface TourismFormData {
 
 interface CreateProps {}
 
-export default function Create({}: CreateProps) {
+export default function CreatePage({}: CreateProps) {
     const { data, setData, errors, post, processing, progress } = useForm<TourismFormData>({
         name: '',
         description: '',

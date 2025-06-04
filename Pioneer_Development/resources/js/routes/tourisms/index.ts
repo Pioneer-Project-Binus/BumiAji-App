@@ -326,6 +326,75 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+/**
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/tourisms/{slug}'
+ */
+export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+
+show.definition = {
+    methods: ['get','head'],
+    url: '/tourisms/{slug}',
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/tourisms/{slug}'
+ */
+show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return show.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/tourisms/{slug}'
+ */
+show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/tourisms/{slug}'
+ */
+show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: show.url(args, options),
+    method: 'head',
+})
 const tourisms = {
     index,
 create,
@@ -333,6 +402,7 @@ store,
 edit,
 update,
 destroy,
+show,
 }
 
 export default tourisms

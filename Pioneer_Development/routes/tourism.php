@@ -15,4 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::get('tourisms/{slug}/edit', [TourismController::class, 'edit'])->name('tourisms.edit');
     Route::put('tourisms/{slug}', [TourismController::class, 'update'])->name('tourisms.update');
     Route::delete('tourisms/{slug}', [TourismController::class, 'destroy'])->name('tourisms.destroy');
+
+    // Optional: jika kamu butuh halaman detail versi admin, bisa ditambahkan ini
+    Route::get('tourisms/{slug}', [TourismController::class, 'show'])->name('tourisms.show');
 });
