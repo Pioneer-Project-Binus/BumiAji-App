@@ -1,153 +1,152 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::showa0c08903cbacadbdcfe06ad4707cb581
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /foto-wisata/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/foto-wisata/{slug}'
  */
-const showa0c08903cbacadbdcfe06ad4707cb581 = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const showb24247d3d58043cd5cce002f328e35f9 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showa0c08903cbacadbdcfe06ad4707cb581.url(args, options),
+    url: showb24247d3d58043cd5cce002f328e35f9.url(args, options),
     method: 'get',
 })
 
-showa0c08903cbacadbdcfe06ad4707cb581.definition = {
+showb24247d3d58043cd5cce002f328e35f9.definition = {
     methods: ['get','head'],
-    url: '\/foto-wisata\/{slug}',
+    url: '/foto-wisata/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::showa0c08903cbacadbdcfe06ad4707cb581
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /foto-wisata/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/foto-wisata/{slug}'
  */
-showa0c08903cbacadbdcfe06ad4707cb581.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showb24247d3d58043cd5cce002f328e35f9.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
-    return showa0c08903cbacadbdcfe06ad4707cb581.definition.url
+    return showb24247d3d58043cd5cce002f328e35f9.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::showa0c08903cbacadbdcfe06ad4707cb581
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /foto-wisata/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/foto-wisata/{slug}'
  */
-showa0c08903cbacadbdcfe06ad4707cb581.get = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showb24247d3d58043cd5cce002f328e35f9.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showa0c08903cbacadbdcfe06ad4707cb581.url(args, options),
+    url: showb24247d3d58043cd5cce002f328e35f9.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::showa0c08903cbacadbdcfe06ad4707cb581
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /foto-wisata/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/foto-wisata/{slug}'
  */
-showa0c08903cbacadbdcfe06ad4707cb581.head = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showb24247d3d58043cd5cce002f328e35f9.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: showa0c08903cbacadbdcfe06ad4707cb581.url(args, options),
+    url: showb24247d3d58043cd5cce002f328e35f9.url(args, options),
     method: 'head',
 })
 
-/**
- * @see \App\Http\Controllers\TourismPhotoController::show16da77ff97c26d9c5a004757e620fba5
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /admin/tourism-photos/{slug}
+    /**
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/tourism-photos/{slug}'
  */
-const show16da77ff97c26d9c5a004757e620fba5 = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const show28bf218d1173e539a49b2c739135e498 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show16da77ff97c26d9c5a004757e620fba5.url(args, options),
+    url: show28bf218d1173e539a49b2c739135e498.url(args, options),
     method: 'get',
 })
 
-show16da77ff97c26d9c5a004757e620fba5.definition = {
+show28bf218d1173e539a49b2c739135e498.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourism-photos\/{slug}',
+    url: '/tourism-photos/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::show16da77ff97c26d9c5a004757e620fba5
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/tourism-photos/{slug}'
  */
-show16da77ff97c26d9c5a004757e620fba5.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show28bf218d1173e539a49b2c739135e498.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
-    return show16da77ff97c26d9c5a004757e620fba5.definition.url
+    return show28bf218d1173e539a49b2c739135e498.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::show16da77ff97c26d9c5a004757e620fba5
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/tourism-photos/{slug}'
  */
-show16da77ff97c26d9c5a004757e620fba5.get = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show28bf218d1173e539a49b2c739135e498.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show16da77ff97c26d9c5a004757e620fba5.url(args, options),
+    url: show28bf218d1173e539a49b2c739135e498.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::show16da77ff97c26d9c5a004757e620fba5
- * @see app\Http\Controllers\TourismPhotoController.php:0
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::show
+ * @see app/Http/Controllers/TourismPhotoController.php:0
+ * @route '/tourism-photos/{slug}'
  */
-show16da77ff97c26d9c5a004757e620fba5.head = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show28bf218d1173e539a49b2c739135e498.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show16da77ff97c26d9c5a004757e620fba5.url(args, options),
+    url: show28bf218d1173e539a49b2c739135e498.url(args, options),
     method: 'head',
 })
 
 export const show = {
-    '\/foto-wisata\/{slug}': showa0c08903cbacadbdcfe06ad4707cb581,
-    '\/admin\/tourism-photos\/{slug}': show16da77ff97c26d9c5a004757e620fba5,
+    '/foto-wisata/{slug}': showb24247d3d58043cd5cce002f328e35f9,
+    '/tourism-photos/{slug}': show28bf218d1173e539a49b2c739135e498,
 }
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::index
- * @see app\Http\Controllers\TourismPhotoController.php:17
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::index
+ * @see app/Http/Controllers/TourismPhotoController.php:17
+ * @route '/tourism-photos'
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -159,22 +158,22 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourism-photos',
+    url: '/tourism-photos',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::index
- * @see app\Http\Controllers\TourismPhotoController.php:17
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::index
+ * @see app/Http/Controllers/TourismPhotoController.php:17
+ * @route '/tourism-photos'
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+    return index.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::index
- * @see app\Http\Controllers\TourismPhotoController.php:17
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::index
+ * @see app/Http/Controllers/TourismPhotoController.php:17
+ * @route '/tourism-photos'
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -183,11 +182,10 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::index
- * @see app\Http\Controllers\TourismPhotoController.php:17
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::index
+ * @see app/Http/Controllers/TourismPhotoController.php:17
+ * @route '/tourism-photos'
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -197,11 +195,10 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::create
- * @see app\Http\Controllers\TourismPhotoController.php:54
- * @route /admin/tourism-photos/create
+* @see \App\Http\Controllers\TourismPhotoController::create
+ * @see app/Http/Controllers/TourismPhotoController.php:51
+ * @route '/tourism-photos/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -213,22 +210,22 @@ export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 
 create.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourism-photos\/create',
+    url: '/tourism-photos/create',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::create
- * @see app\Http\Controllers\TourismPhotoController.php:54
- * @route /admin/tourism-photos/create
+* @see \App\Http\Controllers\TourismPhotoController::create
+ * @see app/Http/Controllers/TourismPhotoController.php:51
+ * @route '/tourism-photos/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return create.definition.url + queryParams(options)
+    return create.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::create
- * @see app\Http\Controllers\TourismPhotoController.php:54
- * @route /admin/tourism-photos/create
+* @see \App\Http\Controllers\TourismPhotoController::create
+ * @see app/Http/Controllers/TourismPhotoController.php:51
+ * @route '/tourism-photos/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -237,11 +234,10 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::create
- * @see app\Http\Controllers\TourismPhotoController.php:54
- * @route /admin/tourism-photos/create
+* @see \App\Http\Controllers\TourismPhotoController::create
+ * @see app/Http/Controllers/TourismPhotoController.php:51
+ * @route '/tourism-photos/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -251,11 +247,10 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::store
- * @see app\Http\Controllers\TourismPhotoController.php:66
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::store
+ * @see app/Http/Controllers/TourismPhotoController.php:63
+ * @route '/tourism-photos'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -267,22 +262,22 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '\/admin\/tourism-photos',
+    url: '/tourism-photos',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::store
- * @see app\Http\Controllers\TourismPhotoController.php:66
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::store
+ * @see app/Http/Controllers/TourismPhotoController.php:63
+ * @route '/tourism-photos'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+    return store.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::store
- * @see app\Http\Controllers\TourismPhotoController.php:66
- * @route /admin/tourism-photos
+* @see \App\Http\Controllers\TourismPhotoController::store
+ * @see app/Http/Controllers/TourismPhotoController.php:63
+ * @route '/tourism-photos'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -292,13 +287,12 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'post',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::edit
- * @see app\Http\Controllers\TourismPhotoController.php:110
- * @route /admin/tourism-photos/{slug}/edit
+* @see \App\Http\Controllers\TourismPhotoController::edit
+ * @see app/Http/Controllers/TourismPhotoController.php:105
+ * @route '/tourism-photos/{slug}/edit'
  */
-export const edit = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -308,53 +302,53 @@ export const edit = (args: { slug: string | number } | [slug: string | number] |
 
 edit.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourism-photos\/{slug}\/edit',
+    url: '/tourism-photos/{slug}/edit',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::edit
- * @see app\Http\Controllers\TourismPhotoController.php:110
- * @route /admin/tourism-photos/{slug}/edit
+* @see \App\Http\Controllers\TourismPhotoController::edit
+ * @see app/Http/Controllers/TourismPhotoController.php:105
+ * @route '/tourism-photos/{slug}/edit'
  */
-edit.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return edit.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::edit
- * @see app\Http\Controllers\TourismPhotoController.php:110
- * @route /admin/tourism-photos/{slug}/edit
+* @see \App\Http\Controllers\TourismPhotoController::edit
+ * @see app/Http/Controllers/TourismPhotoController.php:105
+ * @route '/tourism-photos/{slug}/edit'
  */
-edit.get = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::edit
- * @see app\Http\Controllers\TourismPhotoController.php:110
- * @route /admin/tourism-photos/{slug}/edit
+* @see \App\Http\Controllers\TourismPhotoController::edit
+ * @see app/Http/Controllers/TourismPhotoController.php:105
+ * @route '/tourism-photos/{slug}/edit'
  */
-edit.head = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -362,13 +356,12 @@ edit.head = (args: { slug: string | number } | [slug: string | number] | string 
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::update
- * @see app\Http\Controllers\TourismPhotoController.php:122
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::update
+ * @see app/Http/Controllers/TourismPhotoController.php:117
+ * @route '/tourism-photos/{slug}'
  */
-export const update = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
@@ -378,40 +371,41 @@ export const update = (args: { slug: string | number } | [slug: string | number]
 
 update.definition = {
     methods: ['post'],
-    url: '\/admin\/tourism-photos\/{slug}',
+    url: '/tourism-photos/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::update
- * @see app\Http\Controllers\TourismPhotoController.php:122
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::update
+ * @see app/Http/Controllers/TourismPhotoController.php:117
+ * @route '/tourism-photos/{slug}'
  */
-update.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return update.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::update
- * @see app\Http\Controllers\TourismPhotoController.php:122
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::update
+ * @see app/Http/Controllers/TourismPhotoController.php:117
+ * @route '/tourism-photos/{slug}'
  */
-update.post = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
@@ -419,13 +413,12 @@ update.post = (args: { slug: string | number } | [slug: string | number] | strin
     method: 'post',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismPhotoController::destroy
- * @see app\Http\Controllers\TourismPhotoController.php:168
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::destroy
+ * @see app/Http/Controllers/TourismPhotoController.php:163
+ * @route '/tourism-photos/{slug}'
  */
-export const destroy = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -435,48 +428,47 @@ export const destroy = (args: { slug: string | number } | [slug: string | number
 
 destroy.definition = {
     methods: ['delete'],
-    url: '\/admin\/tourism-photos\/{slug}',
+    url: '/tourism-photos/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::destroy
- * @see app\Http\Controllers\TourismPhotoController.php:168
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::destroy
+ * @see app/Http/Controllers/TourismPhotoController.php:163
+ * @route '/tourism-photos/{slug}'
  */
-destroy.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return destroy.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismPhotoController::destroy
- * @see app\Http\Controllers\TourismPhotoController.php:168
- * @route /admin/tourism-photos/{slug}
+* @see \App\Http\Controllers\TourismPhotoController::destroy
+ * @see app/Http/Controllers/TourismPhotoController.php:163
+ * @route '/tourism-photos/{slug}'
  */
-destroy.delete = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
-
-
 const TourismPhotoController = { show, index, create, store, edit, update, destroy }
 
 export default TourismPhotoController

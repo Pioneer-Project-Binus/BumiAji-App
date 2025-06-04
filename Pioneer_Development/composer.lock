@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92cd3262ae4b861cc5e6346b05a1c516",
+    "content-hash": "29ad51884882112d948039046db990c4",
     "packages": [
         {
             "name": "brick/math",
@@ -1525,16 +1525,16 @@
         },
         {
             "name": "laravel/wayfinder",
-            "version": "v0.1.4",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/wayfinder.git",
-                "reference": "e68357affd782cf63ace6a281e17e55585627ef0"
+                "reference": "c73e1ed968c801022509272c50fc78eb53805472"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/wayfinder/zipball/e68357affd782cf63ace6a281e17e55585627ef0",
-                "reference": "e68357affd782cf63ace6a281e17e55585627ef0",
+                "url": "https://api.github.com/repos/laravel/wayfinder/zipball/c73e1ed968c801022509272c50fc78eb53805472",
+                "reference": "c73e1ed968c801022509272c50fc78eb53805472",
                 "shasum": ""
             },
             "require": {
@@ -1542,7 +1542,7 @@
                 "illuminate/filesystem": "^11.0|^12.0",
                 "illuminate/routing": "^11.0|^12.0",
                 "illuminate/support": "^11.0|^12.0",
-                "php": "^8.3"
+                "php": "^8.2"
             },
             "require-dev": {
                 "laravel/pint": "^1.21",
@@ -1583,7 +1583,7 @@
                 "issues": "https://github.com/laravel/wayfinder/issues",
                 "source": "https://github.com/laravel/wayfinder"
             },
-            "time": "2025-04-07T15:51:37+00:00"
+            "time": "2025-05-07T14:50:39+00:00"
         },
         {
             "name": "league/commonmark",

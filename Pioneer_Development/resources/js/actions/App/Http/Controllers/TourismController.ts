@@ -1,65 +1,120 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 
 /**
- * @see \App\Http\Controllers\TourismController::index
- * @see app\Http\Controllers\TourismController.php:14
- * @route /destinasi-wisata
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/destinasi-wisata'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const index4c48effeb32b4cab50d9844d53f44e55 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: index4c48effeb32b4cab50d9844d53f44e55.url(options),
     method: 'get',
 })
 
-index.definition = {
+index4c48effeb32b4cab50d9844d53f44e55.definition = {
     methods: ['get','head'],
-    url: '\/destinasi-wisata',
+    url: '/destinasi-wisata',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::index
- * @see app\Http\Controllers\TourismController.php:14
- * @route /destinasi-wisata
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/destinasi-wisata'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+index4c48effeb32b4cab50d9844d53f44e55.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index4c48effeb32b4cab50d9844d53f44e55.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::index
- * @see app\Http\Controllers\TourismController.php:14
- * @route /destinasi-wisata
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/destinasi-wisata'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index4c48effeb32b4cab50d9844d53f44e55.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: index4c48effeb32b4cab50d9844d53f44e55.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismController::index
- * @see app\Http\Controllers\TourismController.php:14
- * @route /destinasi-wisata
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/destinasi-wisata'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index4c48effeb32b4cab50d9844d53f44e55.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: index4c48effeb32b4cab50d9844d53f44e55.url(options),
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/tourisms'
+ */
+const indexf2fee93d9de5a1d598f42492d1753060 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexf2fee93d9de5a1d598f42492d1753060.url(options),
+    method: 'get',
+})
+
+indexf2fee93d9de5a1d598f42492d1753060.definition = {
+    methods: ['get','head'],
+    url: '/tourisms',
+}
 
 /**
- * @see \App\Http\Controllers\TourismController::show
- * @see app\Http\Controllers\TourismController.php:101
- * @route /destinasi-wisata/{slug}
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/tourisms'
  */
-export const show = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexf2fee93d9de5a1d598f42492d1753060.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexf2fee93d9de5a1d598f42492d1753060.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/tourisms'
+ */
+indexf2fee93d9de5a1d598f42492d1753060.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexf2fee93d9de5a1d598f42492d1753060.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\TourismController::index
+ * @see app/Http/Controllers/TourismController.php:14
+ * @route '/tourisms'
+ */
+indexf2fee93d9de5a1d598f42492d1753060.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: indexf2fee93d9de5a1d598f42492d1753060.url(options),
+    method: 'head',
+})
+
+export const index = {
+    '/destinasi-wisata': index4c48effeb32b4cab50d9844d53f44e55,
+    '/tourisms': indexf2fee93d9de5a1d598f42492d1753060,
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/destinasi-wisata/{slug}'
+ */
+export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -69,53 +124,53 @@ export const show = (args: { slug: string | number } | [slug: string | number] |
 
 show.definition = {
     methods: ['get','head'],
-    url: '\/destinasi-wisata\/{slug}',
+    url: '/destinasi-wisata/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::show
- * @see app\Http\Controllers\TourismController.php:101
- * @route /destinasi-wisata/{slug}
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/destinasi-wisata/{slug}'
  */
-show.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return show.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::show
- * @see app\Http\Controllers\TourismController.php:101
- * @route /destinasi-wisata/{slug}
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/destinasi-wisata/{slug}'
  */
-show.get = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismController::show
- * @see app\Http\Controllers\TourismController.php:101
- * @route /destinasi-wisata/{slug}
+* @see \App\Http\Controllers\TourismController::show
+ * @see app/Http/Controllers/TourismController.php:101
+ * @route '/destinasi-wisata/{slug}'
  */
-show.head = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -123,11 +178,10 @@ show.head = (args: { slug: string | number } | [slug: string | number] | string 
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismController::create
- * @see app\Http\Controllers\TourismController.php:47
- * @route /admin/tourisms/create
+* @see \App\Http\Controllers\TourismController::create
+ * @see app/Http/Controllers/TourismController.php:47
+ * @route '/tourisms/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -139,22 +193,22 @@ export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 
 create.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourisms\/create',
+    url: '/tourisms/create',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::create
- * @see app\Http\Controllers\TourismController.php:47
- * @route /admin/tourisms/create
+* @see \App\Http\Controllers\TourismController::create
+ * @see app/Http/Controllers/TourismController.php:47
+ * @route '/tourisms/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return create.definition.url + queryParams(options)
+    return create.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::create
- * @see app\Http\Controllers\TourismController.php:47
- * @route /admin/tourisms/create
+* @see \App\Http\Controllers\TourismController::create
+ * @see app/Http/Controllers/TourismController.php:47
+ * @route '/tourisms/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -163,11 +217,10 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismController::create
- * @see app\Http\Controllers\TourismController.php:47
- * @route /admin/tourisms/create
+* @see \App\Http\Controllers\TourismController::create
+ * @see app/Http/Controllers/TourismController.php:47
+ * @route '/tourisms/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -177,11 +230,10 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismController::store
- * @see app\Http\Controllers\TourismController.php:52
- * @route /admin/tourisms
+* @see \App\Http\Controllers\TourismController::store
+ * @see app/Http/Controllers/TourismController.php:52
+ * @route '/tourisms'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -193,22 +245,22 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '\/admin\/tourisms',
+    url: '/tourisms',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::store
- * @see app\Http\Controllers\TourismController.php:52
- * @route /admin/tourisms
+* @see \App\Http\Controllers\TourismController::store
+ * @see app/Http/Controllers/TourismController.php:52
+ * @route '/tourisms'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+    return store.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::store
- * @see app\Http\Controllers\TourismController.php:52
- * @route /admin/tourisms
+* @see \App\Http\Controllers\TourismController::store
+ * @see app/Http/Controllers/TourismController.php:52
+ * @route '/tourisms'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -218,13 +270,12 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'post',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismController::edit
- * @see app\Http\Controllers\TourismController.php:120
- * @route /admin/tourisms/{slug}/edit
+* @see \App\Http\Controllers\TourismController::edit
+ * @see app/Http/Controllers/TourismController.php:120
+ * @route '/tourisms/{slug}/edit'
  */
-export const edit = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -234,53 +285,53 @@ export const edit = (args: { slug: string | number } | [slug: string | number] |
 
 edit.definition = {
     methods: ['get','head'],
-    url: '\/admin\/tourisms\/{slug}\/edit',
+    url: '/tourisms/{slug}/edit',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::edit
- * @see app\Http\Controllers\TourismController.php:120
- * @route /admin/tourisms/{slug}/edit
+* @see \App\Http\Controllers\TourismController::edit
+ * @see app/Http/Controllers/TourismController.php:120
+ * @route '/tourisms/{slug}/edit'
  */
-edit.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return edit.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::edit
- * @see app\Http\Controllers\TourismController.php:120
- * @route /admin/tourisms/{slug}/edit
+* @see \App\Http\Controllers\TourismController::edit
+ * @see app/Http/Controllers/TourismController.php:120
+ * @route '/tourisms/{slug}/edit'
  */
-edit.get = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TourismController::edit
- * @see app\Http\Controllers\TourismController.php:120
- * @route /admin/tourisms/{slug}/edit
+* @see \App\Http\Controllers\TourismController::edit
+ * @see app/Http/Controllers/TourismController.php:120
+ * @route '/tourisms/{slug}/edit'
  */
-edit.head = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -288,13 +339,12 @@ edit.head = (args: { slug: string | number } | [slug: string | number] | string 
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismController::update
- * @see app\Http\Controllers\TourismController.php:128
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::update
+ * @see app/Http/Controllers/TourismController.php:128
+ * @route '/tourisms/{slug}'
  */
-export const update = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -304,40 +354,41 @@ export const update = (args: { slug: string | number } | [slug: string | number]
 
 update.definition = {
     methods: ['put'],
-    url: '\/admin\/tourisms\/{slug}',
+    url: '/tourisms/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::update
- * @see app\Http\Controllers\TourismController.php:128
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::update
+ * @see app/Http/Controllers/TourismController.php:128
+ * @route '/tourisms/{slug}'
  */
-update.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return update.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::update
- * @see app\Http\Controllers\TourismController.php:128
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::update
+ * @see app/Http/Controllers/TourismController.php:128
+ * @route '/tourisms/{slug}'
  */
-update.put = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -345,13 +396,12 @@ update.put = (args: { slug: string | number } | [slug: string | number] | string
     method: 'put',
 })
 
-
 /**
- * @see \App\Http\Controllers\TourismController::destroy
- * @see app\Http\Controllers\TourismController.php:180
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::destroy
+ * @see app/Http/Controllers/TourismController.php:180
+ * @route '/tourisms/{slug}'
  */
-export const destroy = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -361,48 +411,47 @@ export const destroy = (args: { slug: string | number } | [slug: string | number
 
 destroy.definition = {
     methods: ['delete'],
-    url: '\/admin\/tourisms\/{slug}',
+    url: '/tourisms/{slug}',
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::destroy
- * @see app\Http\Controllers\TourismController.php:180
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::destroy
+ * @see app/Http/Controllers/TourismController.php:180
+ * @route '/tourisms/{slug}'
  */
-destroy.url = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            slug: args[0],
-        }
+                    slug: args[0],
+                }
     }
 
     const parsedArgs = {
-        slug: args.slug,
-    }
+                        slug: args.slug,
+                }
 
     return destroy.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TourismController::destroy
- * @see app\Http\Controllers\TourismController.php:180
- * @route /admin/tourisms/{slug}
+* @see \App\Http\Controllers\TourismController::destroy
+ * @see app/Http/Controllers/TourismController.php:180
+ * @route '/tourisms/{slug}'
  */
-destroy.delete = (args: { slug: string | number } | [slug: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
-
-
 const TourismController = { index, show, create, store, edit, update, destroy }
 
 export default TourismController

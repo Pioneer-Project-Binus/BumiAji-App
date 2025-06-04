@@ -1,121 +1,118 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate3148c26f1d3319acf6a7ea96e14f87b1
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /profil-desa
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profil-desa'
  */
-const showOrCreate3148c26f1d3319acf6a7ea96e14f87b1 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const showOrCreate64b10973650c616db165b8758bd680c2 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.url(options),
+    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
     method: 'get',
 })
 
-showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.definition = {
+showOrCreate64b10973650c616db165b8758bd680c2.definition = {
     methods: ['get','head'],
-    url: '\/profil-desa',
+    url: '/profil-desa',
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate3148c26f1d3319acf6a7ea96e14f87b1
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /profil-desa
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profil-desa'
  */
-showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.definition.url + queryParams(options)
+showOrCreate64b10973650c616db165b8758bd680c2.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return showOrCreate64b10973650c616db165b8758bd680c2.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate3148c26f1d3319acf6a7ea96e14f87b1
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /profil-desa
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profil-desa'
  */
-showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreate64b10973650c616db165b8758bd680c2.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.url(options),
+    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate3148c26f1d3319acf6a7ea96e14f87b1
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /profil-desa
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profil-desa'
  */
-showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreate64b10973650c616db165b8758bd680c2.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: showOrCreate3148c26f1d3319acf6a7ea96e14f87b1.url(options),
+    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
     method: 'head',
 })
 
-/**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate57182bab279dc601d02c468d5615000d
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /admin/profile-village/edit
+    /**
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profile-village/edit'
  */
-const showOrCreate57182bab279dc601d02c468d5615000d = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const showOrCreatee64b231b455fa9e383ad591ebfd26091 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate57182bab279dc601d02c468d5615000d.url(options),
+    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
     method: 'get',
 })
 
-showOrCreate57182bab279dc601d02c468d5615000d.definition = {
+showOrCreatee64b231b455fa9e383ad591ebfd26091.definition = {
     methods: ['get','head'],
-    url: '\/admin\/profile-village\/edit',
+    url: '/profile-village/edit',
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate57182bab279dc601d02c468d5615000d
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /admin/profile-village/edit
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profile-village/edit'
  */
-showOrCreate57182bab279dc601d02c468d5615000d.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return showOrCreate57182bab279dc601d02c468d5615000d.definition.url + queryParams(options)
+showOrCreatee64b231b455fa9e383ad591ebfd26091.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return showOrCreatee64b231b455fa9e383ad591ebfd26091.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate57182bab279dc601d02c468d5615000d
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /admin/profile-village/edit
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profile-village/edit'
  */
-showOrCreate57182bab279dc601d02c468d5615000d.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreatee64b231b455fa9e383ad591ebfd26091.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate57182bab279dc601d02c468d5615000d.url(options),
+    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\ProfileVillageController::showOrCreate57182bab279dc601d02c468d5615000d
- * @see app\Http\Controllers\ProfileVillageController.php:22
- * @route /admin/profile-village/edit
+* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
+ * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @route '/profile-village/edit'
  */
-showOrCreate57182bab279dc601d02c468d5615000d.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreatee64b231b455fa9e383ad591ebfd26091.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: showOrCreate57182bab279dc601d02c468d5615000d.url(options),
+    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
     method: 'head',
 })
 
 export const showOrCreate = {
-    '\/profil-desa': showOrCreate3148c26f1d3319acf6a7ea96e14f87b1,
-    '\/admin\/profile-village\/edit': showOrCreate57182bab279dc601d02c468d5615000d,
+    '/profil-desa': showOrCreate64b10973650c616db165b8758bd680c2,
+    '/profile-village/edit': showOrCreatee64b231b455fa9e383ad591ebfd26091,
 }
 
-
 /**
- * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app\Http\Controllers\ProfileVillageController.php:44
- * @route /admin/profile-village
+* @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
+ * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @route '/profile-village'
  */
 export const storeOrUpdate = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -127,22 +124,22 @@ export const storeOrUpdate = (options?: { query?: QueryParams, mergeQuery?: Quer
 
 storeOrUpdate.definition = {
     methods: ['post'],
-    url: '\/admin\/profile-village',
+    url: '/profile-village',
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app\Http\Controllers\ProfileVillageController.php:44
- * @route /admin/profile-village
+* @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
+ * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @route '/profile-village'
  */
 storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return storeOrUpdate.definition.url + queryParams(options)
+    return storeOrUpdate.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app\Http\Controllers\ProfileVillageController.php:44
- * @route /admin/profile-village
+* @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
+ * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @route '/profile-village'
  */
 storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -151,8 +148,6 @@ storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
     url: storeOrUpdate.url(options),
     method: 'post',
 })
-
-
 const ProfileVillageController = { showOrCreate, storeOrUpdate }
 
 export default ProfileVillageController

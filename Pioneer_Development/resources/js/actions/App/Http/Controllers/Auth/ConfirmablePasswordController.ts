@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../../wayfinder'
 
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:18
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:18
+ * @route '/confirm-password'
  */
 export const show = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,22 +15,22 @@ export const show = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 show.definition = {
     methods: ['get','head'],
-    url: '\/confirm-password',
+    url: '/confirm-password',
 }
 
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:18
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:18
+ * @route '/confirm-password'
  */
 show.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return show.definition.url + queryParams(options)
+    return show.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:18
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:18
+ * @route '/confirm-password'
  */
 show.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -39,11 +39,10 @@ show.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: show.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:18
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::show
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:18
+ * @route '/confirm-password'
  */
 show.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -53,11 +52,10 @@ show.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:26
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:26
+ * @route '/confirm-password'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -69,22 +67,22 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '\/confirm-password',
+    url: '/confirm-password',
 }
 
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:26
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:26
+ * @route '/confirm-password'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+    return store.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
- * @see app\Http\Controllers\Auth\ConfirmablePasswordController.php:26
- * @route /confirm-password
+* @see \App\Http\Controllers\Auth\ConfirmablePasswordController::store
+ * @see app/Http/Controllers/Auth/ConfirmablePasswordController.php:26
+ * @route '/confirm-password'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -93,8 +91,6 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: store.url(options),
     method: 'post',
 })
-
-
 const ConfirmablePasswordController = { show, store }
 
 export default ConfirmablePasswordController

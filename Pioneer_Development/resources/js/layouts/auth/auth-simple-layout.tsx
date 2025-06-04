@@ -1,5 +1,5 @@
 import AppLogoIcon from '@/components/app-logo-icon';
-import home from '@/routes/home';
+import { home } from '@/routes/index';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 
