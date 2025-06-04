@@ -14,9 +14,13 @@ type CategoryArticles = {
   data: ArticleCategory[];
 };
 
+type Filters = {
+  search?: string;
+};
+
 type Props = {
   categoryArticles: CategoryArticles;
-  filters: any;
+  filters: Filters;
   can: any;
 };
 
@@ -30,14 +34,14 @@ export default function Index({ categoryArticles, filters, can }: Props) {
 
 type TableProps = Props;
 
-function Table({ categoryArticles }: TableProps) {
+function Table({ categoryArticles, filters }: TableProps) {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>(filters.search || '');
 
   const handleDelete = (slug: string) => {
     router.delete(`/category-articles/${slug}`, {
       onSuccess: () => {
         setSelectedSlug(null);
-        // Optional: show toast or reload if needed
       },
       onError: () => {
         alert('Gagal menghapus kategori artikel');
@@ -45,10 +49,36 @@ function Table({ categoryArticles }: TableProps) {
     });
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.get('/category-articles', { search }, {
+      preserveState: true,
+      preserveScroll: true,
+    });
+  };
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex flex-row justify-between items-center p-2 h-13 mb-4 gap-10">
-        <h1 className="text-2xl font-bold text-white">Daftar kategori Artikel</h1>
+      <div className="flex flex-col md:flex-row justify-between items-center p-2 h-13 mb-4 gap-4">
+        <h1 className="text-2xl font-bold text-white">Daftar Kategori Artikel</h1>
+
+        {/* Form Search */}
+        <form onSubmit={handleSearchSubmit} className="flex gap-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-4 py-2 rounded border bg-white border-gray-300 focus:ring focus:ring-blue-400 text-black"
+            placeholder="Cari kategori..."
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded"
+          >
+            Cari
+          </button>
+        </form>
+
         <Link
           href="/category-articles/create"
           className="bg-green-600 flex justify-center items-center font-bold w-32 h-10 rounded-md"
@@ -71,7 +101,7 @@ function Table({ categoryArticles }: TableProps) {
             {categoryArticles.data.length === 0 ? (
               <tr>
                 <td colSpan={4} className="text-center py-6 text-gray-500">
-                  Tidak ada artikel
+                  Tidak ada kategori ditemukan.
                 </td>
               </tr>
             ) : (
