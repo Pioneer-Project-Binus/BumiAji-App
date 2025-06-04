@@ -1,5 +1,57 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '/category-articles',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\CategoryArticleController::create
  * @see app/Http/Controllers/CategoryArticleController.php:47
  * @route '/category-articles/create'
@@ -274,7 +326,8 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     method: 'delete',
 })
 const categoryArticles = {
-    create,
+    index,
+create,
 store,
 edit,
 update,

@@ -26,7 +26,7 @@ export default function Edit({article, categories, authors}){
             <div className="flex justify-center flex-col items-center">
                 <div className="max-w-2xl mx-auto px-4">
                     <div className="bg-white rounded-lg shadow-md p-8 flex flex-col items-center">
-                        <h1 className="text-3xl font-bold text-black mb-8 text-center">Tambah Artikel</h1>
+                        <h1 className="text-3xl font-bold text-black mb-8 text-center">Edit Artikel</h1>
                         {!data.featuredImage && article.featuredImage && (
                         <img
                             src={`/storage/${article.featuredImage}`}

@@ -1,6 +1,6 @@
-import dashboard from '@/routes/dashboard';
+import {dashboard} from '@/routes/index';
 import {store} from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
-import register from '@/routes/register';
+import {register} from '@/routes/index';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 

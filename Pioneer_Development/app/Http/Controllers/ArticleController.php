@@ -104,7 +104,7 @@ class ArticleController extends Controller
             $originalName = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $uniqueName = Str::uuid() . '.' . $extension;
-            $filePath = $file->storeAs('article_images', $uniqueName, 'public');
+            $filePath = $file->storeAs('articleImages', $uniqueName, 'public');
             $article->featuredImage = $filePath;
         }
         $article->save();

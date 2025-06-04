@@ -1,9 +1,11 @@
-import {useForm} from "@inertiajs/react"
-import React from 'react';
+import {useForm, usePage, useState} from "@inertiajs/react"
+import  {useEffect} from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function Create({categories, authors}){
-    const {data, setData, errors, post, processing, progress} = useForm({
+
+export default function Create({categories, authors, errors}){
+
+    const {data, setData, post, processing, progress} = useForm({
         title: "",
         content: "",
         featuredImage: null,
@@ -11,6 +13,16 @@ export default function Create({categories, authors}){
         categoryId: "",
         authorId: "",
     });
+
+    // const { flash } = usePage().props;
+    // const [showFlash, setShowFlash] = useState(true);
+    // useEffect(() => {
+    // if (flash.error || flash.success) {
+    //   setShowFlash(true);
+    //   const timer = setTimeout(() => setShowFlash(false), 3000);
+    //   return () => clearTimeout(timer);
+    // }
+    // }, [flash]);
 
 
     return (
@@ -52,7 +64,7 @@ export default function Create({categories, authors}){
                                     placeholder="Masukkan judul artikel..."
                                     onChange={(e) => setData("title", e.target.value)}
                                 />
-                                {errors.title && <p className="text-red-500 text-sm mt-1">Judul artikel tidak boleh kosong.</p>}
+                                {errors.title && <p className="text-red-500 text-sm mt-1"></p>}
                             </div>
 
                             {/* Content Field */}

@@ -68,6 +68,7 @@ function Table({ articles, categories, authors, filters }) {
       category: value,
     }, { preserveState: true, replace: true });
   }
+  console.log(articles);
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -96,7 +97,7 @@ function Table({ articles, categories, authors, filters }) {
         onChange={handleStatusChange}
         className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-        
+
         {allStatuses.map((status) => (
             <option key={status} value={status}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -146,7 +147,7 @@ function Table({ articles, categories, authors, filters }) {
                   <td className="px-4 py-3 text-center border-b">{article.author ? article.author.name : '-'}</td>
                   <td className="px-4 py-3 border-b">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
-                      <Link href="#" className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
+                      <Link href={`/articles/${article.slug}`} className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
                         Detail
                       </Link>
                       <Link href={`/articles/${article.slug}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-1">
@@ -154,9 +155,9 @@ function Table({ articles, categories, authors, filters }) {
                       </Link>
                       <button
                         onClick={() => setSelectedArticleSlug(article.slug)}
-                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                        className="bg-red-600 hover:bg-red-700 font-bold text-white px-4 py-2 rounded-xl cursor-pointer"
                       >
-                        Hapus Artikel
+                        Hapus
                       </button>
 
                       {/* Modal Konfirmasi */}
@@ -238,6 +239,11 @@ function Table({ articles, categories, authors, filters }) {
             )}
           </tbody>
         </table>
+        <div className="py-12 px-4">
+            {articles.links.map(link => {
+                <Link key={link.label} href={link.url} dangerouslySetInnerHTML={{_html:link.label}} className={`p-1 m-1 ${link.active ? "text-blue-500 font-bold" : "text-white"}`}></Link>
+            })}
+        </div>
       </div>
     </div>
   );
