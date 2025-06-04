@@ -2,7 +2,52 @@ import React, { useState, useMemo } from 'react';
 import AppHeaderLayout from '@/layouts/app/app-header-layout';
 import { Link, useForm, router } from '@inertiajs/react';
 
-export default function IndexPage({ articles, categories, authors, filters }) {
+type Article = {
+  id: number;
+  title: string;
+  status: string;
+  slug: string;
+  category?: {
+    id: number;
+    name: string;
+  };
+  author?: {
+    name: string;
+  };
+};
+
+type Category = {
+  id: number;
+  name: string;
+};
+
+type Author = {
+  name: string;
+};
+
+type Filters = {
+  search?: string;
+  status?: string;
+  category?: string;
+};
+
+type PaginatedArticles = {
+  data: Article[];
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+};
+
+type IndexPageProps = {
+  articles: PaginatedArticles;
+  categories: Category[];
+  authors: Author[];
+  filters: Filters;
+};
+
+export default function IndexPage({ articles, categories, authors, filters }: IndexPageProps) {
   return (
     <AppHeaderLayout>
       <Table articles={articles} categories={categories} authors={authors} filters={filters} />
@@ -10,22 +55,21 @@ export default function IndexPage({ articles, categories, authors, filters }) {
   );
 }
 
-function Table({ articles, categories, authors, filters }) {
+function Table({ articles, categories, authors, filters }: IndexPageProps) {
   const [searchTerm, setSearchTerm] = useState(filters.search || '');
   const [filterStatus, setFilterStatus] = useState(filters.status || '');
   const [filterCategory, setFilterCategory] = useState(filters.category || '');
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [selectedArticleSlug, setSelectedArticleSlug] = useState(null);
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState<string | null>(null);
 
   const allStatuses = ['draft', 'published', 'archived'];
 
   const { delete: destroy } = useForm();
 
-
   const filteredArticles = useMemo(() => {
-    return articles.data.filter(article => {
+    return articles.data.filter((article) => {
       const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = filterStatus ? article.status === filterStatus : true;
       const matchesCategory = filterCategory ? article.category?.id.toString() === filterCategory : true;
@@ -33,42 +77,53 @@ function Table({ articles, categories, authors, filters }) {
     });
   }, [articles.data, searchTerm, filterStatus, filterCategory]);
 
-    function handleSearchChange(e) {
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     setSearchTerm(value);
 
-    router.get('/articles', {
-        search: value.trim() === '' ? undefined : value, // jika kosong jangan kirim parameter search
+    router.get(
+      '/articles',
+      {
+        search: value.trim() === '' ? undefined : value,
         status: filterStatus,
         category: filterCategory,
-    }, {
+      },
+      {
         preserveState: true,
         replace: true,
-    });
-    }
+      }
+    );
+  }
 
-  function handleStatusChange(e) {
+  function handleStatusChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
     setFilterStatus(value);
 
-    router.get('/articles', {
-      search: searchTerm,
-      status: value,
-      category: filterCategory,
-    }, { preserveState: true, replace: true });
+    router.get(
+      '/articles',
+      {
+        search: searchTerm,
+        status: value,
+        category: filterCategory,
+      },
+      { preserveState: true, replace: true }
+    );
   }
 
-  function handleCategoryChange(e) {
+  function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
     setFilterCategory(value);
 
-    router.get('/articles', {
-      search: searchTerm,
-      status: filterStatus,
-      category: value,
-    }, { preserveState: true, replace: true });
+    router.get(
+      '/articles',
+      {
+        search: searchTerm,
+        status: filterStatus,
+        category: value,
+      },
+      { preserveState: true, replace: true }
+    );
   }
-  console.log(articles);
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -93,18 +148,17 @@ function Table({ articles, categories, authors, filters }) {
         />
 
         <select
-        value={filterStatus}
-        onChange={handleStatusChange}
-        className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={filterStatus}
+          onChange={handleStatusChange}
+          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-
-        {allStatuses.map((status) => (
+          <option value="">-- Filter Status --</option>
+          {allStatuses.map((status) => (
             <option key={status} value={status}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status.charAt(0).toUpperCase() + status.slice(1)}
             </option>
-        ))}
+          ))}
         </select>
-
 
         <select
           value={filterCategory}
@@ -143,8 +197,8 @@ function Table({ articles, categories, authors, filters }) {
                 <tr key={article.id} className="hover:bg-gray-50 transition">
                   <td className="px-4 py-3 text-center border-b">{article.title}</td>
                   <td className="px-4 py-3 text-center border-b capitalize">{article.status}</td>
-                  <td className="px-4 py-3 text-center border-b">{article.category ? article.category.name : '-'}</td>
-                  <td className="px-4 py-3 text-center border-b">{article.author ? article.author.name : '-'}</td>
+                  <td className="px-4 py-3 text-center border-b">{article.category?.name || '-'}</td>
+                  <td className="px-4 py-3 text-center border-b">{article.author?.name || '-'}</td>
                   <td className="px-4 py-3 border-b">
                     <div className="flex justify-center items-center gap-2 flex-wrap">
                       <Link href={`/articles/${article.slug}`} className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md px-4 py-1">
@@ -184,7 +238,7 @@ function Table({ articles, categories, authors, filters }) {
                                     onError: () => {
                                       setSelectedArticleSlug(null);
                                       setShowErrorModal(true);
-                                    }
+                                    },
                                   });
                                 }}
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
@@ -195,43 +249,6 @@ function Table({ articles, categories, authors, filters }) {
                           </div>
                         </div>
                       )}
-
-                      {/* Modal Sukses */}
-                      {showSuccessModal && (
-                        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-                          <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-                            <h2 className="text-lg font-bold mb-2">Berhasil</h2>
-                            <p>Artikel berhasil dihapus!</p>
-                            <div className="mt-4 flex justify-end">
-                              <button
-                                onClick={() => setShowSuccessModal(false)}
-                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                              >
-                                Tutup
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Modal Gagal */}
-                      {showErrorModal && (
-                        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-                          <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-                            <h2 className="text-lg font-bold mb-2">Gagal</h2>
-                            <p>Gagal menghapus artikel.</p>
-                            <div className="mt-4 flex justify-end">
-                              <button
-                                onClick={() => setShowErrorModal(false)}
-                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                              >
-                                Tutup
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
                     </div>
                   </td>
                 </tr>
@@ -239,10 +256,25 @@ function Table({ articles, categories, authors, filters }) {
             )}
           </tbody>
         </table>
-        <div className="py-12 px-4">
-            {articles.links.map(link => {
-                <Link key={link.label} href={link.url} dangerouslySetInnerHTML={{_html:link.label}} className={`p-1 m-1 ${link.active ? "text-blue-500 font-bold" : "text-white"}`}></Link>
-            })}
+
+        {/* Pagination */}
+        <div className="py-12 px-4 flex flex-wrap justify-center items-center gap-2">
+          {articles.links.map((link, idx) => (
+            <span key={idx}>
+              {link.url ? (
+                <Link
+                  href={link.url}
+                  className={`p-2 ${link.active ? 'text-blue-500 font-bold' : 'text-gray-600'}`}
+                  dangerouslySetInnerHTML={{ __html: link.label }}
+                />
+              ) : (
+                <span
+                  className={`p-2 ${link.active ? 'text-blue-500 font-bold' : 'text-gray-400'}`}
+                  dangerouslySetInnerHTML={{ __html: link.label }}
+                />
+              )}
+            </span>
+          ))}
         </div>
       </div>
     </div>
