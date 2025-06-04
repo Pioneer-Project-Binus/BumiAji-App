@@ -9,8 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import login from '@/routes/login';
-import register from '@/routes/register';
+import { login, register } from '@/routes/index';
 import password from '@/routes/password';
 
 type LoginForm = {

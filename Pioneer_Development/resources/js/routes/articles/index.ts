@@ -2,6 +2,58 @@ import update from './update'
 import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '/articles',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::index
+ * @see app/Http/Controllers/ArticleController.php:18
+ * @route '/articles'
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ArticleController::create
  * @see app/Http/Controllers/ArticleController.php:62
  * @route '/articles/create'
@@ -95,7 +147,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:130
+ * @see app/Http/Controllers/ArticleController.php:131
  * @route '/articles/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -113,7 +165,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:130
+ * @see app/Http/Controllers/ArticleController.php:131
  * @route '/articles/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -139,7 +191,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:130
+ * @see app/Http/Controllers/ArticleController.php:131
  * @route '/articles/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -151,7 +203,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:130
+ * @see app/Http/Controllers/ArticleController.php:131
  * @route '/articles/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -164,7 +216,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:143
+ * @see app/Http/Controllers/ArticleController.php:144
  * @route '/articles/{slug}'
  */
 export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -182,7 +234,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:143
+ * @see app/Http/Controllers/ArticleController.php:144
  * @route '/articles/{slug}'
  */
 update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -208,7 +260,7 @@ update.url = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:143
+ * @see app/Http/Controllers/ArticleController.php:144
  * @route '/articles/{slug}'
  */
 update.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -221,7 +273,7 @@ update.put = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:200
+ * @see app/Http/Controllers/ArticleController.php:201
  * @route '/articles/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -239,7 +291,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:200
+ * @see app/Http/Controllers/ArticleController.php:201
  * @route '/articles/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -265,7 +317,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:200
+ * @see app/Http/Controllers/ArticleController.php:201
  * @route '/articles/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -276,7 +328,8 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     method: 'delete',
 })
 const articles = {
-    create,
+    index,
+create,
 store,
 edit,
 update,

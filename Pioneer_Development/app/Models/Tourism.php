@@ -16,7 +16,7 @@ class Tourism extends Model
      *
      * @var string
      */
-    protected $table = 'tourism';
+    protected $table = 'tourisms';
     
     /**
      * The attributes that are mass assignable.

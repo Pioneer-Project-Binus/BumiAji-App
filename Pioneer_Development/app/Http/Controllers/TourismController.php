@@ -15,7 +15,7 @@ class TourismController extends Controller
     {
         $query = Tourism::with(['photos', 'creator', 'updater'])
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc');
+            ->orderBy('created_at', 'desc');
 
         if ($request->has('search')) {
             $searchTerm = $request->search;
