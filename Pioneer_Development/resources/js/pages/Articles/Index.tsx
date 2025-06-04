@@ -150,7 +150,7 @@ function Table({ articles, categories, authors, filters }: IndexPageProps) {
         <select
           value={filterStatus}
           onChange={handleStatusChange}
-          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 rounded-md border text-black bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">-- Filter Status --</option>
           {allStatuses.map((status) => (
@@ -163,7 +163,7 @@ function Table({ articles, categories, authors, filters }: IndexPageProps) {
         <select
           value={filterCategory}
           onChange={handleCategoryChange}
-          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 rounded-md border text-black bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">-- Filter Kategori --</option>
           {categories.map((category) => (

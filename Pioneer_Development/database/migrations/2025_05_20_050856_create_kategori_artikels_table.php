@@ -31,6 +31,8 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->boolean('isDeleted')->default(false); // camelCase
+            $table->timestamp('createdAt')->useCurrent();
+            $table->timestamp('updatedAt')->useCurrent();
         });
     }
 

@@ -12,7 +12,7 @@ export default function Create(){
     return (
         <>
             <Link
-            href="/articles"
+            href="/category-articles"
             className="fixed md:top-5 md:left-5 top-0 left-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md px-4 py-2 transition-colors duration-200"
             >
             ← Kembali

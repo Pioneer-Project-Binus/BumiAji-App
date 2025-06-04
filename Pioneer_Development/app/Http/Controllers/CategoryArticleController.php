@@ -52,7 +52,7 @@ class CategoryArticleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name', // Pastikan nama unik
+            'name' => 'required|string|max:255|unique:categoryArticles,name', // Pastikan nama unik
             'description' => 'nullable|string',
         ]);
 
@@ -121,7 +121,7 @@ class CategoryArticleController extends Controller
 
         $validator = Validator::make($request->all(), [
              // Pastikan nama unik, kecuali untuk record saat ini
-            'name' => 'required|string|max:255|unique:category_articles,name,' . $categoryArticle->id,
+            'name' => 'required|string|max:255|unique:categoryArticles,name,' . $categoryArticle->id,
             'description' => 'nullable|string',
         ]);
 
@@ -151,7 +151,7 @@ class CategoryArticleController extends Controller
             return response()->json(['success' => true, 'data' => $categoryArticle, 'message' => 'Kategori artikel berhasil diperbarui']);
         }
         // Redirect ke index atau show (dengan slug baru jika berubah)
-        return redirect()->route('category-articles.show', $categoryArticle->slug)->with('success', 'Kategori artikel berhasil diperbarui.');
+        return redirect()->route('category-articles.index', $categoryArticle->slug)->with('success', 'Kategori artikel berhasil diperbarui.');
     }
 
     public function destroy(Request $request, string $slug) // Parameter diubah menjadi $slug
