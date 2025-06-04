@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
-            $table->enum('status', ['draft', 'published', 'outofstock'])->default('draft');
+            $table->enum('status', ['ready', 'outofstock'])->default('ready');
 
             $table->uuid('categoryId')->nullable(); // camelCase & type fix
             $table->foreign('categoryId')->references('id')->on('categoryProducts')

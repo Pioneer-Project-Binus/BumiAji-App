@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tourisms', function (Blueprint $table) {
+        Schema::create('tourism', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->unique();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->json('socialMedia')->nullable();         // camelCase
-            $table->enum('status', ['draft', 'published', 'closed'])->default('draft');
+            $table->enum('status', ['open', 'closed'])->default('open');
             $table->timestamps();
 
             $table->uuid('createdBy')->index();              // camelCase & defined

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('slug')->unique(); // slug for SEO
             $table->foreign('destinationId')
-                ->references('id')->on('tourisms')
+                ->references('id')->on('tourism')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
@@ -30,7 +30,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->uuid('updatedBy')->nullable()->index(); // camelCase
+            $table->uuid('updatedBy')->nullable()->index();
+            $table->timestamps(); // camelCase
 
             $table->boolean('isDeleted')->default(false); // camelCase
         });

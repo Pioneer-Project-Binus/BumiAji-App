@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->string('filePath'); // camelCase
             $table->integer('displayOrder')->default(0); // camelCase
-            $table->timestamp('createdAt')->useCurrent(); // camelCase
+            $table->timestamps(); // camelCase
 
             $table->uuid('createdBy')->index(); // camelCase & added
             $table->foreign('createdBy')
