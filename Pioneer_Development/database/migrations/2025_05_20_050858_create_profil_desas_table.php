@@ -39,7 +39,11 @@ return new class extends Migration
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
+        
     }
 
     /**

@@ -4,15 +4,15 @@ use App\Http\Controllers\TourismController;
 use Illuminate\Support\Facades\Route;
 
 // --- RUTE PUBLIK UNTUK DESTINASI WISATA ---
-Route::get('destinasi-wisata', [TourismController::class, 'index'])->name('public.tourisms.index');
-Route::get('destinasi-wisata/{slug}', [TourismController::class, 'show'])->name('public.tourisms.show');
+Route::get('destinasi-wisata', [TourismController::class, 'index'])->name('public.tourism.index');
+Route::get('destinasi-wisata/{slug}', [TourismController::class, 'show'])->name('public.tourism.show');
 
 // --- RUTE ADMIN UNTUK MANAJEMEN DESTINASI WISATA ---
 Route::middleware('auth')->group(function () {
-    // Route::get('tourisms', [TourismController::class, 'index'])->name('tourisms.index'); // Index Admin
-    Route::get('tourisms/create', [TourismController::class, 'create'])->name('tourisms.create');
-    Route::post('tourisms', [TourismController::class, 'store'])->name('tourisms.store');
-    Route::get('tourisms/{slug}/edit', [TourismController::class, 'edit'])->name('tourisms.edit');
-    Route::put('tourisms/{slug}', [TourismController::class, 'update'])->name('tourisms.update');
-    Route::delete('tourisms/{slug}', [TourismController::class, 'destroy'])->name('tourisms.destroy');
+    // Route::get('tourism', [TourismController::class, 'index'])->name('tourism.index'); // Index Admin
+    Route::get('tourism/create', [TourismController::class, 'create'])->name('tourism.create');
+    Route::post('tourism', [TourismController::class, 'store'])->name('tourism.store');
+    Route::get('tourism/{slug}/edit', [TourismController::class, 'edit'])->name('tourism.edit');
+    Route::put('tourism/{slug}', [TourismController::class, 'update'])->name('tourism.update');
+    Route::delete('tourism/{slug}', [TourismController::class, 'destroy'])->name('tourism.destroy');
 });

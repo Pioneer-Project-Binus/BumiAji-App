@@ -78,7 +78,7 @@ class ArticleController extends Controller
             'featuredImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
             'categoryId' => 'nullable|exists:categoryArticles,id',
-            'authorId' => 'nullable|exists:users,id', // Asumsi author adalah user
+            'authorId' => 'nullable|exists:users,id', 
         ]);
 
         if ($validator->fails()) {
@@ -94,7 +94,7 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->status = $request->status;
         $article->categoryId = $request->categoryId;
-        $article->authorId = $request->authorId ?? Auth::id(); // Default ke user saat ini jika tidak ada author dipilih
+        $article->authorId = $request->authorId ?? Auth::id();
         $article->createdBy = Auth::id();
 
         if ($request->hasFile('featuredImage')) {

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->text('message');
             $table->timestamp('sentAt')->useCurrent(); // camelCase
             $table->boolean('isDeleted')->default(false); // camelCase
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

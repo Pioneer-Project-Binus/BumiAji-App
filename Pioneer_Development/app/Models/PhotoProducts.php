@@ -14,6 +14,8 @@ class PhotoProducts extends Model
     use HasFactory, Notifiable, HasUuids; // Gunakan HasUuids jika ID adalah UUID
 
     protected $table = 'photoProducts'; // Nama tabel sesuai migrasi
+    public $timestamps = false;
+
 
     protected $fillable = [
         'productId',

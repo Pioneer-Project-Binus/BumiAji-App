@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tourisms', function (Blueprint $table) {
+        Schema::create('tourism', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->unique();
@@ -38,6 +38,8 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->boolean('isDeleted')->default(false);    // camelCase
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
@@ -46,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tourisms');
+        Schema::dropIfExists('tourism');
     }
 };

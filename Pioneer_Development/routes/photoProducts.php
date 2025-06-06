@@ -3,9 +3,7 @@
 use App\Http\Controllers\PhotoProductController;
 use Illuminate\Support\Facades\Route;
 
-// --- RUTE PUBLIK (JIKA DIPERLUKAN UNTUK FOTO PRODUK INDIVIDUAL) ---
-// Biasanya foto produk ditampilkan di halaman detail produk induknya.
-// Route::get('foto-produk/{slug}', [PhotoProductController::class, 'show'])->name('public.photo-products.show');
+Route::get('foto-produk/{slug}', [PhotoProductController::class, 'show'])->name('public.photo-products.show');
 
 
 // --- RUTE ADMIN UNTUK MANAJEMEN FOTO PRODUK ---

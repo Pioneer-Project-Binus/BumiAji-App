@@ -1,9 +1,8 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
-
 /**
- * @see \App\Http\Controllers\ContactController::store
- * @see app\Http\Controllers\ContactController.php:45
- * @route /hubungi-kami
+* @see \App\Http\Controllers\ContactController::store
+ * @see app/Http/Controllers/ContactController.php:45
+ * @route '/hubungi-kami'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,22 +14,22 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '\/hubungi-kami',
+    url: '/hubungi-kami',
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::store
- * @see app\Http\Controllers\ContactController.php:45
- * @route /hubungi-kami
+* @see \App\Http\Controllers\ContactController::store
+ * @see app/Http/Controllers/ContactController.php:45
+ * @route '/hubungi-kami'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+    return store.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::store
- * @see app\Http\Controllers\ContactController.php:45
- * @route /hubungi-kami
+* @see \App\Http\Controllers\ContactController::store
+ * @see app/Http/Controllers/ContactController.php:45
+ * @route '/hubungi-kami'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -40,11 +39,10 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'post',
 })
 
-
 /**
- * @see \App\Http\Controllers\ContactController::index
- * @see app\Http\Controllers\ContactController.php:15
- * @route /admin/contacts
+* @see \App\Http\Controllers\ContactController::index
+ * @see app/Http/Controllers/ContactController.php:15
+ * @route '/contacts'
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -56,22 +54,22 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '\/admin\/contacts',
+    url: '/contacts',
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::index
- * @see app\Http\Controllers\ContactController.php:15
- * @route /admin/contacts
+* @see \App\Http\Controllers\ContactController::index
+ * @see app/Http/Controllers/ContactController.php:15
+ * @route '/contacts'
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+    return index.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::index
- * @see app\Http\Controllers\ContactController.php:15
- * @route /admin/contacts
+* @see \App\Http\Controllers\ContactController::index
+ * @see app/Http/Controllers/ContactController.php:15
+ * @route '/contacts'
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -80,11 +78,10 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\ContactController::index
- * @see app\Http\Controllers\ContactController.php:15
- * @route /admin/contacts
+* @see \App\Http\Controllers\ContactController::index
+ * @see app/Http/Controllers/ContactController.php:15
+ * @route '/contacts'
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -94,13 +91,12 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\ContactController::show
- * @see app\Http\Controllers\ContactController.php:88
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::show
+ * @see app/Http/Controllers/ContactController.php:86
+ * @route '/contacts/{id}'
  */
-export const show = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const show = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -110,53 +106,53 @@ export const show = (args: { id: string | number } | [id: string | number] | str
 
 show.definition = {
     methods: ['get','head'],
-    url: '\/admin\/contacts\/{id}',
+    url: '/contacts/{id}',
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::show
- * @see app\Http\Controllers\ContactController.php:88
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::show
+ * @see app/Http/Controllers/ContactController.php:86
+ * @route '/contacts/{id}'
  */
-show.url = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { id: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            id: args[0],
-        }
+                    id: args[0],
+                }
     }
 
     const parsedArgs = {
-        id: args.id,
-    }
+                        id: args.id,
+                }
 
     return show.definition.url
             .replace('{id}', parsedArgs.id.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::show
- * @see app\Http\Controllers\ContactController.php:88
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::show
+ * @see app/Http/Controllers/ContactController.php:86
+ * @route '/contacts/{id}'
  */
-show.get = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\ContactController::show
- * @see app\Http\Controllers\ContactController.php:88
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::show
+ * @see app/Http/Controllers/ContactController.php:86
+ * @route '/contacts/{id}'
  */
-show.head = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -164,13 +160,12 @@ show.head = (args: { id: string | number } | [id: string | number] | string | nu
     method: 'head',
 })
 
-
 /**
- * @see \App\Http\Controllers\ContactController::destroy
- * @see app\Http\Controllers\ContactController.php:107
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::destroy
+ * @see app/Http/Controllers/ContactController.php:101
+ * @route '/contacts/{id}'
  */
-export const destroy = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -180,48 +175,47 @@ export const destroy = (args: { id: string | number } | [id: string | number] | 
 
 destroy.definition = {
     methods: ['delete'],
-    url: '\/admin\/contacts\/{id}',
+    url: '/contacts/{id}',
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::destroy
- * @see app\Http\Controllers\ContactController.php:107
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::destroy
+ * @see app/Http/Controllers/ContactController.php:101
+ * @route '/contacts/{id}'
  */
-destroy.url = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { id: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            id: args[0],
-        }
+                    id: args[0],
+                }
     }
 
     const parsedArgs = {
-        id: args.id,
-    }
+                        id: args.id,
+                }
 
     return destroy.definition.url
             .replace('{id}', parsedArgs.id.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\ContactController::destroy
- * @see app\Http\Controllers\ContactController.php:107
- * @route /admin/contacts/{id}
+* @see \App\Http\Controllers\ContactController::destroy
+ * @see app/Http/Controllers/ContactController.php:101
+ * @route '/contacts/{id}'
  */
-destroy.delete = (args: { id: string | number } | [id: string | number] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { id: string | number } | [id: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
-
-
 const ContactController = { store, index, show, destroy }
 
 export default ContactController

@@ -33,6 +33,8 @@ return new class extends Migration
             $table->uuid('updatedBy')->nullable()->index(); // camelCase
 
             $table->boolean('isDeleted')->default(false); // camelCase
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

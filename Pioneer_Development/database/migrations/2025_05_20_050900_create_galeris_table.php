@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('galerys', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title');
-            $table->string('slug')->unique()->after('title')->nullable();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->enum('type', ['photo', 'video'])->default('photo');
             $table->string('filePath'); // camelCase
@@ -35,6 +35,8 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->boolean('isDeleted')->default(false); // camelCase
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

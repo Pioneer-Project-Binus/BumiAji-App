@@ -63,7 +63,7 @@ class TourismPhotoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'destinationId' => 'required|exists:tourisms,id', 
+            'destinationId' => 'required|exists:tourism,id', 
             'photos' => 'required|array',
             'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
@@ -98,7 +98,7 @@ class TourismPhotoController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $createdPhotos, 'message' => 'Foto wisata berhasil diunggah'], 201);
         }
-        return redirect()->route('tourisms.edit', $request->destinationId)->with('success', 'Foto wisata berhasil diunggah.');
+        return redirect()->route('tourism.edit', $request->destinationId)->with('success', 'Foto wisata berhasil diunggah.');
     }
     
     // Menampilkan form untuk mengedit foto wisata
@@ -117,7 +117,7 @@ class TourismPhotoController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'destinationId' => 'sometimes|required|exists:tourisms,id',
+            'destinationId' => 'sometimes|required|exists:tourism,id',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
         ]);
@@ -156,7 +156,7 @@ class TourismPhotoController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $tourismPhoto, 'message' => 'Foto wisata berhasil diperbarui']);
         }
-        return redirect()->route('tourisms.edit', $tourismPhoto->destinationId)->with('success', 'Foto wisata berhasil diperbarui.');
+        return redirect()->route('tourism.edit', $tourismPhoto->destinationId)->with('success', 'Foto wisata berhasil diperbarui.');
     }
 
     // Menghapus foto wisata (soft delete)

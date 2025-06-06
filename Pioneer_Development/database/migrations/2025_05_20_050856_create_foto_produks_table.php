@@ -24,21 +24,23 @@ return new class extends Migration
 
             $table->string('filePath'); // camelCase
             $table->integer('displayOrder')->default(0); // camelCase
-            $table->timestamp('createdAt')->useCurrent(); // camelCase
-
+            
             $table->uuid('createdBy')->index(); // camelCase & added
             $table->foreign('createdBy')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-
-            $table->uuid('updatedBy')->nullable()->index(); // camelCase
-            $table->foreign('updatedBy')
+                
+                $table->uuid('updatedBy')->nullable()->index(); // camelCase
+                $table->foreign('updatedBy')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+                
+                $table->boolean('isDeleted')->default(false); // camelCase
+                $table->timestamp('createdAt')->useCurrent(); 
+                $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
 
-            $table->boolean('isDeleted')->default(false); // camelCase
         });
     }
 

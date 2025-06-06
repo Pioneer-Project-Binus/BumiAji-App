@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('testimonials', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('slug')->unique()->after('name')->nullable();
+            $table->string('slug')->unique();
             $table->string('photo')->nullable();
             $table->integer('rating')->nullable();
             $table->text('message');
@@ -27,6 +27,8 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->boolean('isDeleted')->default(false); // camelCase
+            $table->timestamp('createdAt')->useCurrent(); 
+            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

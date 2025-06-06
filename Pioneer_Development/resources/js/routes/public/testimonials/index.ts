@@ -1,10 +1,8 @@
-import show from './show'
 import { queryParams, type QueryParams } from './../../../wayfinder'
-
 /**
- * @see \App\Http\Controllers\TestimonialController::index
- * @see app\Http\Controllers\TestimonialController.php:17
- * @route /testimoni
+* @see \App\Http\Controllers\TestimonialController::index
+ * @see app/Http/Controllers/TestimonialController.php:17
+ * @route '/testimoni'
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -16,22 +14,22 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '\/testimoni',
+    url: '/testimoni',
 }
 
 /**
- * @see \App\Http\Controllers\TestimonialController::index
- * @see app\Http\Controllers\TestimonialController.php:17
- * @route /testimoni
+* @see \App\Http\Controllers\TestimonialController::index
+ * @see app/Http/Controllers/TestimonialController.php:17
+ * @route '/testimoni'
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+    return index.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\TestimonialController::index
- * @see app\Http\Controllers\TestimonialController.php:17
- * @route /testimoni
+* @see \App\Http\Controllers\TestimonialController::index
+ * @see app/Http/Controllers/TestimonialController.php:17
+ * @route '/testimoni'
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -40,11 +38,10 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\TestimonialController::index
- * @see app\Http\Controllers\TestimonialController.php:17
- * @route /testimoni
+* @see \App\Http\Controllers\TestimonialController::index
+ * @see app/Http/Controllers/TestimonialController.php:17
+ * @route '/testimoni'
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -54,12 +51,77 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\TestimonialController::show
+ * @see app/Http/Controllers/TestimonialController.php:119
+ * @route '/testimoni/{slug}'
+ */
+export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
 
+show.definition = {
+    methods: ['get','head'],
+    url: '/testimoni/{slug}',
+}
 
+/**
+* @see \App\Http\Controllers\TestimonialController::show
+ * @see app/Http/Controllers/TestimonialController.php:119
+ * @route '/testimoni/{slug}'
+ */
+show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
 
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return show.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TestimonialController::show
+ * @see app/Http/Controllers/TestimonialController.php:119
+ * @route '/testimoni/{slug}'
+ */
+show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\TestimonialController::show
+ * @see app/Http/Controllers/TestimonialController.php:119
+ * @route '/testimoni/{slug}'
+ */
+show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: show.url(args, options),
+    method: 'head',
+})
 const testimonials = {
-    index, 
-    show,
+    index,
+show,
 }
 
 export default testimonials

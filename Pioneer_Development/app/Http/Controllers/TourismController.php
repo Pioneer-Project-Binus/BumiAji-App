@@ -29,14 +29,14 @@ class TourismController extends Controller
             $query->where('status', $request->status);
         }
 
-        $tourisms = $query->paginate(10);
+        $tourism = $query->paginate(10);
 
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'data' => $tourisms, 'message' => 'Destinasi wisata berhasil diambil']);
+            return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil diambil']);
         }
 
-        return Inertia::render('Tourisms/Index', [
-            'tourisms' => $tourisms,
+        return Inertia::render('Tourism/Index', [
+            'tourism' => $tourism,
             'filters' => $request->only(['search', 'status']),
             'can' => [
                 'create_tourism' => Auth::user()->can('create', Tourism::class),
@@ -46,13 +46,13 @@ class TourismController extends Controller
 
     public function create()
     {
-        return Inertia::render('Tourisms/Create');
+        return Inertia::render('Tourism/Create');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:tourisms,name',
+            'name' => 'required|string|max:255|unique:tourism,name',
             'description' => 'required|string',
             'address' => 'nullable|string',
             'ticketPrice' => 'nullable|string|max:255',
@@ -95,7 +95,7 @@ class TourismController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil dibuat'], 201);
         }
-        return redirect()->route('tourisms.index')->with('success', 'Destinasi wisata berhasil dibuat.');
+        return redirect()->route('tourism.index')->with('success', 'Destinasi wisata berhasil dibuat.');
     }
 
     public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
@@ -108,7 +108,7 @@ class TourismController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil diambil']);
         }
-        return Inertia::render('Tourisms/Show', [
+        return Inertia::render('Tourism/Show', [
             'tourism' => $tourism,
             'can' => [
                 'edit_tourism' => Auth::user()->can('update', $tourism),
@@ -122,7 +122,7 @@ class TourismController extends Controller
         $tourism = Tourism::where('slug', $slug) // Cari berdasarkan slug
             ->where('isDeleted', false)
             ->firstOrFail();
-        return Inertia::render('Tourisms/Edit', ['tourism' => $tourism]);
+        return Inertia::render('Tourism/Edit', ['tourism' => $tourism]);
     }
 
     public function update(Request $request, string $slug) // Parameter diubah menjadi $slug
@@ -132,7 +132,7 @@ class TourismController extends Controller
             ->firstOrFail();
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:tourisms,name,' . $tourism->id,
+            'name' => 'required|string|max:255|unique:tourism,name,' . $tourism->id,
             'description' => 'required|string',
             'address' => 'nullable|string',
             'ticketPrice' => 'nullable|string|max:255',
@@ -174,7 +174,7 @@ class TourismController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil diperbarui']);
         }
-        return redirect()->route('tourisms.show', $tourism->slug)->with('success', 'Destinasi wisata berhasil diperbarui.');
+        return redirect()->route('tourism.show', $tourism->slug)->with('success', 'Destinasi wisata berhasil diperbarui.');
     }
 
     public function destroy(Request $request, string $slug) // Parameter diubah menjadi $slug
@@ -190,6 +190,6 @@ class TourismController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Destinasi wisata berhasil dihapus'], 200);
         }
-        return redirect()->route('tourisms.index')->with('success', 'Destinasi wisata berhasil dihapus.');
+        return redirect()->route('tourism.index')->with('success', 'Destinasi wisata berhasil dihapus.');
     }
 }

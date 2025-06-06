@@ -943,11 +943,11 @@ Skenario 3: Query/Filter (Method `index`)
 Skenario 1: Respons Data Sukses
 
 A. Menampilkan Daftar Destinasi Wisata (Method `index`)
- Komponen React (Inertia): `resources/js/Pages/Tourisms/Index.jsx`
+ Komponen React (Inertia): `resources/js/Pages/tourism/Index.jsx`
  Props yang diterima:
     
     {
-      tourisms: {
+      tourism: {
         data: [
           {
             name: 'Pantai Indah',
@@ -975,7 +975,7 @@ A. Menampilkan Daftar Destinasi Wisata (Method `index`)
     
 
 B. Menampilkan Detail Destinasi Wisata (Method `show`)
- Komponen React (Inertia): `resources/js/Pages/Tourisms/Show.jsx`
+ Komponen React (Inertia): `resources/js/Pages/tourism/Show.jsx`
  Props yang diterima:
     
     {
@@ -986,7 +986,7 @@ B. Menampilkan Detail Destinasi Wisata (Method `show`)
     
 
 Skenario 2: Respons Error Validasi (Method `store` atau `update`)
- Komponen React (Inertia): `resources/js/Pages/Tourisms/Create.jsx` atau `Edit.jsx`
+ Komponen React (Inertia): `resources/js/Pages/tourism/Create.jsx` atau `Edit.jsx`
  Props yang diterima:
     
     {

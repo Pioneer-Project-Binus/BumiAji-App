@@ -21,8 +21,8 @@ class PhotoProductController extends Controller
             // Migrasi PhotoProduct Anda menggunakan `createdAt`, bukan `createdAt`
             // ->orderBy('createdAt', 'desc'); // Sesuaikan dengan nama kolom timestamp Anda
 
-        if ($request->filled('product_id')) {
-            $query->where('productId', $request->product_id);
+        if ($request->filled('productId')) {
+            $query->where('productId', $request->productId);
         }
         if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -72,10 +72,12 @@ class PhotoProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'productId' => 'required|exists:products,id',
-            'title' => 'required|string|max:255', // Validasi untuk title baru
             'photos' => 'required|array',
-            'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'displayOrder' => 'nullable|integer|min:0',
+            'photos.*' => 'required|image|max:2048',
+            'titles' => 'nullable|array',
+            'titles.*' => 'nullable|string|max:255',
+            'displayOrders' => 'nullable|array',
+            'displayOrders.*' => 'nullable|integer|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -94,22 +96,15 @@ class PhotoProductController extends Controller
             foreach ($request->file('photos') as $index => $file) {
                 $photoProduct = new PhotoProducts();
                 $photoProduct->productId = $request->productId;
-                
-                // Gunakan title dari input, atau buat title default jika ada multiple upload
-                $photoTitle = $request->input("titles.{$index}") ?? $request->title . ($index > 0 ? " - " . ($index + 1) : "");
-                if (is_array($request->title) && isset($request->title[$index])) {
-                    $photoTitle = $request->title[$index];
-                } else if (!is_array($request->title) && $index == 0) {
-                    $photoTitle = $request->title;
-                } else {
-                    $originalNameWithoutExt = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $photoTitle = $originalNameWithoutExt; // Default ke nama file jika tidak ada title spesifik per foto
-                }
+
+                // Gunakan title dari input atau default ke nama file
+                $photoTitle = $request->input("titles.$index") 
+                    ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
                 $photoProduct->title = $photoTitle;
 
-
-                // Pembuatan slug unik global untuk PhotoProduct
-                $baseSlug = Str::slug($photoProduct->title ?: Str::random(10)); // Fallback jika title kosong
+                // Slug unik
+                $baseSlug = Str::slug($photoProduct->title ?: Str::random(10));
                 $slug = $baseSlug;
                 $counter = 1;
                 while (PhotoProducts::where('slug', $slug)->exists()) {
@@ -117,17 +112,28 @@ class PhotoProductController extends Controller
                 }
                 $photoProduct->slug = $slug;
 
-                $originalName = $file->getClientOriginalName();
+                // Simpan file ke storage
                 $extension = $file->getClientOriginalExtension();
                 $uniqueName = Str::uuid() . '.' . $extension;
                 $filePath = $file->storeAs('product_photos', $uniqueName, 'public');
                 $photoProduct->filePath = $filePath;
-                
-                $photoProduct->displayOrder = $request->input("displayOrders.{$index}") ?? $request->displayOrder ?? (PhotoProducts::where('productId', $request->productId)->where('isDeleted', false)->max('displayOrder') + 1);
+
+                // Display order (auto increment jika tidak diberikan)
+                $photoProduct->displayOrder = $request->input("displayOrders.$index") 
+                    ?? PhotoProducts::where('productId', $request->productId)
+                        ->where('isDeleted', false)
+                        ->max('displayOrder') + 1;
+
                 $photoProduct->createdBy = Auth::id();
+
+                // Laravel akan otomatis mengisi created_at dan updated_at jika model menggunakan timestamps
                 $photoProduct->save();
+                $photoProduct->createdAt = now();
+                $photoProduct->save();
+
                 $createdPhotos[] = $photoProduct;
             }
+
         }
 
         if ($request->wantsJson()) {
@@ -138,8 +144,7 @@ class PhotoProductController extends Controller
             ], 201);
         }
         
-        $product = Product::find($request->productId);
-        return redirect()->route('admin.products.edit', $product->slug) // Redirect ke edit produk induk menggunakan slug produk
+        return redirect()->route('photo-products.show', $slug) // Redirect ke edit produk induk menggunakan slug produk
             ->with('success', 'Foto produk berhasil diunggah.');
     }
 

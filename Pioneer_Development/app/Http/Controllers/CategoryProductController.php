@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/CategoryProductController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\CategoryProduct;
@@ -13,14 +11,13 @@ use Inertia\Inertia;
 
 class CategoryProductController extends Controller
 {
-    // Menampilkan daftar kategori produk
+
     public function index(Request $request)
     {
-        $query = CategoryProduct::withCount('products') // Contoh menghitung relasi
+        $query = CategoryProduct::withCount('products')
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc');
+            ->orderBy('created_at', 'desc');
 
-        // Pencarian
         if ($request->has('search')) {
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
@@ -31,7 +28,6 @@ class CategoryProductController extends Controller
 
         $categoryProducts = $query->paginate(10);
 
-        // Respons JSON jika diminta
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
@@ -40,24 +36,21 @@ class CategoryProductController extends Controller
             ]);
         }
 
-        // Respons Inertia
         return Inertia::render('CategoryProducts/Index', [
             'categoryProducts' => $categoryProducts,
-            'filters' => $request->only(['search'])
+            'filters' => $request->only(['search']),
         ]);
     }
 
-    // Menampilkan form untuk membuat kategori produk baru
     public function create()
     {
         return Inertia::render('CategoryProducts/Create');
     }
 
-    // Menyimpan kategori produk baru
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categoryProducts,name',
             'description' => 'nullable|string',
         ]);
 
@@ -74,7 +67,15 @@ class CategoryProductController extends Controller
 
         $categoryProduct = new CategoryProduct();
         $categoryProduct->name = $request->name;
-        $categoryProduct->slug = Str::slug($request->name) . '-' . Str::random(5);
+
+        $baseSlug = Str::slug($request->name);
+        $slug = $baseSlug;
+        $counter = 1;
+        while (CategoryProduct::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+        $categoryProduct->slug = $slug;
+
         $categoryProduct->description = $request->description;
         $categoryProduct->createdBy = Auth::id();
         $categoryProduct->save();
@@ -87,16 +88,16 @@ class CategoryProductController extends Controller
             ], 201);
         }
 
-        return redirect()->route('category-products.index') // Sesuaikan nama route jika perlu
+        return redirect()->route('category-products.index')
             ->with('success', 'Kategori produk berhasil dibuat.');
     }
 
-    // Menampilkan detail kategori produk
-    public function show(Request $request, $id)
+    public function show(Request $request, string $slug)
     {
         $categoryProduct = CategoryProduct::withCount('products')
+            ->where('slug', $slug)
             ->where('isDeleted', false)
-            ->findOrFail($id);
+            ->firstOrFail();
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -111,20 +112,25 @@ class CategoryProductController extends Controller
         ]);
     }
 
-    // Menampilkan form untuk mengedit kategori produk
-    public function edit($id)
+    public function edit(string $slug)
     {
-        $categoryProduct = CategoryProduct::where('isDeleted', false)->findOrFail($id);
+        $categoryProduct = CategoryProduct::where('slug', $slug)
+            ->where('isDeleted', false)
+            ->firstOrFail();
+
         return Inertia::render('CategoryProducts/Edit', [
             'categoryProduct' => $categoryProduct
         ]);
     }
 
-    // Memperbarui kategori produk
-    public function update(Request $request, $id)
+    public function update(Request $request, string $slug)
     {
-        $validator = Validator::make($request->all(), rules: [
-            'name' => 'required|string|max:255',
+        $categoryProduct = CategoryProduct::where('slug', $slug)
+            ->where('isDeleted', false)
+            ->firstOrFail();
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:categoryProducts,name,' . $categoryProduct->id,
             'description' => 'nullable|string',
         ]);
 
@@ -139,11 +145,16 @@ class CategoryProductController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $categoryProduct = CategoryProduct::where('isDeleted', false)->findOrFail($id);
-
         if ($categoryProduct->name !== $request->name) {
-            $categoryProduct->slug = Str::slug($request->name) . '-' . Str::random(5);
+            $baseSlug = Str::slug($request->name);
+            $newSlug = $baseSlug;
+            $counter = 1;
+            while (CategoryProduct::where('slug', $newSlug)->where('id', '!=', $categoryProduct->id)->exists()) {
+                $newSlug = $baseSlug . '-' . $counter++;
+            }
+            $categoryProduct->slug = $newSlug;
         }
+
         $categoryProduct->name = $request->name;
         $categoryProduct->description = $request->description;
         $categoryProduct->updatedBy = Auth::id();
@@ -157,20 +168,20 @@ class CategoryProductController extends Controller
             ]);
         }
 
-        return redirect()->route('category-products.index') // Sesuaikan nama route
+        return redirect()->route('category-products.index')
             ->with('success', 'Kategori produk berhasil diperbarui.');
     }
 
-    // Menghapus kategori produk (soft delete)
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, string $slug)
     {
-        $categoryProduct = CategoryProduct::where('isDeleted', false)->findOrFail($id);
+        $categoryProduct = CategoryProduct::where('slug', $slug)
+            ->where('isDeleted', false)
+            ->firstOrFail();
+
         $categoryProduct->isDeleted = true;
         $categoryProduct->updatedBy = Auth::id();
+        $categoryProduct->deletedBy = Auth::id();
         $categoryProduct->save();
-
-        // Opsional: Periksa produk dalam kategori ini dan tangani (misalnya, set categoryId menjadi null)
-        // Product::where('categoryId', $id)->update(['categoryId' => null]);
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -179,7 +190,7 @@ class CategoryProductController extends Controller
             ], 200);
         }
 
-        return redirect()->route('category-products.index') // Sesuaikan nama route
+        return redirect()->route('category-products.index')
             ->with('success', 'Kategori produk berhasil dihapus.');
     }
 }

@@ -4,6 +4,7 @@ import laravel from 'laravel-vite-plugin';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import {run} from "vite-plugin-run"
+import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
 export default defineConfig({
     server: {
@@ -17,6 +18,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        wayfinder(),
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
             ssr: 'resources/js/ssr.tsx',
@@ -35,4 +37,5 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
+    
 });
