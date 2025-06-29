@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProfileVillageController::show
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profil-desa'
  */
 export const show = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::show
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profil-desa'
  */
 show.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ show.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::show
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profil-desa'
  */
 show.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -40,7 +40,7 @@ show.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\ProfileVillageController::show
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profil-desa'
  */
 show.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

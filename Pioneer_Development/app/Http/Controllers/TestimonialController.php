@@ -24,7 +24,7 @@ class TestimonialController extends Controller
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('message', 'like', "%{$searchTerm}%");
+                ->orWhere('message', 'like', "%{$searchTerm}%");
             });
         }
         if ($request->filled('rating')) {
@@ -43,29 +43,28 @@ class TestimonialController extends Controller
             return response()->json(['success' => true, 'data' => $testimonials, 'message' => 'Testimoni berhasil diambil']);
         }
 
-        // Untuk Inertia, tentukan apakah ini halaman publik atau admin
-        // Jika ini admin index:
-        if (str_starts_with(request()->route()->getName(), 'admin.')) {
-             return Inertia::render('Admin/Testimonials/Index', [ // Contoh path admin
+        if (Auth::check()) {
+            // User sudah login, render halaman admin
+            return Inertia::render('Testimonials/Index', [
                 'testimonials' => $testimonials,
                 'filters' => $request->only(['search', 'rating']),
                 'can' => [
                     'create_testimonial' => Auth::user()->can('create', Testimonial::class),
-                ]
+                ],
+            ]);
+        } else {
+            return Inertia::render('Public/Testimonials/Index', [
+                'testimonials' => $testimonials,
+                'filters' => $request->only(['search', 'rating']),
             ]);
         }
-        
-        // Jika ini public index:
-        return Inertia::render('Public/Testimonials/Index', [ // Contoh path publik
-            'testimonials' => $testimonials,
-            'filters' => $request->only(['search', 'rating'])
-        ]);
     }
+
 
     // Menampilkan form untuk membuat testimoni baru (untuk admin)
     public function create()
     {
-        return Inertia::render('Admin/Testimonials/Create'); // Sesuaikan path view admin
+        return Inertia::render('Testimonials/Create'); // Sesuaikan path view admin
     }
 
     // Menyimpan testimoni baru (untuk admin)
@@ -116,10 +115,10 @@ class TestimonialController extends Controller
     }
 
     // Menampilkan detail testimoni berdasarkan slug (bisa untuk publik atau admin)
-    public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function show(Request $request, string $slug)
     {
         $testimonial = Testimonial::with('creator')
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
             
@@ -128,19 +127,20 @@ class TestimonialController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $testimonial, 'message' => 'Testimoni berhasil diambil']);
         }
-        
-        if (str_starts_with(request()->route()->getName(), 'admin.')) {
-            return Inertia::render('Admin/Testimonials/Show', [ // Contoh path admin
+
+        if (Auth::check()) {
+            // Render admin component kalau sudah login
+            return Inertia::render('Testimonials/Show', [
                 'testimonial' => $testimonial,
-                'can' => [
-                    'edit_testimonial' => Auth::user()->can('update', $testimonial),
-                    'delete_testimonial' => Auth::user()->can('delete', $testimonial),
-                ]
+            ]);
+        } else {
+            // Render public component kalau belum login
+            return Inertia::render('Testimonials/Public/Show', [
+                'testimonial' => $testimonial,
             ]);
         }
-        
-        return Inertia::render('Public/Testimonials/Show', ['testimonial' => $testimonial]); // Contoh path publik
     }
+
 
     // Menampilkan form untuk mengedit testimoni (untuk admin)
     public function edit(string $slug) // Parameter diubah menjadi $slug
@@ -149,7 +149,7 @@ class TestimonialController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
         $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
-        return Inertia::render('Admin/Testimonials/Edit', ['testimonial' => $testimonial]); // Sesuaikan path view admin
+        return Inertia::render('Testimonials/Edit', ['testimonial' => $testimonial]); // Sesuaikan path view admin
     }
 
     // Memperbarui testimoni (untuk admin)

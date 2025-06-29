@@ -24,7 +24,7 @@ A. GET Daftar Album (Method `index`)
             createdAt: "2024-06-01T00:00:00.000000Z",
             updatedAt: "2024-06-01T00:00:00.000000Z",
             isDeleted: false,
-            galerys_count: 5, // Hasil dari withCount('galerys')
+            galeries_count: 5, // Hasil dari withCount('galeries')
             cover_image_url: "http://localhost/storage/album_covers/uuid_unik.jpg" // URL lengkap jika ditambahkan di controller
           },
           // ... album lainnya

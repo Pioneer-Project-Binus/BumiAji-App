@@ -19,7 +19,7 @@ class CategoryArticleController extends Controller
 
         if ($request->has('search')) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
                   ->orWhere('description', 'like', "%{$searchTerm}%");
             });
@@ -35,24 +35,35 @@ class CategoryArticleController extends Controller
             ]);
         }
 
-        return Inertia::render('CategoryArticles/Index', [
-            'categoryArticles' => $categoryArticles,
-            'filters' => $request->only(['search']),
-            'can' => [ // Contoh hak akses
-                'create_category_article' => Auth::user()->can('create', CategoryArticle::class),
-            ]
-        ]);
+        if (Auth::check()) {
+            return Inertia::render('CategoryArticles/Index', [
+                'categoryArticles' => $categoryArticles,
+                'filters' => $request->only(['search']),
+                'can' => [
+                    'create_category_article' => Auth::user()->can('create', CategoryArticle::class),
+                ]
+            ]);
+        } else {
+            return Inertia::render('CategoryArticles/Public/Index', [
+                'categoryArticles' => $categoryArticles,
+                'filters' => $request->only(['search']),
+            ]);
+        }
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('CategoryArticles/Create');
+        if (Auth::check()) {
+            return Inertia::render('CategoryArticles/Create');
+        }
+
+        return redirect()->route('category-articles.index');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name', // Pastikan nama unik
+            'name' => 'required|string|max:255|unique:category_articles,name',
             'description' => 'nullable|string',
         ]);
 
@@ -66,7 +77,6 @@ class CategoryArticleController extends Controller
         $categoryArticle = new CategoryArticle();
         $categoryArticle->name = $request->name;
 
-        // Pembuatan slug unik
         $baseSlug = Str::slug($request->name);
         $slug = $baseSlug;
         $counter = 1;
@@ -86,41 +96,52 @@ class CategoryArticleController extends Controller
         return redirect()->route('category-articles.index')->with('success', 'Kategori artikel berhasil dibuat.');
     }
 
-    public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function show(Request $request, string $slug)
     {
         $categoryArticle = CategoryArticle::withCount('articles')
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $categoryArticle, 'message' => 'Kategori artikel berhasil diambil']);
         }
-        return Inertia::render('CategoryArticles/Show', [
-            'categoryArticle' => $categoryArticle,
-            'can' => [
-                 'edit_category_article' => Auth::user()->can('update', $categoryArticle),
-                 'delete_category_article' => Auth::user()->can('delete', $categoryArticle),
-            ]
-        ]);
+
+        if (Auth::check()) {
+            return Inertia::render('CategoryArticles/Show', [
+                'categoryArticle' => $categoryArticle,
+                'can' => [
+                    'edit_category_article' => Auth::user()->can('update', $categoryArticle),
+                    'delete_category_article' => Auth::user()->can('delete', $categoryArticle),
+                ]
+            ]);
+        } else {
+            return Inertia::render('CategoryArticles/Public/Show', [
+                'categoryArticle' => $categoryArticle
+            ]);
+        }
     }
 
-    public function edit(string $slug) // Parameter diubah menjadi $slug
+    public function edit(string $slug)
     {
-        $categoryArticle = CategoryArticle::where('slug', $slug) // Cari berdasarkan slug
+        $categoryArticle = CategoryArticle::where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-        return Inertia::render('CategoryArticles/Edit', ['categoryArticle' => $categoryArticle]);
+
+        if (Auth::check()) {
+            return Inertia::render('CategoryArticles/Edit', ['categoryArticle' => $categoryArticle]);
+        }
+
+        return redirect()->route('category-articles.index');
     }
 
-    public function update(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function update(Request $request, string $slug)
     {
-        $categoryArticle = CategoryArticle::where('slug', $slug) // Cari berdasarkan slug
+        $categoryArticle = CategoryArticle::where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
         $validator = Validator::make($request->all(), [
-             // Pastikan nama unik, kecuali untuk record saat ini
             'name' => 'required|string|max:255|unique:category_articles,name,' . $categoryArticle->id,
             'description' => 'nullable|string',
         ]);
@@ -132,7 +153,6 @@ class CategoryArticleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Handle slug update jika name berubah
         if ($categoryArticle->name !== $request->name) {
             $baseSlug = Str::slug($request->name);
             $newSlug = $baseSlug;
@@ -142,6 +162,7 @@ class CategoryArticleController extends Controller
             }
             $categoryArticle->slug = $newSlug;
         }
+
         $categoryArticle->name = $request->name;
         $categoryArticle->description = $request->description;
         $categoryArticle->updatedBy = Auth::id();
@@ -150,13 +171,13 @@ class CategoryArticleController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $categoryArticle, 'message' => 'Kategori artikel berhasil diperbarui']);
         }
-        // Redirect ke index atau show (dengan slug baru jika berubah)
+
         return redirect()->route('category-articles.show', $categoryArticle->slug)->with('success', 'Kategori artikel berhasil diperbarui.');
     }
 
-    public function destroy(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function destroy(Request $request, string $slug)
     {
-        $categoryArticle = CategoryArticle::where('slug', $slug) // Cari berdasarkan slug
+        $categoryArticle = CategoryArticle::where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
@@ -167,6 +188,7 @@ class CategoryArticleController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Kategori artikel berhasil dihapus'], 200);
         }
+
         return redirect()->route('category-articles.index')->with('success', 'Kategori artikel berhasil dihapus.');
     }
 }

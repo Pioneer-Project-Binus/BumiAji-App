@@ -48,7 +48,7 @@ class Album extends Model
     /**
      * Get the gallery items for the album.
      */
-    public function galerys()
+    public function galeries()
     {
         return $this->hasMany(Galery::class, 'albumId');  
     }

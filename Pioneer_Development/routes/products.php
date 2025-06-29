@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // --- RUTE PUBLIK UNTUK PRODUK ---
 // Menampilkan daftar semua produk (jika ada halaman katalog)
-Route::get('produk', [ProductController::class, 'index'])->name('public.products.index'); // Anda perlu method index di ProductController
-// Menampilkan detail satu produk berdasarkan slug
+Route::get('produk', [ProductController::class, 'index'])->name('public.products.index'); 
 Route::get('produk/{slug}', [ProductController::class, 'show'])->name('public.products.show');
 
 // --- RUTE ADMIN UNTUK MANAJEMEN PRODUK ---

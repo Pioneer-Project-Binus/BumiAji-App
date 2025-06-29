@@ -13,20 +13,16 @@ use Inertia\Inertia;
 
 class PhotoProductController extends Controller
 {
-    // Index untuk admin, mungkin difilter berdasarkan produk
     public function index(Request $request)
     {
         $query = PhotoProducts::with('product')
             ->where('isDeleted', false);
-            // Migrasi PhotoProduct Anda menggunakan `createdAt`, bukan `createdAt`
-            // ->orderBy('createdAt', 'desc'); // Sesuaikan dengan nama kolom timestamp Anda
 
         if ($request->filled('productId')) {
             $query->where('productId', $request->productId);
         }
         if ($request->has('search')) {
             $searchTerm = $request->search;
-            // Pencarian bisa berdasarkan title foto jika sudah ditambahkan
             $query->where(function($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
                   ->orWhere('filePath', 'like', "%{$searchTerm}%")
@@ -46,8 +42,9 @@ class PhotoProductController extends Controller
                 'message' => 'Foto produk berhasil diambil'
             ]);
         }
-        
-        return Inertia::render('PhotoProducts/Index', [
+
+        if (Auth::check()) {
+            return Inertia::render('PhotoProducts/Index', [
             'photoProducts' => $photoProducts,
             'products' => $products,
             'filters' => $request->only(['search', 'product_id']),
@@ -55,6 +52,18 @@ class PhotoProductController extends Controller
                 'create_photo_product' => Auth::user()->can('create', PhotoProducts::class),
             ]
         ]);
+        } else {
+            return Inertia::render('PhotoProducts/Public/Index', [
+            'photoProducts' => $photoProducts,
+            'products' => $products,
+            'filters' => $request->only(['search', 'product_id']),
+            'can' => [
+                'create_photo_product' => Auth::user()->can('create', PhotoProducts::class),
+            ]
+        ]);
+        }
+        
+        
     }
 
     public function create(Request $request)
@@ -97,13 +106,11 @@ class PhotoProductController extends Controller
                 $photoProduct = new PhotoProducts();
                 $photoProduct->productId = $request->productId;
 
-                // Gunakan title dari input atau default ke nama file
                 $photoTitle = $request->input("titles.$index") 
                     ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
                 $photoProduct->title = $photoTitle;
 
-                // Slug unik
                 $baseSlug = Str::slug($photoProduct->title ?: Str::random(10));
                 $slug = $baseSlug;
                 $counter = 1;
@@ -112,13 +119,11 @@ class PhotoProductController extends Controller
                 }
                 $photoProduct->slug = $slug;
 
-                // Simpan file ke storage
                 $extension = $file->getClientOriginalExtension();
                 $uniqueName = Str::uuid() . '.' . $extension;
                 $filePath = $file->storeAs('product_photos', $uniqueName, 'public');
                 $photoProduct->filePath = $filePath;
 
-                // Display order (auto increment jika tidak diberikan)
                 $photoProduct->displayOrder = $request->input("displayOrders.$index") 
                     ?? PhotoProducts::where('productId', $request->productId)
                         ->where('isDeleted', false)
@@ -126,7 +131,6 @@ class PhotoProductController extends Controller
 
                 $photoProduct->createdBy = Auth::id();
 
-                // Laravel akan otomatis mengisi created_at dan updated_at jika model menggunakan timestamps
                 $photoProduct->save();
                 $photoProduct->createdAt = now();
                 $photoProduct->save();
@@ -148,7 +152,6 @@ class PhotoProductController extends Controller
             ->with('success', 'Foto produk berhasil diunggah.');
     }
 
-    // Menampilkan detail foto produk berdasarkan slug (jika ada halaman publik/admin terpisah)
     public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
     {
         $photoProduct = PhotoProducts::with('product')
@@ -166,15 +169,26 @@ class PhotoProductController extends Controller
             ]);
         }
 
-        return Inertia::render('PhotoProducts/Show', [
+        if (Auth::check()) {
+            return Inertia::render('PhotoProducts/Show', [
             'photoProduct' => $photoProduct,
             'can' => [
                 'edit_photo_product' => Auth::check() && Auth::user()->can('update', $photoProduct),
             ]
         ]);
+        } else {
+            return Inertia::render('PhotoProducts/Public/Show', [
+            'photoProduct' => $photoProduct,
+            'can' => [
+                'edit_photo_product' => Auth::check() && Auth::user()->can('update', $photoProduct),
+            ]
+        ]);
+        }
+
+        
     }
 
-    public function edit(string $slug) // Parameter diubah menjadi $slug
+    public function edit(string $slug)
     {
         $photoProduct = PhotoProducts::where('slug', $slug) // Cari berdasarkan slug
             ->where('isDeleted', false)

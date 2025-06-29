@@ -53,7 +53,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -80,7 +80,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -92,7 +92,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -105,7 +105,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -123,7 +123,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -132,7 +132,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -145,7 +145,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -163,7 +163,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -189,7 +189,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -201,7 +201,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Galery; // Pastikan nama model ini benar (Galery atau Gallery)
+use App\Models\Galery;
 use App\Models\Album;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +13,6 @@ use Inertia\Inertia;
 
 class GaleryController extends Controller
 {
-    // Menampilkan daftar item galeri (untuk admin)
     public function index(Request $request)
     {
         $query = Galery::with(['album', 'creator', 'updater'])
@@ -29,31 +27,38 @@ class GaleryController extends Controller
                   ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
-        if ($request->filled('album_id')) { // Gunakan filled untuk memeriksa jika ada nilainya
+
+        if ($request->filled('album_id')) {
             $query->where('albumId', $request->album_id);
         }
+
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
 
         $galeries = $query->paginate(10);
-        $albums = Album::where('isDeleted', false)->orderBy('name')->get(['id', 'name', 'slug']); // Tambahkan slug album untuk filter jika perlu
+        $albums = Album::where('isDeleted', false)->orderBy('name')->get(['id', 'name', 'slug']);
 
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $galeries, 'message' => 'Item galeri berhasil diambil']);
         }
 
-        return Inertia::render('Galeries/Index', [
+        $props = [
             'galeries' => $galeries,
             'albums' => $albums,
             'filters' => $request->only(['search', 'album_id', 'type']),
             'can' => [
-                'create_galery' => Auth::user()->can('create', Galery::class),
+                'create_galery' => Auth::check() && Auth::user()->can('create', Galery::class),
             ]
-        ]);
+        ];
+
+        if (Auth::check()) {
+            return Inertia::render('Galeries/Index', $props);
+        } else {
+            return Inertia::render('Galeries/Public/Index', $props);
+        }
     }
 
-    // Menampilkan form untuk membuat item galeri baru (untuk admin)
     public function create(Request $request)
     {
         $albums = Album::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
@@ -64,14 +69,13 @@ class GaleryController extends Controller
         ]);
     }
 
-    // Menyimpan item galeri baru (untuk admin)
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|in:photo,video',
-            'filePath' => 'required_if:type,photo|nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096', // Ukuran file bisa disesuaikan
+            'filePath' => 'required_if:type,photo|nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
             'videoUrl' => 'required_if:type,video|nullable|url',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'displayOrder' => 'nullable|integer|min:0',
@@ -88,7 +92,6 @@ class GaleryController extends Controller
         $galery = new Galery();
         $galery->title = $request->title;
 
-        // Pembuatan slug unik global untuk Galery
         $baseSlug = Str::slug($request->title);
         $slug = $baseSlug;
         $counter = 1;
@@ -106,7 +109,7 @@ class GaleryController extends Controller
         if ($request->type === 'photo' && $request->hasFile('filePath')) {
             $file = $request->file('filePath');
             $uniqueName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-            $filePathVal = $file->storeAs('galery_items/photos', $uniqueName, 'public'); // Path penyimpanan diubah
+            $filePathVal = $file->storeAs('galery_items/photos', $uniqueName, 'public');
             $galery->filePath = $filePathVal;
         } elseif ($request->type === 'video' && $request->filled('videoUrl')) {
             $galery->filePath = $request->videoUrl;
@@ -115,12 +118,8 @@ class GaleryController extends Controller
         if ($request->hasFile('thumbnail')) {
             $thumbFile = $request->file('thumbnail');
             $thumbUniqueName = Str::uuid() . '.' . $thumbFile->getClientOriginalExtension();
-            $thumbPath = $thumbFile->storeAs('galery_items/thumbnails', $thumbUniqueName, 'public'); // Path penyimpanan diubah
+            $thumbPath = $thumbFile->storeAs('galery_items/thumbnails', $thumbUniqueName, 'public');
             $galery->thumbnail = $thumbPath;
-        } elseif ($request->type === 'photo' && isset($galery->filePath) && !$request->hasFile('thumbnail')) {
-            // Jika foto dan tidak ada thumbnail khusus, bisa dipertimbangkan untuk tidak set thumbnail
-            // atau menggunakan path foto itu sendiri jika frontend bisa handle
-            // $galery->thumbnail = $galery->filePath; // Hati-hati jika filePath adalah video URL
         }
 
         $galery->save();
@@ -128,34 +127,31 @@ class GaleryController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $galery->load('album'), 'message' => 'Item galeri berhasil dibuat'], 201);
         }
-        // Redirect ke index galeri dengan filter album yang relevan
+
         return redirect()->route('admin.galeries.index', ['album_id' => $galery->albumId])->with('success', 'Item galeri berhasil dibuat.');
     }
 
-    // Menampilkan detail item galeri berdasarkan slug (bisa untuk publik atau admin)
-    public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function show(Request $request, string $slug)
     {
         $galery = Galery::with(['album', 'creator', 'updater'])
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
-        // Tambahkan URL untuk file dan thumbnail jika ada
         if ($galery->type === 'photo' && $galery->filePath) {
             $galery->file_url = Storage::url($galery->filePath);
         } else if ($galery->type === 'video') {
-            $galery->file_url = $galery->filePath; // filePath berisi URL video
+            $galery->file_url = $galery->filePath;
         }
         if ($galery->thumbnail) {
             $galery->thumbnail_url = Storage::url($galery->thumbnail);
         }
 
-
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $galery, 'message' => 'Item galeri berhasil diambil']);
         }
-        
-        return Inertia::render('Galeries/Show', [ // Atau Public/Galeries/Show
+
+        return Inertia::render('Galeries/Show', [
             'galery' => $galery,
             'can' => [
                 'edit_galery' => Auth::check() && Auth::user()->can('update', $galery),
@@ -164,11 +160,10 @@ class GaleryController extends Controller
         ]);
     }
 
-    // Menampilkan form untuk mengedit item galeri (untuk admin)
-    public function edit(string $slug) // Parameter diubah menjadi $slug
+    public function edit(string $slug)
     {
         $galery = Galery::with('album')
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
             
@@ -187,10 +182,9 @@ class GaleryController extends Controller
         ]);
     }
 
-    // Memperbarui item galeri (untuk admin)
-    public function update(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function update(Request $request, string $slug)
     {
-        $galery = Galery::where('slug', $slug) // Cari berdasarkan slug
+        $galery = Galery::where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
@@ -211,7 +205,6 @@ class GaleryController extends Controller
             return $input->type === 'video' && empty($input->videoUrl) && ($galery->type !== 'video' || !$galery->filePath);
         });
 
-
         if ($validator->fails()) {
             if ($request->wantsJson()) {
                 return response()->json(['success' => false, 'errors' => $validator->errors(), 'message' => 'Validasi gagal'], 422);
@@ -219,7 +212,6 @@ class GaleryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Handle slug update jika title berubah
         if ($galery->title !== $request->title) {
             $baseSlug = Str::slug($request->title);
             $newSlug = $baseSlug;
@@ -229,6 +221,7 @@ class GaleryController extends Controller
             }
             $galery->slug = $newSlug;
         }
+
         $galery->title = $request->title;
         $galery->description = $request->description;
         $galery->type = $request->type;
@@ -236,7 +229,6 @@ class GaleryController extends Controller
         $galery->albumId = $request->albumId;
         $galery->updatedBy = Auth::id();
 
-        // Penanganan filePath (upload foto atau URL video)
         if ($request->type === 'photo' && $request->hasFile('filePath')) {
             if ($galery->filePath && Storage::disk('public')->exists($galery->filePath)) {
                 Storage::disk('public')->delete($galery->filePath);
@@ -246,18 +238,14 @@ class GaleryController extends Controller
             $filePathVal = $file->storeAs('galery_items/photos', $uniqueName, 'public');
             $galery->filePath = $filePathVal;
         } elseif ($request->type === 'video' && $request->filled('videoUrl')) {
-            // Jika sebelumnya foto dan ada file, hapus file lama
             if ($galery->type === 'photo' && $galery->filePath && Storage::disk('public')->exists($galery->filePath)) {
                 Storage::disk('public')->delete($galery->filePath);
             }
             $galery->filePath = $request->videoUrl;
         } elseif ($request->type === 'photo' && !$request->hasFile('filePath') && $galery->type === 'video' && $galery->filePath) {
-            // Beralih dari video ke foto tanpa file baru, filePath perlu di-null-kan
-             $galery->filePath = null;
+            $galery->filePath = null;
         }
 
-
-        // Penanganan thumbnail
         if ($request->hasFile('thumbnail')) {
             if ($galery->thumbnail && Storage::disk('public')->exists($galery->thumbnail)) {
                 Storage::disk('public')->delete($galery->thumbnail);
@@ -278,17 +266,16 @@ class GaleryController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $galery->load('album'), 'message' => 'Item galeri berhasil diperbarui']);
         }
+
         return redirect()->route('admin.galeries.index', ['album_id' => $galery->albumId])->with('success', 'Item galeri berhasil diperbarui.');
     }
 
-    // Menghapus item galeri (untuk admin)
-    public function destroy(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function destroy(Request $request, string $slug)
     {
-        $galery = Galery::where('slug', $slug) // Cari berdasarkan slug
+        $galery = Galery::where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
         
-        // Opsional: Hapus file fisik dari storage
         if ($galery->filePath && $galery->type === 'photo' && Storage::disk('public')->exists($galery->filePath)) {
             Storage::disk('public')->delete($galery->filePath);
         }
@@ -303,6 +290,7 @@ class GaleryController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Item galeri berhasil dihapus'], 200);
         }
+
         return redirect()->route('admin.galeries.index', ['album_id' => $galery->albumId])->with('success', 'Item galeri berhasil dihapus.');
     }
 }

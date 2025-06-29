@@ -11,7 +11,6 @@ use Inertia\Inertia;
 
 class CategoryProductController extends Controller
 {
-
     public function index(Request $request)
     {
         $query = CategoryProduct::withCount('products')
@@ -36,15 +35,26 @@ class CategoryProductController extends Controller
             ]);
         }
 
-        return Inertia::render('CategoryProducts/Index', [
-            'categoryProducts' => $categoryProducts,
-            'filters' => $request->only(['search']),
-        ]);
+        if (Auth::check()) {
+            return Inertia::render('CategoryProducts/Index', [
+                'categoryProducts' => $categoryProducts,
+                'filters' => $request->only(['search']),
+            ]);
+        } else {
+            return Inertia::render('CategoryProducts/Public/Index', [
+                'categoryProducts' => $categoryProducts,
+                'filters' => $request->only(['search']),
+            ]);
+        }
     }
 
     public function create()
     {
-        return Inertia::render('CategoryProducts/Create');
+        if (Auth::check()) {
+            return Inertia::render('CategoryProducts/Create');
+        }
+
+        return redirect()->route('category-products.index');
     }
 
     public function store(Request $request)
@@ -107,9 +117,15 @@ class CategoryProductController extends Controller
             ]);
         }
 
-        return Inertia::render('CategoryProducts/Show', [
-            'categoryProduct' => $categoryProduct
-        ]);
+        if (Auth::check()) {
+            return Inertia::render('CategoryProducts/Show', [
+                'categoryProduct' => $categoryProduct
+            ]);
+        } else {
+            return Inertia::render('CategoryProducts/Public/Show', [
+                'categoryProduct' => $categoryProduct
+            ]);
+        }
     }
 
     public function edit(string $slug)
@@ -118,9 +134,13 @@ class CategoryProductController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
 
-        return Inertia::render('CategoryProducts/Edit', [
-            'categoryProduct' => $categoryProduct
-        ]);
+        if (Auth::check()) {
+            return Inertia::render('CategoryProducts/Edit', [
+                'categoryProduct' => $categoryProduct
+            ]);
+        }
+
+        return redirect()->route('category-products.index');
     }
 
     public function update(Request $request, string $slug)

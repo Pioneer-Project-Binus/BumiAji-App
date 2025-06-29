@@ -110,7 +110,7 @@ export const index = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimoni/{slug}'
  */
 const show81dbcf4e00b8597595990bf5d2b5db62 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -128,7 +128,7 @@ show81dbcf4e00b8597595990bf5d2b5db62.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimoni/{slug}'
  */
 show81dbcf4e00b8597595990bf5d2b5db62.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -154,7 +154,7 @@ show81dbcf4e00b8597595990bf5d2b5db62.url = (args: { slug: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimoni/{slug}'
  */
 show81dbcf4e00b8597595990bf5d2b5db62.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -166,7 +166,7 @@ show81dbcf4e00b8597595990bf5d2b5db62.get = (args: { slug: string | number } | [s
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimoni/{slug}'
  */
 show81dbcf4e00b8597595990bf5d2b5db62.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -179,7 +179,7 @@ show81dbcf4e00b8597595990bf5d2b5db62.head = (args: { slug: string | number } | [
 
     /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 const showd995e4c367ebfdb22542cf73fe1bc04d = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -197,7 +197,7 @@ showd995e4c367ebfdb22542cf73fe1bc04d.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 showd995e4c367ebfdb22542cf73fe1bc04d.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -223,7 +223,7 @@ showd995e4c367ebfdb22542cf73fe1bc04d.url = (args: { slug: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 showd995e4c367ebfdb22542cf73fe1bc04d.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -235,7 +235,7 @@ showd995e4c367ebfdb22542cf73fe1bc04d.get = (args: { slug: string | number } | [s
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::show
- * @see app/Http/Controllers/TestimonialController.php:119
+ * @see app/Http/Controllers/TestimonialController.php:118
  * @route '/testimonials/{slug}'
  */
 showd995e4c367ebfdb22542cf73fe1bc04d.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -253,7 +253,7 @@ export const show = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -271,7 +271,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -280,7 +280,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -292,7 +292,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::create
- * @see app/Http/Controllers/TestimonialController.php:66
+ * @see app/Http/Controllers/TestimonialController.php:65
  * @route '/testimonials/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -305,7 +305,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -323,7 +323,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -332,7 +332,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::store
- * @see app/Http/Controllers/TestimonialController.php:72
+ * @see app/Http/Controllers/TestimonialController.php:71
  * @route '/testimonials'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProfileVillageController::edit
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profile-village/edit'
  */
 export const edit = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::edit
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profile-village/edit'
  */
 edit.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ edit.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::edit
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profile-village/edit'
  */
 edit.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -40,7 +40,7 @@ edit.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\ProfileVillageController::edit
- * @see app/Http/Controllers/ProfileVillageController.php:22
+ * @see app/Http/Controllers/ProfileVillageController.php:47
  * @route '/profile-village/edit'
  */
 edit.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -53,7 +53,7 @@ edit.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @see app/Http/Controllers/ProfileVillageController.php:66
  * @route '/profile-village'
  */
 export const storeOrUpdate = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ storeOrUpdate.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @see app/Http/Controllers/ProfileVillageController.php:66
  * @route '/profile-village'
  */
 storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -80,7 +80,7 @@ storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:41
+ * @see app/Http/Controllers/ProfileVillageController.php:66
  * @route '/profile-village'
  */
 storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

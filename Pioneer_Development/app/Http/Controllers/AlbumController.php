@@ -14,7 +14,7 @@ class AlbumController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Album::withCount('galerys') 
+        $query = Album::withCount('galeries') 
             ->where('isDeleted', false)
             ->orderBy('createdAt', 'desc');
 
@@ -22,7 +22,7 @@ class AlbumController extends Controller
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
         if ($request->filled('status')) {
@@ -35,14 +35,24 @@ class AlbumController extends Controller
             return response()->json(['success' => true, 'data' => $albums, 'message' => 'Album berhasil diambil']);
         }
 
-        return Inertia::render('Albums/Index', [
-            'albums' => $albums,
-            'filters' => $request->only(['search', 'status']),
-            'can' => [
-                'create_album' => Auth::user()->can('create', Album::class),
-            ]
-        ]);
+        if (Auth::check()) {
+            // Render admin component jika sudah login
+            return Inertia::render('Albums/Index', [
+                'albums' => $albums,
+                'filters' => $request->only(['search', 'status']),
+                'can' => [
+                    'create_album' => Auth::user()->can('create', Album::class),
+                ]
+            ]);
+        } else {
+            // Render public component jika belum login
+            return Inertia::render('Public/Albums/Index', [
+                'albums' => $albums,
+                'filters' => $request->only(['search', 'status']),
+            ]);
+        }
     }
+
 
     public function create()
     {
@@ -94,10 +104,10 @@ class AlbumController extends Controller
         return redirect()->route('albums.index')->with('success', 'Album berhasil dibuat.');
     }
 
-    public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function show(Request $request, string $slug)
     {
         $album = Album::with(['galeries', 'creator', 'updater'])
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
@@ -106,14 +116,23 @@ class AlbumController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $album, 'message' => 'Album berhasil diambil']);
         }
-        return Inertia::render('Albums/Show', [
-            'album' => $album,
-             'can' => [
-                'edit_album' => Auth::user()->can('update', $album),
-                'delete_album' => Auth::user()->can('delete', $album),
-            ]
-        ]);
+
+        if (Auth::check()) {
+            // Render admin component jika sudah login
+            return Inertia::render('Albums/Show', [
+                'album' => $album,
+                'can' => [
+                    'edit_album' => Auth::user()->can('update', $album),
+                    'delete_album' => Auth::user()->can('delete', $album),
+                ],
+            ]);
+        } else {
+            return Inertia::render('Albums/Public/Show', [
+                'album' => $album,
+            ]);
+        }
     }
+
 
     public function edit(string $slug) // Parameter diubah menjadi $slug
     {

@@ -1,7 +1,59 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
+* @see \App\Http\Controllers\AlbumController::index
+ * @see app/Http/Controllers/AlbumController.php:15
+ * @route '/albums'
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '/albums',
+}
+
+/**
+* @see \App\Http\Controllers\AlbumController::index
+ * @see app/Http/Controllers/AlbumController.php:15
+ * @route '/albums'
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AlbumController::index
+ * @see app/Http/Controllers/AlbumController.php:15
+ * @route '/albums'
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\AlbumController::index
+ * @see app/Http/Controllers/AlbumController.php:15
+ * @route '/albums'
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\AlbumController::create
- * @see app/Http/Controllers/AlbumController.php:47
+ * @see app/Http/Controllers/AlbumController.php:57
  * @route '/albums/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +71,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::create
- * @see app/Http/Controllers/AlbumController.php:47
+ * @see app/Http/Controllers/AlbumController.php:57
  * @route '/albums/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +80,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\AlbumController::create
- * @see app/Http/Controllers/AlbumController.php:47
+ * @see app/Http/Controllers/AlbumController.php:57
  * @route '/albums/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -40,7 +92,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\AlbumController::create
- * @see app/Http/Controllers/AlbumController.php:47
+ * @see app/Http/Controllers/AlbumController.php:57
  * @route '/albums/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -53,7 +105,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\AlbumController::store
- * @see app/Http/Controllers/AlbumController.php:52
+ * @see app/Http/Controllers/AlbumController.php:62
  * @route '/albums'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +123,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::store
- * @see app/Http/Controllers/AlbumController.php:52
+ * @see app/Http/Controllers/AlbumController.php:62
  * @route '/albums'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -80,7 +132,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\AlbumController::store
- * @see app/Http/Controllers/AlbumController.php:52
+ * @see app/Http/Controllers/AlbumController.php:62
  * @route '/albums'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -92,8 +144,77 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\AlbumController::show
+ * @see app/Http/Controllers/AlbumController.php:107
+ * @route '/albums/{slug}'
+ */
+export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+
+show.definition = {
+    methods: ['get','head'],
+    url: '/albums/{slug}',
+}
+
+/**
+* @see \App\Http\Controllers\AlbumController::show
+ * @see app/Http/Controllers/AlbumController.php:107
+ * @route '/albums/{slug}'
+ */
+show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return show.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AlbumController::show
+ * @see app/Http/Controllers/AlbumController.php:107
+ * @route '/albums/{slug}'
+ */
+show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\AlbumController::show
+ * @see app/Http/Controllers/AlbumController.php:107
+ * @route '/albums/{slug}'
+ */
+show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: show.url(args, options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\AlbumController::edit
- * @see app/Http/Controllers/AlbumController.php:118
+ * @see app/Http/Controllers/AlbumController.php:137
  * @route '/albums/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -111,7 +232,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::edit
- * @see app/Http/Controllers/AlbumController.php:118
+ * @see app/Http/Controllers/AlbumController.php:137
  * @route '/albums/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -137,7 +258,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\AlbumController::edit
- * @see app/Http/Controllers/AlbumController.php:118
+ * @see app/Http/Controllers/AlbumController.php:137
  * @route '/albums/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -149,7 +270,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\AlbumController::edit
- * @see app/Http/Controllers/AlbumController.php:118
+ * @see app/Http/Controllers/AlbumController.php:137
  * @route '/albums/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -162,7 +283,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\AlbumController::update
- * @see app/Http/Controllers/AlbumController.php:127
+ * @see app/Http/Controllers/AlbumController.php:146
  * @route '/albums/{slug}'
  */
 export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -180,7 +301,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::update
- * @see app/Http/Controllers/AlbumController.php:127
+ * @see app/Http/Controllers/AlbumController.php:146
  * @route '/albums/{slug}'
  */
 update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -206,7 +327,7 @@ update.url = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\AlbumController::update
- * @see app/Http/Controllers/AlbumController.php:127
+ * @see app/Http/Controllers/AlbumController.php:146
  * @route '/albums/{slug}'
  */
 update.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -219,7 +340,7 @@ update.post = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\AlbumController::destroy
- * @see app/Http/Controllers/AlbumController.php:183
+ * @see app/Http/Controllers/AlbumController.php:202
  * @route '/albums/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -237,7 +358,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::destroy
- * @see app/Http/Controllers/AlbumController.php:183
+ * @see app/Http/Controllers/AlbumController.php:202
  * @route '/albums/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -263,7 +384,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\AlbumController::destroy
- * @see app/Http/Controllers/AlbumController.php:183
+ * @see app/Http/Controllers/AlbumController.php:202
  * @route '/albums/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -274,8 +395,10 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     method: 'delete',
 })
 const albums = {
-    create,
+    index,
+create,
 store,
+show,
 edit,
 update,
 destroy,

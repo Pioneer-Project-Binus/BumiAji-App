@@ -13,12 +13,37 @@ use Inertia\Inertia;
 
 class ProfileVillageController extends Controller
 {
-    // Biasanya hanya ada satu profil desa, jadi index mungkin tidak umum,
-    // lebih ke arah menampilkan atau mengedit satu-satunya entri.
-    // Jika Anda berencana memiliki banyak profil (misalnya untuk sub-desa), maka index relevan.
-    // Untuk contoh ini, kita asumsikan hanya ada satu profil yang bisa diedit.
-    
-    // Menampilkan profil desa (jika ada) atau form create/edit
+
+    public function index(Request $request)
+    {
+        // Ambil semua profil desa yang tidak dihapus, urut berdasarkan created_at terbaru
+        $profileVillages = ProfileVillage::where('isDeleted', false)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $profileVillages,
+                'message' => 'Daftar profil desa berhasil diambil.'
+            ]);
+        }
+        
+        if (Auth::check()) {
+            return Inertia::render('ProfileVillage/Index', [
+            'profileVillages' => $profileVillages,
+            'filters' => $request->only(['search']),
+        ]);
+        } else {
+            return Inertia::render('ProfileVillage/Public/Index', [
+            'profileVillages' => $profileVillages,
+            'filters' => $request->only(['search']),
+        ]);
+        }
+
+        
+    }
+
     public function showOrCreate(Request $request)
     {
         $profileVillage = ProfileVillage::first(); // Ambil profil pertama, asumsi hanya satu
@@ -115,9 +140,6 @@ class ProfileVillageController extends Controller
                          ->with('success', $message);
     }
     
-    // Tidak ada 'destroy' karena migrasi ProfileVillage tidak memiliki 'isDeleted'
-    // Jika ingin ada, tambahkan 'isDeleted' dan metode destroy.
-    // Jika profil desa dimaksudkan untuk dihapus secara permanen:
     /*
     public function destroy(Request $request)
     {

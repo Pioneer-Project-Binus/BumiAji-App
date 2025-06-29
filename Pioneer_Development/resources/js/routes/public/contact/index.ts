@@ -49,7 +49,7 @@ form.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ContactController::store
- * @see app/Http/Controllers/ContactController.php:45
+ * @see app/Http/Controllers/ContactController.php:52
  * @route '/hubungi-kami'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -67,7 +67,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ContactController::store
- * @see app/Http/Controllers/ContactController.php:45
+ * @see app/Http/Controllers/ContactController.php:52
  * @route '/hubungi-kami'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -76,7 +76,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ContactController::store
- * @see app/Http/Controllers/ContactController.php:45
+ * @see app/Http/Controllers/ContactController.php:52
  * @route '/hubungi-kami'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

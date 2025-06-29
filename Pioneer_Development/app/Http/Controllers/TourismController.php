@@ -21,12 +21,19 @@ class TourismController extends Controller
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%")
-                  ->orWhere('address', 'like', "%{$searchTerm}%");
+                ->orWhere('description', 'like', "%{$searchTerm}%")
+                ->orWhere('address', 'like', "%{$searchTerm}%");
             });
         }
-        if ($request->has('status')) {
+
+        // Status hanya untuk admin (user login)
+        if (Auth::check() && $request->has('status')) {
             $query->where('status', $request->status);
+        }
+
+        // Kalau public, kita tampilkan hanya yang statusnya aktif (misal)
+        if (!Auth::check()) {
+            $query->where('status', 'active'); // sesuaikan dengan status yang ingin ditampilkan ke publik
         }
 
         $tourism = $query->paginate(10);
@@ -35,13 +42,22 @@ class TourismController extends Controller
             return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil diambil']);
         }
 
-        return Inertia::render('Tourism/Index', [
-            'tourism' => $tourism,
-            'filters' => $request->only(['search', 'status']),
-            'can' => [
-                'create_tourism' => Auth::user()->can('create', Tourism::class),
-            ]
-        ]);
+        if (Auth::check()) {
+            // Render untuk admin
+            return Inertia::render('Tourism/Index', [
+                'tourism' => $tourism,
+                'filters' => $request->only(['search', 'status']),
+                'can' => [
+                    'create_tourism' => Auth::user()->can('create', Tourism::class),
+                ]
+            ]);
+        } else {
+            // Render untuk public tanpa login
+            return Inertia::render('Tourism/Public/Index', [
+                'tourism' => $tourism,
+                'filters' => $request->only(['search']),
+            ]);
+        }
     }
 
     public function create()
@@ -98,24 +114,30 @@ class TourismController extends Controller
         return redirect()->route('tourism.index')->with('success', 'Destinasi wisata berhasil dibuat.');
     }
 
-    public function show(Request $request, string $slug) // Parameter diubah menjadi $slug
+    public function show(Request $request, string $slug)
     {
         $tourism = Tourism::with(['photos', 'creator', 'updater'])
-            ->where('slug', $slug) // Cari berdasarkan slug
+            ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
 
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $tourism, 'message' => 'Destinasi wisata berhasil diambil']);
         }
-        return Inertia::render('Tourism/Show', [
-            'tourism' => $tourism,
-            'can' => [
-                'edit_tourism' => Auth::user()->can('update', $tourism),
-                'delete_tourism' => Auth::user()->can('delete', $tourism),
-            ]
-        ]);
+
+        if (Auth::check()) {
+            // Render untuk admin (user login)
+            return Inertia::render('Tourism/Show', [
+                'tourism' => $tourism,
+            ]);
+        } else {
+            // Render untuk publik (guest)
+            return Inertia::render('Tourism/Public/Show', [
+                'tourism' => $tourism,
+            ]);
+        }
     }
+
 
     public function edit(string $slug) // Parameter diubah menjadi $slug
     {

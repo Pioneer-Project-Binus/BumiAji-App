@@ -9,9 +9,10 @@ Route::get('album-galeri/{slug}', [AlbumController::class, 'show'])->name('publi
 
 // --- RUTE ADMIN UNTUK MANAJEMEN ALBUM ---
 Route::middleware('auth')->group(function () {
-    // Route::get('albums', [AlbumController::class, 'index'])->name('albums.index'); // Index Admin
+    Route::get('albums', [AlbumController::class, 'index'])->name('albums.index');
     Route::get('albums/create', [AlbumController::class, 'create'])->name('albums.create');
     Route::post('albums', [AlbumController::class, 'store'])->name('albums.store');
+    Route::get('albums/{slug}', [AlbumController::class, 'show'])->name('albums.show'); // <--- Tambahkan ini
     Route::get('albums/{slug}/edit', [AlbumController::class, 'edit'])->name('albums.edit');
     Route::post('albums/{slug}', [AlbumController::class, 'update'])->name('albums.update'); // Menggunakan POST karena bisa ada file (coverImage)
     Route::delete('albums/{slug}', [AlbumController::class, 'destroy'])->name('albums.destroy');

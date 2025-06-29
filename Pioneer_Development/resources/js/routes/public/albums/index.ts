@@ -53,7 +53,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\AlbumController::show
- * @see app/Http/Controllers/AlbumController.php:97
+ * @see app/Http/Controllers/AlbumController.php:107
  * @route '/album-galeri/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\AlbumController::show
- * @see app/Http/Controllers/AlbumController.php:97
+ * @see app/Http/Controllers/AlbumController.php:107
  * @route '/album-galeri/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -97,7 +97,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\AlbumController::show
- * @see app/Http/Controllers/AlbumController.php:97
+ * @see app/Http/Controllers/AlbumController.php:107
  * @route '/album-galeri/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -109,7 +109,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\AlbumController::show
- * @see app/Http/Controllers/AlbumController.php:97
+ * @see app/Http/Controllers/AlbumController.php:107
  * @route '/album-galeri/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

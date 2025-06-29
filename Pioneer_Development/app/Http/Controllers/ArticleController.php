@@ -25,7 +25,7 @@ class ArticleController extends Controller
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('content', 'like', "%{$searchTerm}%");
+                ->orWhere('content', 'like', "%{$searchTerm}%");
             });
         }
         if ($request->has('category')) {
@@ -40,7 +40,7 @@ class ArticleController extends Controller
 
         $articles = $query->paginate(10);
         $categories = CategoryArticle::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
-        $authors = User::orderBy('name')->get(['id', 'name']); // Asumsi Anda memiliki model User
+        $authors = User::orderBy('name')->get(['id', 'name']);
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -50,13 +50,42 @@ class ArticleController extends Controller
             ]);
         }
 
-        return Inertia::render('Articles/Index', [
-            'articles' => $articles,
-            'categories' => $categories,
-            'authors' => $authors,
-            'filters' => $request->only(['search', 'category', 'status', 'author'])
-        ]);
+        if (Auth::check()) {
+            // User sudah login, render komponen admin biasa
+            return Inertia::render('Articles/Index', [
+                'articles' => $articles,
+                'categories' => $categories,
+                'authors' => $authors,
+                'filters' => $request->only(['search', 'category', 'status', 'author'])
+            ]);
+        } else {
+            // User belum login, render komponen public di folder Public
+            return Inertia::render('Articles/Public/Index', [
+                'articles' => $articles,
+                'categories' => $categories,
+                'authors' => $authors,
+                'filters' => $request->only(['search', 'category', 'status', 'author'])
+            ]);
+        }
     }
+
+    public function show(Request $request, $id)
+    {
+        $article = Article::with(['category', 'author', 'creator', 'updater'])
+            ->where('isDeleted', false)
+            ->findOrFail($id);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'data' => $article, 'message' => 'Artikel berhasil diambil']);
+        }
+
+        if (Auth::check()) {
+            return Inertia::render('Articles/Show', ['article' => $article]);
+        } else {
+            return Inertia::render('Articles/Public/Show', ['article' => $article]);
+        }
+    }
+
 
     // Menampilkan form untuk membuat artikel baru
     public function create()
@@ -112,18 +141,6 @@ class ArticleController extends Controller
             return response()->json(['success' => true, 'data' => $article->load(['category', 'author']), 'message' => 'Artikel berhasil dibuat'], 201);
         }
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil dibuat.');
-    }
-
-    // Menampilkan detail artikel
-    public function show(Request $request, $id)
-    {
-        $article = Article::with(['category', 'author', 'creator', 'updater'])
-            ->where('isDeleted', false)
-            ->findOrFail($id);
-        if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'data' => $article, 'message' => 'Artikel berhasil diambil']);
-        }
-        return Inertia::render('Articles/Show', ['article' => $article]);
     }
 
     // Menampilkan form untuk mengedit artikel

@@ -111,7 +111,8 @@ class ProductController extends Controller
             ]);
         }
 
-        return Inertia::render('Products/Index', [
+        if (Auth::check()) {
+            return Inertia::render('Products/Index', [
             'products' => $products,
             'categories' => $categories,
             'filters' => $request->only(['search', 'category', 'status', 'sort', 'direction']),
@@ -123,14 +124,25 @@ class ProductController extends Controller
                     // Add other user properties needed
                 ] : null,
             ],
-            // 'can' => [ // Example top-level permissions
-            //     'create_product' => Auth::user()->can('create', Product::class),
-            // ]
         ]);
-    }
+        } else {
+            return Inertia::render('Products/Public/Index', [
+            'products' => $products,
+            'categories' => $categories,
+            'filters' => $request->only(['search', 'category', 'status', 'sort', 'direction']),
+            'stats' => $stats,
+            'auth' => [ // Send relevant auth data if needed by frontend components
+                'user' => Auth::user() ? [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                    // Add other user properties needed
+                ] : null,
+            ],
+        ]);
+        }
 
-    // ... (create, store, show, edit, update, destroy methods remain the same)
-    // ... Make sure they are correctly defined as in your provided code.
+        
+    }
 
     public function create()
     {
@@ -234,13 +246,17 @@ class ProductController extends Controller
             ]);
         }
 
-        return Inertia::render('Products/Show', [
+        if (Auth::check()) {
+            return Inertia::render('Products/Show', [
             'product' => $productData,
-            // 'can' => [
-            //      'edit_product' => Auth::user()->can('update', $product),
-            //      'delete_product' => Auth::user()->can('delete', $product),
-            // ]
-        ]);
+            ]);
+        } else {
+           return Inertia::render('Products/Public/Show', [
+            'product' => $productData,
+            ]);
+        }
+
+        
     }
 
     public function edit(string $slug)

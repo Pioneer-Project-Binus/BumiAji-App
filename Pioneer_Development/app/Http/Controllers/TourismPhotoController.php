@@ -40,11 +40,19 @@ class TourismPhotoController extends Controller
             return response()->json(['success' => true, 'data' => $tourismPhotos, 'message' => 'Foto wisata berhasil diambil']);
         }
 
-        return Inertia::render('TourismPhotos/Index', [
-            'tourismPhotos' => $tourismPhotos,
-            'destinations' => $destinations,
-            'filters' => $request->only(['search', 'destination_id'])
-        ]);
+        if (Auth::check()) {
+            return Inertia::render('TourismPhotos/Index', [
+                'tourismPhotos' => $tourismPhotos,
+                'destinations' => $destinations,
+                'filters' => $request->only(['search', 'destination_id'])
+            ]);
+        } else {
+            return Inertia::render('TourismPhotos/Public/Index', [
+                'tourismPhotos' => $tourismPhotos,
+                'destinations' => $destinations,
+                'filters' => $request->only(['search', 'destination_id'])
+            ]);
+        }
     }
 
     // Menampilkan form untuk membuat foto wisata baru

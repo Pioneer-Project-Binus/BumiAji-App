@@ -18,7 +18,7 @@ class Galery extends Model
      *
      * @var string
      */
-    protected $table = 'galerys';
+    protected $table = 'galeries';
     
     /**
      * The attributes that are mass assignable.
