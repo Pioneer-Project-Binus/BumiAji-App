@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../wayfinder'
 
 /**
- * @see routes/web.php:6
+ * @see routes/web.php:7
  * @route '/'
  */
 export const home = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -18,7 +18,7 @@ home.definition = {
 }
 
 /**
- * @see routes/web.php:6
+ * @see routes/web.php:7
  * @route '/'
  */
 home.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -26,7 +26,7 @@ home.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 }
 
 /**
- * @see routes/web.php:6
+ * @see routes/web.php:7
  * @route '/'
  */
 home.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -37,7 +37,7 @@ home.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:6
+ * @see routes/web.php:7
  * @route '/'
  */
 home.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -49,7 +49,151 @@ home.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:11
+ * @route '/destinasi'
+ */
+export const destination = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: destination.url(options),
+    method: 'get',
+})
+
+destination.definition = {
+    methods: ['get','head'],
+    url: '/destinasi',
+}
+
+/**
+ * @see routes/web.php:11
+ * @route '/destinasi'
+ */
+destination.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return destination.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:11
+ * @route '/destinasi'
+ */
+destination.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: destination.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:11
+ * @route '/destinasi'
+ */
+destination.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: destination.url(options),
+    method: 'head',
+})
+
+/**
+ * @see routes/web.php:19
+ * @route '/berita'
+ */
+export const news = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: news.url(options),
+    method: 'get',
+})
+
+news.definition = {
+    methods: ['get','head'],
+    url: '/berita',
+}
+
+/**
+ * @see routes/web.php:19
+ * @route '/berita'
+ */
+news.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return news.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:19
+ * @route '/berita'
+ */
+news.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: news.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:19
+ * @route '/berita'
+ */
+news.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: news.url(options),
+    method: 'head',
+})
+
+/**
+ * @see routes/web.php:27
+ * @route '/galeri'
+ */
+export const gallery = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: gallery.url(options),
+    method: 'get',
+})
+
+gallery.definition = {
+    methods: ['get','head'],
+    url: '/galeri',
+}
+
+/**
+ * @see routes/web.php:27
+ * @route '/galeri'
+ */
+gallery.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return gallery.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:27
+ * @route '/galeri'
+ */
+gallery.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: gallery.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:27
+ * @route '/galeri'
+ */
+gallery.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: gallery.url(options),
+    method: 'head',
+})
+
+/**
+ * @see routes/web.php:33
  * @route '/dashboard'
  */
 export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -66,7 +210,7 @@ dashboard.definition = {
 }
 
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:33
  * @route '/dashboard'
  */
 dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -74,7 +218,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 }
 
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:33
  * @route '/dashboard'
  */
 dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -85,7 +229,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:33
  * @route '/dashboard'
  */
 dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

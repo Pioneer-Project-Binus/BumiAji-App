@@ -3,10 +3,31 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// PUBLIC LANDING PAGE
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('LandingPage');
 })->name('home');
 
+Route::get('/destinasi', function () {
+    return Inertia::render('Destination');
+})->name('destination');
+
+Route::get('/produk', function () {
+    return Inertia::render('Product');
+})->name('product');
+
+Route::get('/berita', function () {
+    return Inertia::render('Product');
+})->name('news');
+
+Route::get('/testimoni', function () {
+    return Inertia::render('Testimonial');
+})->name('testimonial');
+
+Route::get('/galeri', function () {
+    return Inertia::render('Gallery');
+})->name('gallery');
+// END PUBLIC LANDING PAGE
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
