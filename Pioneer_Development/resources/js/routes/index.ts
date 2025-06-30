@@ -97,7 +97,7 @@ destination.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams })
 })
 
 /**
- * @see routes/web.php:19
+ * @see routes/web.php:25
  * @route '/berita'
  */
 export const news = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -114,7 +114,7 @@ news.definition = {
 }
 
 /**
- * @see routes/web.php:19
+ * @see routes/web.php:25
  * @route '/berita'
  */
 news.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -122,7 +122,7 @@ news.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 }
 
 /**
- * @see routes/web.php:19
+ * @see routes/web.php:25
  * @route '/berita'
  */
 news.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -133,7 +133,7 @@ news.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:19
+ * @see routes/web.php:25
  * @route '/berita'
  */
 news.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -145,7 +145,7 @@ news.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
- * @see routes/web.php:27
+ * @see routes/web.php:33
  * @route '/galeri'
  */
 export const gallery = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -162,7 +162,7 @@ gallery.definition = {
 }
 
 /**
- * @see routes/web.php:27
+ * @see routes/web.php:33
  * @route '/galeri'
  */
 gallery.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -170,7 +170,7 @@ gallery.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 }
 
 /**
- * @see routes/web.php:27
+ * @see routes/web.php:33
  * @route '/galeri'
  */
 gallery.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -181,7 +181,7 @@ gallery.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:27
+ * @see routes/web.php:33
  * @route '/galeri'
  */
 gallery.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -193,7 +193,7 @@ gallery.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
- * @see routes/web.php:33
+ * @see routes/web.php:39
  * @route '/dashboard'
  */
 export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -210,7 +210,7 @@ dashboard.definition = {
 }
 
 /**
- * @see routes/web.php:33
+ * @see routes/web.php:39
  * @route '/dashboard'
  */
 dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -218,7 +218,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 }
 
 /**
- * @see routes/web.php:33
+ * @see routes/web.php:39
  * @route '/dashboard'
  */
 dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -229,7 +229,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:33
+ * @see routes/web.php:39
  * @route '/dashboard'
  */
 dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

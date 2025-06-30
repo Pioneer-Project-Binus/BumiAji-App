@@ -9,8 +9,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/destinasi', function () {
-    return Inertia::render('Destination');
+    return Inertia::render('Destination/Destination');
 })->name('destination');
+
+Route::get('/destinasi/{slug}', function ($slug) {
+    return Inertia::render('Destination/Detail', [
+        'slug' => $slug
+    ]);
+});
 
 Route::get('/produk', function () {
     return Inertia::render('Product');
