@@ -44,8 +44,8 @@ class Product extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'stock' => 'integer',
-        'createdAt' => 'datetime',
-        'updatedAt' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'isDeleted' => 'boolean',
     ];
 

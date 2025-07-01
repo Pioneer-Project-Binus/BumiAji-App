@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $query = Product::with(['category', 'photos']) 
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc'); // Ganti 'createdAt' jika kolom Anda 'createdAt'
+            ->orderBy('created_at', 'desc'); // Ganti 'createdAt' jika kolom Anda 'createdAt'
 
         if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -28,11 +28,32 @@ class ProductController extends Controller
         }
 
         if ($request->has('category')) {
-            $query->where('categoryId', $request->category);
+            $categories = is_array($request->category) ? $request->category : [$request->category];
+            $query->whereIn('categoryId', $categories);
         }
 
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $statuses = is_array($request->status) ? $request->status : [$request->status];
+            $query->whereIn('status', $statuses);
+        }
+
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'name_asc':
+                    $query->orderBy('productName', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('productName', 'desc');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+            }
         }
 
         $products = $query->paginate(10);
@@ -49,10 +70,10 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Index', [
             'products' => $products,
-            'categories' => $categories, // Kirim kategori untuk filter
-            'filters' => $request->only(['search', 'category', 'status']),
-            'can' => [ // Contoh hak akses
-                'create_product' => Auth::user()->can('create', Product::class),
+            'categories' => $categories,
+            'filters' => $request->only(['search', 'category', 'status', 'sort']),
+            'can' => [
+                'create_product' => Auth::check() ? Auth::user()->can('create', Product::class) : false,
             ]
         ]);
     }
@@ -73,7 +94,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'categoryId' => 'nullable|exists:category_products,id', // Sesuaikan nama tabel
-            'status' => 'required|in:draft,published,outofstock',
+            'status' => 'required|in:ready,outofstock',
             // Tambahkan validasi untuk file foto jika diupload di sini
         ]);
 

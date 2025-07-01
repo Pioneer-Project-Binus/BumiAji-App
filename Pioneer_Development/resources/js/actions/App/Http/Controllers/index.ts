@@ -11,22 +11,20 @@ import TestimonialController from './TestimonialController'
 import GaleryController from './GaleryController'
 import ContactController from './ContactController'
 import Settings from './Settings'
-
-
 const Controllers = {
-    Auth, 
-    ProductController, 
-    CategoryArticleController, 
-    ArticleController, 
-    PhotoProductController, 
-    TourismController, 
-    TourismPhotoController, 
-    ProfileVillageController, 
-    AlbumController, 
-    TestimonialController, 
-    GaleryController, 
-    ContactController, 
-    Settings,
+    Auth,
+ProductController,
+CategoryArticleController,
+ArticleController,
+PhotoProductController,
+TourismController,
+TourismPhotoController,
+ProfileVillageController,
+AlbumController,
+TestimonialController,
+GaleryController,
+ContactController,
+Settings,
 }
 
 export default Controllers

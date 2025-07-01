@@ -1,6 +1,4 @@
 import Http from './Http'
-
-
 const App = {
     Http,
 }

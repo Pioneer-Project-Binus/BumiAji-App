@@ -1,9 +1,8 @@
 import { queryParams, type QueryParams } from './../../../../../wayfinder'
-
 /**
- * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::EmailVerificationPromptController
- * @see app\Http\Controllers\Auth\EmailVerificationPromptController.php:16
- * @route /verify-email
+* @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
+ * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+ * @route '/verify-email'
  */
 const EmailVerificationPromptController = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,22 +14,22 @@ const EmailVerificationPromptController = (options?: { query?: QueryParams, merg
 
 EmailVerificationPromptController.definition = {
     methods: ['get','head'],
-    url: '\/verify-email',
+    url: '/verify-email',
 }
 
 /**
- * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::EmailVerificationPromptController
- * @see app\Http\Controllers\Auth\EmailVerificationPromptController.php:16
- * @route /verify-email
+* @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
+ * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+ * @route '/verify-email'
  */
 EmailVerificationPromptController.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return EmailVerificationPromptController.definition.url + queryParams(options)
+    return EmailVerificationPromptController.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::EmailVerificationPromptController
- * @see app\Http\Controllers\Auth\EmailVerificationPromptController.php:16
- * @route /verify-email
+* @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
+ * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+ * @route '/verify-email'
  */
 EmailVerificationPromptController.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -39,11 +38,10 @@ EmailVerificationPromptController.get = (options?: { query?: QueryParams, mergeQ
     url: EmailVerificationPromptController.url(options),
     method: 'get',
 })
-
 /**
- * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::EmailVerificationPromptController
- * @see app\Http\Controllers\Auth\EmailVerificationPromptController.php:16
- * @route /verify-email
+* @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
+ * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+ * @route '/verify-email'
  */
 EmailVerificationPromptController.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -52,8 +50,4 @@ EmailVerificationPromptController.head = (options?: { query?: QueryParams, merge
     url: EmailVerificationPromptController.url(options),
     method: 'head',
 })
-
-
-
-
 export default EmailVerificationPromptController
