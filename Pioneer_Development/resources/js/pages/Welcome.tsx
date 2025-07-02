@@ -3,6 +3,8 @@ import {login} from '@/routes/index';
 import {register} from '@/routes/index';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import ProductCarousel from '@/components/ProductCarousel';
+
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;

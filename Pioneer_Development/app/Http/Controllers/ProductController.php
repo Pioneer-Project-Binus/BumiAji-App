@@ -131,17 +131,17 @@ class ProductController extends Controller
             'categories' => $categories,
             'filters' => $request->only(['search', 'category', 'status', 'sort', 'direction']),
             'stats' => $stats,
-            'auth' => [ // Send relevant auth data if needed by frontend components
-                'user' => Auth::user() ? [
-                    'id' => Auth::user()->id,
-                    'name' => Auth::user()->name,
-                    // Add other user properties needed
-                ] : null,
-            ],
+            // 'auth' => [ // Send relevant auth data if needed by frontend components
+            //     'user' => Auth::user() ? [
+            //         'id' => Auth::user()->id,
+            //         'name' => Auth::user()->name,
+            //         // Add other user properties needed
+            //     ] : null,
+            // ],
         ]);
         }
 
-        
+
     }
 
     public function create()
@@ -175,7 +175,7 @@ class ProductController extends Controller
         }
 
         $product = new Product();
-        $product->productName = $request->productName; 
+        $product->productName = $request->productName;
 
         $baseSlug = Str::slug($request->productName);
         $slug = $baseSlug;
@@ -210,7 +210,7 @@ class ProductController extends Controller
             ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-        
+
         // Transform data for frontend consistency if needed (similar to index)
         $productData = [
             'id' => $product->id,
@@ -256,7 +256,7 @@ class ProductController extends Controller
             ]);
         }
 
-        
+
     }
 
     public function edit(string $slug)
@@ -265,7 +265,7 @@ class ProductController extends Controller
             ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-        
+
         // Transform data for edit form if needed
         $productData = $product->toArray();
         $productData['photos'] = $product->photos->map(function ($photo) {
@@ -311,7 +311,7 @@ class ProductController extends Controller
             }
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         if ($product->productName !== $request->productName) {
             $baseSlug = Str::slug($request->productName);
             $newSlug = $baseSlug;
@@ -372,5 +372,5 @@ class ProductController extends Controller
 
     return Excel::download(new ProductsExport($filters), $fileName, Excel::CSV);
 
-}   
+}
 }

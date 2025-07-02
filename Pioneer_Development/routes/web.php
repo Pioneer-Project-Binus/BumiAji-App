@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-require __DIR__.'/auth.php'; 
+require __DIR__.'/auth.php';
 require __DIR__.'/categoryProducts.php';
 require __DIR__.'/products.php';
 require __DIR__.'/photoProducts.php';
