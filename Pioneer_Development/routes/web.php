@@ -19,19 +19,19 @@ Route::get('/destinasi/{slug}', function ($slug) {
 });
 
 Route::get('/produk', function () {
-    return Inertia::render('Product');
+    return Inertia::render('Product/Product');
 })->name('product');
 
 Route::get('/berita', function () {
-    return Inertia::render('Product');
+    return Inertia::render('News/News');
 })->name('news');
 
 Route::get('/testimoni', function () {
-    return Inertia::render('Testimonial');
+    return Inertia::render('Testimonial/Testimonial');
 })->name('testimonial');
 
 Route::get('/galeri', function () {
-    return Inertia::render('Gallery');
+    return Inertia::render('Gallery/Gallery');
 })->name('gallery');
 // END PUBLIC LANDING PAGE
 
