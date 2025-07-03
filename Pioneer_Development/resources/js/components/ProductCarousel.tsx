@@ -67,7 +67,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
                 transform: translate(0, -50%) !important;
             }
             .swiper-button-prev {
-                left: 32% !important;
+                left: 28% !important;
                 transform: translate(0, -50%) !important;
             }
             }
@@ -75,11 +75,11 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
 
             @media (max-width: 833px) {
             .swiper-button-next {
-                right: 25% !important;
+                right: 28% !important;
                 transform: translate(0, -50%) !important;
             }
             .swiper-button-prev {
-                left: 30% !important;
+                left: 28% !important;
                 transform: translate(0, -50%) !important;
             }
             }
@@ -87,26 +87,28 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
 
         <Swiper
             navigation={true}
-            spaceBetween={18}
             modules={[Navigation]}
             centeredSlides={true}
             breakpoints={{
                 402: {
                 slidesPerView: 2.5,
                 centeredSlides: true,
+                spaceBetween: 14,
                 },
                 768: {
                 slidesPerView: 2.5,
                 centeredSlides: true,
+                spaceBetween: 18,
                 },
                 1280: {
                 slidesPerView: 3,
                 centeredSlides: false,
+                spaceBetween: 18,
                 }
             }}
         >
           {products.map((product, index) => (
-            <SwiperSlide key={index} className=" !w-[258px] md:!w-[365px] xl:!w-[322px] ">
+            <SwiperSlide key={index} className=" !w-64 md:!w-96 xl:!w-80 ">
                 <div className="bg-white rounded-2xl duration-[1s] h-full grid grid-rows-2 overflow-hidden ">
                     <div className="aspect-square bg-gray-50 p-4">
                         <div className="w-full h-full bg-gray-100 rounded-[8px] flex items-center justify-center overflow-hidden">

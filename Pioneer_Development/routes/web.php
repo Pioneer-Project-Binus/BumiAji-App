@@ -3,6 +3,43 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get('/test-carousel', function () {
+    return Inertia::render('TestCarousel', [
+        'products' => [
+            [
+                'name' => 'Produk A',
+                'description' => 'Deskripsi A',
+                'price' => 100000,
+                'image' => '/images/sample1.jpg', // pastikan file ada
+            ],
+            [
+                'name' => 'Produk B',
+                'description' => 'Deskripsi B',
+                'price' => 120000,
+                'image' => '/images/sample2.jpg',
+            ],
+            [
+                'name' => 'Produk C',
+                'description' => 'Deskripsi C',
+                'price' => 90000,
+                'image' => '/images/sample3.jpg',
+            ],
+                        [
+                'name' => 'Produk C',
+                'description' => 'Deskripsi C',
+                'price' => 90000,
+                'image' => '/images/sample3.jpg',
+            ],
+                        [
+                'name' => 'Produk C',
+                'description' => 'Deskripsi C',
+                'price' => 90000,
+                'image' => '/images/sample3.jpg',
+            ],
+        ],
+    ]);
+});
+
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
