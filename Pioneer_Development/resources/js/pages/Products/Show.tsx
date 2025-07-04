@@ -67,7 +67,7 @@ export default function AdminProductShow({ product, auth }: Props) {
         if (!dateString) return 'N/A';
         return format(new Date(dateString), "d MMMM yyyy, HH:mm", { locale: localeID });
     };
-    
+
     const getStatusConfig = (status: string) => {
         const config = {
             published: {
@@ -193,7 +193,7 @@ export default function AdminProductShow({ product, auth }: Props) {
                                             </Link>
                                         </div>
                                     )}
-                                    
+
                                     <div className="mb-6">
                                         <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-500">
                                             {formatPrice(product.price)}
@@ -216,7 +216,7 @@ export default function AdminProductShow({ product, auth }: Props) {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="mb-6 prose prose-slate dark:prose-invert max-w-none">
                                         <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
                                             <FileText className="h-5 w-5 text-purple-500"/> Description
@@ -225,7 +225,7 @@ export default function AdminProductShow({ product, auth }: Props) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {/* Metadata Card */}
                              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-slate-700/30 overflow-hidden">
                                 <div className="p-6">
@@ -235,18 +235,18 @@ export default function AdminProductShow({ product, auth }: Props) {
                                     </div>
                                     <ul className="space-y-3 text-sm">
                                         <li className="flex items-center gap-3">
-                                            <strong className="w-28 text-slate-500 dark:text-slate-400">SKU/Slug:</strong> 
+                                            <strong className="w-28 text-slate-500 dark:text-slate-400">SKU/Slug:</strong>
                                             <Badge variant="outline" className="font-mono">{product.slug}</Badge>
                                         </li>
                                         <li className="flex items-start gap-3">
-                                            <strong className="w-28 text-slate-500 dark:text-slate-400 shrink-0">Created:</strong> 
+                                            <strong className="w-28 text-slate-500 dark:text-slate-400 shrink-0">Created:</strong>
                                             <div className="text-slate-700 dark:text-slate-300">
                                                 {formatDate(product.createdAt)}
                                                 {product.creator && <span className="block text-xs text-slate-500 dark:text-slate-400">by {product.creator.name}</span>}
                                             </div>
                                         </li>
                                         <li className="flex items-start gap-3">
-                                            <strong className="w-28 text-slate-500 dark:text-slate-400 shrink-0">Last Updated:</strong> 
+                                            <strong className="w-28 text-slate-500 dark:text-slate-400 shrink-0">Last Updated:</strong>
                                              <div className="text-slate-700 dark:text-slate-300">
                                                 {formatDate(product.updatedAt)}
                                                 {product.updater && <span className="block text-xs text-slate-500 dark:text-slate-400">by {product.updater.name}</span>}

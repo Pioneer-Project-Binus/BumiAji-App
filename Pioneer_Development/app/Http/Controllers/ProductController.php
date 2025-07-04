@@ -81,11 +81,6 @@ class ProductController extends Controller
                         'filePath' => Storage::url($photo->filePath),
                     ];
                 }),
-                'can' => [
-                    // Assuming you have policies or gate checks
-                    // 'edit' => Auth::user()->can('update', $product),
-                    // 'delete' => Auth::user()->can('delete', $product),
-                ]
             ];
         });
 
@@ -97,8 +92,14 @@ class ProductController extends Controller
                 'total_products' => Product::where('isDeleted', false)->count(),
                 'published_products' => Product::where('isDeleted', false)->where('status', 'published')->count(),
                 'draft_products' => Product::where('isDeleted', false)->where('status', 'draft')->count(),
-                'out_of_stock' => Product::where('isDeleted', false)->where('stock', '=', 0)->orWhere('status', 'outofstock')->count(), // Adjusted for outofstock status too
-                'total_value' => Product::where('isDeleted', false)->where('status', 'published')->sum(Product::raw('price * stock')),
+                'out_of_stock' => Product::where('isDeleted', false)
+                    ->where(function($query) {
+                        $query->where('stock', 0)
+                            ->orWhere('status', 'outofstock');
+                    })->count(),
+                'total_value' => Product::where('isDeleted', false)
+                    ->where('status', 'published')
+                    ->sum(\DB::raw('price * stock')),
             ];
         }
 
@@ -131,17 +132,10 @@ class ProductController extends Controller
             'categories' => $categories,
             'filters' => $request->only(['search', 'category', 'status', 'sort', 'direction']),
             'stats' => $stats,
-            'auth' => [ // Send relevant auth data if needed by frontend components
-                'user' => Auth::user() ? [
-                    'id' => Auth::user()->id,
-                    'name' => Auth::user()->name,
-                    // Add other user properties needed
-                ] : null,
-            ],
         ]);
         }
 
-        
+
     }
 
     public function create()
@@ -175,7 +169,7 @@ class ProductController extends Controller
         }
 
         $product = new Product();
-        $product->productName = $request->productName; 
+        $product->productName = $request->productName;
 
         $baseSlug = Str::slug($request->productName);
         $slug = $baseSlug;
@@ -210,7 +204,7 @@ class ProductController extends Controller
             ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-        
+
         // Transform data for frontend consistency if needed (similar to index)
         $productData = [
             'id' => $product->id,
@@ -256,7 +250,7 @@ class ProductController extends Controller
             ]);
         }
 
-        
+
     }
 
     public function edit(string $slug)
@@ -265,7 +259,7 @@ class ProductController extends Controller
             ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-        
+
         // Transform data for edit form if needed
         $productData = $product->toArray();
         $productData['photos'] = $product->photos->map(function ($photo) {
@@ -311,7 +305,7 @@ class ProductController extends Controller
             }
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         if ($product->productName !== $request->productName) {
             $baseSlug = Str::slug($request->productName);
             $newSlug = $baseSlug;
@@ -372,5 +366,5 @@ class ProductController extends Controller
 
     return Excel::download(new ProductsExport($filters), $fileName, Excel::CSV);
 
-}   
+}
 }
