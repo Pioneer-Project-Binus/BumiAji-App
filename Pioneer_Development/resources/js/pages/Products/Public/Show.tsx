@@ -6,6 +6,7 @@ import products from '@/routes/products';
 import { dashboard } from '@/routes';
 import { format } from 'date-fns';
 import { id as localeID } from 'date-fns/locale'; // Import locale Indonesia
+import ProductDetailCarousel from '@/components/ProductDetailCarousel';
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -116,7 +117,7 @@ export default function ProdukShow({ product, auth }: Props) {
                     <div className="px-20">
                         <Breadcrumb></Breadcrumb>
                         {/* Main Content Area */}
-                        <div className="grid grid-cols-2">
+                        <div className="grid grid-cols-[70%_30%]">
                             {/* Left Column: Photo Gallery */}
                             <div className="grid grid-rows-2 h-full">
                                 <img
@@ -124,18 +125,29 @@ export default function ProdukShow({ product, auth }: Props) {
                                 alt={product.photos[0]?.title || product.productName}
                                 className="w-full h-full object-contain"
                                 />
-                                {/* <ProductDetailCarousel></ProductDetailCarousel> */}
+                                <div className="text-black max-w-full max-h-full">
+                                    <ProductDetailCarousel products={[product]} />
+                                </div>
+
                             </div>
 
                             {/* Right Column: Product Information */}
-                            <div className="grid grid-rows-[20%_80%]">
-                                <div className="grid grid-rows-3">
+                            <div className="grid grid-rows-[50%_50%] gap-2">
+                                <div className="grid grid-rows-3 gap-2">
                                     <div className="bg-[Green] h-full font-medium text-white text-[20px] py-4 px-16 w-1 rounded-2xl flex items-center justify-center">
                                     Kategori
                                     </div>
-                                    <div>
-                                        
+                                    <div className="font-semibold text-6xl text-black">
+                                        <h1>{product.productName}</h1>
                                     </div>
+                                    <div className="text-[#878787] font-medium text-3xl">
+                                        <h3>
+                                            Rp. {product.price}
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div className="text-xl font-black font-regular">
+                                    {product.description}
                                 </div>
                             </div>
                         </div>
