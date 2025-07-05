@@ -11,11 +11,16 @@ type Product = {
 };
 
 interface ProductCarouselProps {
-  products: Product[];
+  photos: {
+    file_url?: string;
+    filePath?: string;
+    title?: string;
+  }[];
   onSelectImage?: (index: number) => void;
 }
 
-const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ products = [], onSelectImage }) => {
+const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ photos = [], onSelectImage }) => {
+    console.log(photos);
   return (
     <div className="relative w-full px-4">
 
@@ -42,8 +47,8 @@ const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ products = [], 
         }}
         className="w-full"
       >
-        {products.length > 0 && products[0].photos?.length > 0 ? (
-          products[0].photos.map((photo, index) => (
+        {photos.length > 0  ? (
+          photos.map((photo, index) => (
             <SwiperSlide
               key={index}
               onClick={() => onSelectImage?.(index)}
@@ -51,8 +56,8 @@ const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ products = [], 
             >
               <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center p-4 hover:scale-105 transition-transform">
                 <img
-                src={photo.file_url ?? `/storage/${photo.filePath}`}
-                alt={`Foto ${index + 1}`}
+                src={photo.filePath ?? `/storage/${photo.filePath}`}
+                alt={photo.title || `Foto ${index + 1}`}
                 className="w-full h-full object-cover rounded-xl"
                 />
               </div>

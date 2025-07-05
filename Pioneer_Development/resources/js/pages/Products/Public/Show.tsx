@@ -13,6 +13,7 @@ interface Props extends InertiaSharedProps {
 
 export default function ProdukShow({ product }: Props) {
   const sortedPhotos = product.photos?.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)) || [];
+//   console.log("sortedPhotos:", sortedPhotos);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const breadcrumbs: BreadcrumbItem[] = [
@@ -71,9 +72,8 @@ export default function ProdukShow({ product }: Props) {
               {sortedPhotos.length > 0 ? (
                 <img
                   src={
-                    sortedPhotos[currentPhotoIndex]?.filePath
-                      ? `/storage/${sortedPhotos[currentPhotoIndex].filePath}`
-                      : sortedPhotos[currentPhotoIndex]?.file_url
+                    sortedPhotos[currentPhotoIndex]?.filePath ??
+                    `/storage/${sortedPhotos[currentPhotoIndex]?.filePath}`
                   }
                   alt={sortedPhotos[currentPhotoIndex]?.title || product.productName}
                   className="w-full h-full object-cover"
@@ -89,8 +89,8 @@ export default function ProdukShow({ product }: Props) {
             {sortedPhotos.length > 1 && (
               <div className="h-24 md:h-16 w-full mb-6 max-w-sm mx-auto md:max-w-md relative">
                 <ProductDetailCarousel
-                  products={[product]}
-                  onSelectImage={(index) => setCurrentPhotoIndex(index)}
+                    photos={sortedPhotos}
+                    onSelectImage={(index) => setCurrentPhotoIndex(index)}
                 />
               </div>
             )}
@@ -124,7 +124,7 @@ export default function ProdukShow({ product }: Props) {
                 {sortedPhotos.length > 0 ? (
                   <img
                     src={
-                    sortedPhotos[currentPhotoIndex]?.file_url ??
+                    sortedPhotos[currentPhotoIndex]?.filePath ??
                     `/storage/${sortedPhotos[currentPhotoIndex]?.filePath}`
                     }
                     alt={sortedPhotos[currentPhotoIndex]?.title || product.productName}
@@ -141,7 +141,7 @@ export default function ProdukShow({ product }: Props) {
               {sortedPhotos.length > 1 && (
                 <div className="h-28 w-full max-w-lg mx-auto flex justify-center px-14">
                   <ProductDetailCarousel
-                    products={[product]}
+                    photos={sortedPhotos}
                     onSelectImage={(index) => setCurrentPhotoIndex(index)}
                   />
                 </div>
