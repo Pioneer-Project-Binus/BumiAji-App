@@ -35,6 +35,14 @@ module.exports = {
                 overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
                 contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
             },
+            screens: {
+                phone: '402px',
+                tablet: '834px',
+                dekstop: '1440px',
+            },
+            fontFamily: {
+                poppins: ['Poppins', 'sans-serif'],
+            },
         },
     },
     plugins: [],

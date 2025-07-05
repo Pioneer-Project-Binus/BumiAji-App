@@ -86,6 +86,96 @@ class ArticleController extends Controller
         }
     }
 
+    public function showbyslug(Request $request, $slug)
+    {
+        $article = Article::with(['category', 'author', 'creator', 'updater'])
+            ->where('isDeleted', false)
+            ->where('slug', $slug)
+            ->where('status', 'published') 
+            ->firstOrFail();
+
+        $popularArticles = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->where('id', '!=', $article->id)
+            ->orderBy('createdAt', 'desc')
+            ->take(5)
+            ->get(['id', 'title', 'slug'])
+            ->map(function ($popularArticle) {
+                return [
+                    'id' => $popularArticle->id,
+                    'title' => $popularArticle->title,
+                    'slug' => $popularArticle->slug,
+                    'category' => $popularArticle->category ? $popularArticle->category->name : 'Uncategorized'
+                ];
+            });
+
+        $relatedArticles = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->where('id', '!=', $article->id)
+            ->where('categoryId', $article->categoryId)
+            ->orderBy('createdAt', 'desc')
+            ->take(5)
+            ->get(['id', 'title', 'slug'])
+            ->map(function ($relatedArticle) {
+                return [
+                    'id' => $relatedArticle->id,
+                    'title' => $relatedArticle->title,
+                    'slug' => $relatedArticle->slug,
+                    'category' => $relatedArticle->category ? $relatedArticle->category->name : 'Uncategorized'
+                ];
+            });
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true, 
+                'data' => [
+                    'article' => $article,
+                    'popularArticles' => $popularArticles,
+                    'relatedArticles' => $relatedArticles
+                ],
+                'message' => 'Artikel berhasil diambil'
+            ]);
+        }
+
+        if (Auth::check()) {
+            return Inertia::render('Articles/Show', [
+                'article' => $article,
+                'popularArticles' => $popularArticles,
+                'relatedArticles' => $relatedArticles
+            ]);
+        } else {
+            return Inertia::render('Articles/Public/Show', [
+                'article' => $article,
+                'popularArticles' => $popularArticles,
+                'relatedArticles' => $relatedArticles
+            ]);
+        }
+    }
+
+    public function landing()
+    {
+        $highlight = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->orderBy('createdAt', 'desc')
+            ->first();
+
+        $otherArticles = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->where('id', '!=', optional($highlight)->id)
+            ->orderBy('createdAt', 'desc')
+            ->take(3)
+            ->get();
+
+        return Inertia::render('Articles/Public/Landing', [
+            'highlight' => $highlight,
+            'articles' => $otherArticles
+        ]);
+    }
+
 
     // Menampilkan form untuk membuat artikel baru
     public function create()

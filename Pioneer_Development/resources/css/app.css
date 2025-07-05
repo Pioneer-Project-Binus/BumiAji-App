@@ -157,3 +157,6 @@
         @apply bg-background text-foreground;
     }
 }
+
+.stroke-default { -webkit-text-stroke-color: #B0D3C2; }
+.group:hover .stroke-hover { -webkit-text-stroke-color: #FFD600; }

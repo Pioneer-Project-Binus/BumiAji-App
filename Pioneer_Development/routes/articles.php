@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Route;
 // --- RUTE PUBLIK UNTUK ARTIKEL ---
 // Menampilkan daftar semua artikel yang dipublikasikan
 Route::get('artikel', [ArticleController::class, 'index'])->name('public.articles.index');
+Route::get('landing', [ArticleController::class, 'landing'])->name('public.articles.landing'); 
 // Menampilkan detail satu artikel berdasarkan slug
-Route::get('artikel/{slug}', [ArticleController::class, 'show'])->name('public.articles.show');
+Route::get('artikel/{slug}', [ArticleController::class, 'showbyslug'])->name('public.articles.show');
 
 // --- RUTE ADMIN UNTUK MANAJEMEN ARTIKEL ---
 Route::middleware('auth')->group(function () {

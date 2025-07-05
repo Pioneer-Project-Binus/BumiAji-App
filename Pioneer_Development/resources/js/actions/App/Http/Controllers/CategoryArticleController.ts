@@ -4,15 +4,15 @@ import { queryParams, type QueryParams } from './../../../../wayfinder'
  * @see app/Http/Controllers/CategoryArticleController.php:14
  * @route '/kategori-artikel'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const indexd8b9b9ebd1e22e4e957ae675da2e8202 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexd8b9b9ebd1e22e4e957ae675da2e8202.url(options),
     method: 'get',
 })
 
-index.definition = {
+indexd8b9b9ebd1e22e4e957ae675da2e8202.definition = {
     methods: ['get','head'],
     url: '/kategori-artikel',
 }
@@ -22,8 +22,8 @@ index.definition = {
  * @see app/Http/Controllers/CategoryArticleController.php:14
  * @route '/kategori-artikel'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+indexd8b9b9ebd1e22e4e957ae675da2e8202.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexd8b9b9ebd1e22e4e957ae675da2e8202.definition.url + queryParams(options)
 }
 
 /**
@@ -31,11 +31,11 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/CategoryArticleController.php:14
  * @route '/kategori-artikel'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexd8b9b9ebd1e22e4e957ae675da2e8202.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexd8b9b9ebd1e22e4e957ae675da2e8202.url(options),
     method: 'get',
 })
 /**
@@ -43,13 +43,70 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/CategoryArticleController.php:14
  * @route '/kategori-artikel'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexd8b9b9ebd1e22e4e957ae675da2e8202.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: indexd8b9b9ebd1e22e4e957ae675da2e8202.url(options),
     method: 'head',
 })
+
+    /**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+const index8c514eaf7a7a46347a4b60d8df4f3eb1 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index8c514eaf7a7a46347a4b60d8df4f3eb1.url(options),
+    method: 'get',
+})
+
+index8c514eaf7a7a46347a4b60d8df4f3eb1.definition = {
+    methods: ['get','head'],
+    url: '/category-articles',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index8c514eaf7a7a46347a4b60d8df4f3eb1.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index8c514eaf7a7a46347a4b60d8df4f3eb1.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index8c514eaf7a7a46347a4b60d8df4f3eb1.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index8c514eaf7a7a46347a4b60d8df4f3eb1.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\CategoryArticleController::index
+ * @see app/Http/Controllers/CategoryArticleController.php:14
+ * @route '/category-articles'
+ */
+index8c514eaf7a7a46347a4b60d8df4f3eb1.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index8c514eaf7a7a46347a4b60d8df4f3eb1.url(options),
+    method: 'head',
+})
+
+export const index = {
+    '/kategori-artikel': indexd8b9b9ebd1e22e4e957ae675da2e8202,
+    '/category-articles': index8c514eaf7a7a46347a4b60d8df4f3eb1,
+}
 
 /**
 * @see \App\Http\Controllers\CategoryArticleController::show

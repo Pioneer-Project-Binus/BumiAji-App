@@ -11,7 +11,7 @@ Route::get('kategori-artikel/{slug}', [CategoryArticleController::class, 'show']
 
 // --- RUTE ADMIN UNTUK MANAJEMEN KATEGORI ARTIKEL ---
 Route::middleware('auth')->group(function () {
-    // Route::get('category-articles', [CategoryArticleController::class, 'index'])->name('category-articles.index'); // Index Admin
+    Route::get('category-articles', [CategoryArticleController::class, 'index'])->name('category-articles.index'); // Index Admin
     Route::get('category-articles/create', [CategoryArticleController::class, 'create'])->name('category-articles.create');
     Route::post('category-articles', [CategoryArticleController::class, 'store'])->name('category-articles.store');
     Route::get('category-articles/{slug}/edit', [CategoryArticleController::class, 'edit'])->name('category-articles.edit');
