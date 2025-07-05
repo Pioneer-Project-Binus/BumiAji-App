@@ -1,161 +1,174 @@
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, InertiaSharedProps, Product, PhotoProducts as PhotoProductType } from '@/types';
+import { BreadcrumbItem, InertiaSharedProps, Product } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import React, { useState } from 'react';
 import products from '@/routes/products';
 import { dashboard } from '@/routes';
-import { format } from 'date-fns';
-import { id as localeID } from 'date-fns/locale'; // Import locale Indonesia
 import ProductDetailCarousel from '@/components/ProductDetailCarousel';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-    Package,
-    ArrowLeft,
-    Edit3,
-    Trash2,
-    DollarSign,
-    Archive,
-    Tag,
-    Info,
-    Image as ImageIcon,
-    User as UserIcon,
-    CalendarDays,
-    ShieldCheck,
-    Eye,
-    ShieldX,
-    ShoppingCart,
-    TrendingUp,
-    TrendingDown,
-    FileText
-} from 'lucide-react';
-import { Arrow } from '@radix-ui/react-tooltip';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
-
-// Props yang diterima dari ProductController@show
 interface Props extends InertiaSharedProps {
-    product: Product; // Termasuk relasi category, photos, creator, updater
+  product: Product;
 }
 
-export default function ProdukShow({ product, auth }: Props) {
-    const sortedPhotos = product.photos?.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)) || [];
-    const [currentPhoto, setCurrentPhoto] = useState<PhotoProductType | null>(
-        sortedPhotos.length > 0 ? sortedPhotos[0] : null
-    );
+export default function ProdukShow({ product }: Props) {
+  const sortedPhotos = product.photos?.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)) || [];
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
-    const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: dashboard().url },
-        { title: 'Product Management', href: products.index().url },
-        { title: product.productName, href: products.show(product.slug).url },
-    ];
+  const breadcrumbs: BreadcrumbItem[] = [
+    { title: 'Home', href: dashboard().url },
+    { title: 'Produk', href: products.index().url },
+    { title: product.productName, href: products.show(product.slug).url },
+  ];
 
-    const handleDelete = () => {
-        if (confirm(`Are you sure you want to delete "${product.productName}"? This is a soft delete.`)) {
-            router.delete(products.destroy(product.slug).url, {
-                onSuccess: () => router.visit(products.index().url), // Redirect to index after delete
-            });
-        }
-    };
-
-    const formatPrice = (price: number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(price);
-    };
-
-    const formatDate = (dateString: string) => {
-        if (!dateString) return 'N/A';
-        return format(new Date(dateString), "d MMMM yyyy, HH:mm", { locale: localeID });
-    };
-
-    const getStatusConfig = (status: string) => {
-        const config = {
-            published: {
-                label: 'Published',
-                className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border-emerald-500/50',
-                icon: <TrendingUp className="h-4 w-4" />
-            },
-            draft: {
-                label: 'Draft',
-                className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border-amber-500/50',
-                icon: <Edit3 className="h-4 w-4" />
-            },
-            outofstock: {
-                label: 'Out of Stock',
-                className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border-red-500/50',
-                icon: <ShoppingCart className="h-4 w-4" /> // Ganti ikon jika perlu
-            }
-        };
-        return config[status as keyof typeof config] || config.draft;
-    };
-    const statusInfo = getStatusConfig(product.status);
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
 
-    return (
-        <>
-            <Head title={`Produk: ${product.productName}`} />
+  return (
+    <>
+      <Head title={`Produk: ${product.productName}`} />
 
-            <div className="min-h-screen bg-white py-16">
-                <div className="relative mx-auto max-w-6xl">
-                    {/* Header Section */}
-                    <div className="mb-8 flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 px-10">
-                        <div className="flex items-center gap-4">
-                            <div className="flex justify-center items-center w-8 h-8">
-                                <ArrowLeft className='text-black'></ArrowLeft>
-                            </div>
-                            <div>
-                                <h1 className="font-medium text-black text-4xl">
-                                    Produk
-                                </h1>
-                            </div>
-                        </div>
+      <div className="min-h-dvh pb-4 bg-white">
+        {/* Header */}
+        <div className="flex items-center gap-3 p-4 md:p-6 lg:pl-8 lg:pr-8">
+          <button
+            onClick={() => router.visit(products.index().url)}
+            className="flex items-center justify-center"
+          >
+            <ArrowLeft className="w-6 h-6 text-black" />
+          </button>
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-medium text-black hidden md:block">
+            Produk
+          </h1>
+        </div>
 
-                    </div>
-                    <div className="px-20">
-                        <Breadcrumb></Breadcrumb>
-                        {/* Main Content Area */}
-                        <div className="grid grid-cols-[70%_30%]">
-                            {/* Left Column: Photo Gallery */}
-                            <div className="grid grid-rows-2 h-full">
-                                <img
-                                src={`/storage/${product.photos[0]?.filePath}`}
-                                alt={product.photos[0]?.title || product.productName}
-                                className="w-full h-full object-contain"
-                                />
-                                <div className="text-black max-w-full max-h-full">
-                                    <ProductDetailCarousel products={[product]} />
-                                </div>
+        {/* Breadcrumb */}
+        <div className="px-4 md:px-6 lg:px-8 mb-4 md:mb-6">
+          <nav className="flex text-sm text-gray-500 lg:max-w-lg">
+            {breadcrumbs.map((item, index) => (
+              <React.Fragment key={index}>
+                <Link href={item.href} className="hover:text-gray-700">
+                  {item.title}
+                </Link>
+                {index < breadcrumbs.length - 1 && <span className="mx-2">/</span>}
+              </React.Fragment>
+            ))}
+          </nav>
+        </div>
 
-                            </div>
-
-                            {/* Right Column: Product Information */}
-                            <div className="grid grid-rows-[50%_50%] gap-2">
-                                <div className="grid grid-rows-3 gap-2">
-                                    <div className="bg-[Green] h-full font-medium text-white text-[20px] py-4 px-16 w-1 rounded-2xl flex items-center justify-center">
-                                    Kategori
-                                    </div>
-                                    <div className="font-semibold text-6xl text-black">
-                                        <h1>{product.productName}</h1>
-                                    </div>
-                                    <div className="text-[#878787] font-medium text-3xl">
-                                        <h3>
-                                            Rp. {product.price}
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div className="text-xl font-black font-regular">
-                                    {product.description}
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
+        {/* Main Content */}
+        <div className="px-4 md:px-6 lg:px-8">
+          {/* Mobile & Tablet Layout */}
+          <div className="lg:hidden">
+            {/* Main Photo */}
+            <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4 max-w-sm mx-auto md:max-w-md">
+              {sortedPhotos.length > 0 ? (
+                <img
+                  src={
+                    sortedPhotos[currentPhotoIndex]?.filePath
+                      ? `/storage/${sortedPhotos[currentPhotoIndex].filePath}`
+                      : sortedPhotos[currentPhotoIndex]?.file_url
+                  }
+                  alt={sortedPhotos[currentPhotoIndex]?.title || product.productName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <span className="text-gray-400">No image available</span>
                 </div>
+              )}
             </div>
-        </>
-    );
+
+            {/* Thumbnail Navigation */}
+            {sortedPhotos.length > 1 && (
+              <div className="h-24 md:h-16 w-full mb-6 max-w-sm mx-auto md:max-w-md relative">
+                <ProductDetailCarousel
+                  products={[product]}
+                  onSelectImage={(index) => setCurrentPhotoIndex(index)}
+                />
+              </div>
+            )}
+
+            {/* Product Info */}
+            <div className="space-y-4 md:space-y-6 md:max-w-vw">
+              <div className="inline-block  bg-[#537D5D] text-white px-4 py-2 rounded-full text-sm font-medium">
+                {product.category?.name || 'Kategori'}
+              </div>
+
+              <h1 className="text-2xl md:text-3xl font-bold text-black leading-tight">
+                {product.productName}
+              </h1>
+
+              <div className="text-xl md:text-2xl font-semibold text-[#878787]">
+                {formatPrice(product.price)}
+              </div>
+
+              <div className="text-base md:text-lg text-gray-700 leading-relaxed break-words">
+                {product.description}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-8">
+            {/* Left Column - Photo Gallery */}
+            <div className="space-y-4">
+              {/* Main Photo */}
+              <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden max-w-lg mx-auto">
+                {sortedPhotos.length > 0 ? (
+                  <img
+                    src={
+                    sortedPhotos[currentPhotoIndex]?.file_url ??
+                    `/storage/${sortedPhotos[currentPhotoIndex]?.filePath}`
+                    }
+                    alt={sortedPhotos[currentPhotoIndex]?.title || product.productName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                    <span className="text-gray-400">No image available</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnail Navigation */}
+              {sortedPhotos.length > 1 && (
+                <div className="h-28 w-full max-w-lg mx-auto flex justify-center px-14">
+                  <ProductDetailCarousel
+                    products={[product]}
+                    onSelectImage={(index) => setCurrentPhotoIndex(index)}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Right Column - Product Info */}
+            <div className="space-y-6">
+              <div className="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-medium">
+                {product.category?.name || 'Kategori'}
+              </div>
+
+              <h1 className="text-4xl xl:text-5xl font-bold text-black leading-tight">
+                {product.productName}
+              </h1>
+
+              <div className="text-2xl xl:text-3xl font-semibold text-gray-700">
+                {formatPrice(product.price)}
+              </div>
+
+              <div className="text-lg xl:text-xl text-gray-700 leading-relaxed break-words">
+                {product.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

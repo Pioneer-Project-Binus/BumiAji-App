@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+
 interface PaginationLink {
     url: string | null;
     label: string;
@@ -20,10 +21,10 @@ export default function Pagination({ links, className = '' }: PaginationProps) {
     const getDisplayLinks = () => {
         const displayLinks = [];
         const totalLinks = links.length;
-        
+
         // Remove first and last links (prev/next buttons)
         const pageLinks = links.slice(1, -1);
-        
+
         if (pageLinks.length <= 7) {
             return pageLinks;
         }

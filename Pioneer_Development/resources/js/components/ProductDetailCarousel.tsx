@@ -1,8 +1,10 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+
 import 'swiper/css';
-import 'swiper/css/navigation';
 
 type Product = {
   photos: { file_url: string }[];
@@ -10,83 +12,60 @@ type Product = {
 
 interface ProductCarouselProps {
   products: Product[];
+  onSelectImage?: (index: number) => void;
 }
 
-const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ products = [] }) => {
+const ProductDetailCarousel: React.FC<ProductCarouselProps> = ({ products = [], onSelectImage }) => {
   return (
-    <div className="w-full h-full overflow-hidden xl:overflow-visible">
-      <div>
-        <style>{`
-          .swiper-button-next,
-          .swiper-button-prev {
-            background-color: white !important;
-            width: 60px !important;
-            height: 60px !important;
-            padding: 0.375rem !important;
-            border-radius: 9999px !important;
-            transition: all 1s !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            position: absolute !important;
-            z-index: 10 !important;
-          }
+    <div className="relative w-full px-4">
 
-          .swiper-button-next::after,
-          .swiper-button-prev::after {
-            font-size: 1.5rem !important;
-            font-weight: bold !important;
-            color: black !important;
-          }
+        <div className="swiper-button-prev custom-prev absolute  top-1/2 -translate-y-1/2 z-10
+        w-10 h-10 flex items-center justify-center text-[#878787] text-xl
+        cursor-pointer select-none -left-5 lg:-left-10">
+        <ChevronLeft className="w-6 h-6 text-[#878787]" />
+        </div>
 
-          .swiper-button-disabled {
-            opacity: 1 !important;
-            cursor: not-allowed !important;
-          }
-        `}</style>
+        <div className="swiper-button-next custom-next absolute -right-5 lg:-right-10 top-1/2 -translate-y-1/2 z-10
+        w-10 h-10 flex items-center justify-center text-[#878787] text-xl
+         cursor-pointer select-none">
+        <ChevronRight className="w-6 h-6 text-[#878787]" />
+        </div>
 
-        <Swiper
-          navigation={true}
-          modules={[Navigation]}
-          centeredSlides={true}
-          breakpoints={{
-            402: {
-              slidesPerView: 3,
-              centeredSlides: true,
-              spaceBetween: 14,
-            },
-            768: {
-              slidesPerView: 2,
-              centeredSlides: true,
-              spaceBetween: 18,
-            },
-            1280: {
-              slidesPerView: 2,
-              centeredSlides: false,
-              spaceBetween: 18,
-            },
-          }}
-        >
-          {products.length > 0 && products[0].photos?.length > 0 ? (
-            products[0].photos.map((photo, index) => (
-              <SwiperSlide key={index} className="!w-44 !h-40 !shadow-xl">
-                <div className="aspect-square bg-gray-100 rounded-2xl flex items-center justify-center p-4">
-                  <img
-                    src={photo.file_url}
-                    alt={`Foto ${index + 1}`}
-                    className="w-full h-full object-cover rounded-[8px]"
-                  />
-                </div>
-              </SwiperSlide>
-            ))
-          ) : (
-            <SwiperSlide className="!w-64 md:!w-96 xl:!w-80">
-              <div className="h-full flex flex-col items-center justify-center border border-dashed border-gray-300 bg-gray-50 rounded-xl py-16">
-                <p className="text-gray-400 text-lg font-medium font-poppins">Tidak ada foto produk</p>
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={20}
+        modules={[Navigation]}
+        navigation={{
+          prevEl: '.custom-prev',
+          nextEl: '.custom-next',
+          disabledClass: "swiper-button-disabled"
+        }}
+        className="w-full"
+      >
+        {products.length > 0 && products[0].photos?.length > 0 ? (
+          products[0].photos.map((photo, index) => (
+            <SwiperSlide
+              key={index}
+              onClick={() => onSelectImage?.(index)}
+              className="cursor-pointer max-h-40"
+            >
+              <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center p-4 hover:scale-105 transition-transform">
+                <img
+                src={photo.file_url ?? `/storage/${photo.filePath}`}
+                alt={`Foto ${index + 1}`}
+                className="w-full h-full object-cover rounded-xl"
+                />
               </div>
             </SwiperSlide>
-          )}
-        </Swiper>
-      </div>
+          ))
+        ) : (
+          <SwiperSlide>
+            <div className="h-full flex flex-col items-center justify-center border border-dashed border-gray-300 bg-gray-50 rounded-xl py-16">
+              <p className="text-gray-400 text-lg font-medium">Tidak ada foto produk</p>
+            </div>
+          </SwiperSlide>
+        )}
+      </Swiper>
     </div>
   );
 };
