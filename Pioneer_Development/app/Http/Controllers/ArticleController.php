@@ -14,6 +14,28 @@ use Inertia\Inertia;
 
 class ArticleController extends Controller
 {
+    public function landing()
+    {
+        $highlight = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->orderBy('createdAt', 'desc')
+            ->first();
+
+        $otherArticles = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->where('id', '!=', optional($highlight)->id)
+            ->orderBy('createdAt', 'desc')
+            ->take(3)
+            ->get();
+
+        return Inertia::render('Articles/Public/Landing', [
+            'highlight' => $highlight,
+            'articles' => $otherArticles
+        ]);
+    }
+
     // Menampilkan daftar artikel
     public function index(Request $request)
     {
@@ -73,7 +95,8 @@ class ArticleController extends Controller
     {
         $article = Article::with(['category', 'author', 'creator', 'updater'])
             ->where('isDeleted', false)
-            ->findOrFail($id);
+            ->where('slug', $id)
+            ->firstOrFail();
 
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $article, 'message' => 'Artikel berhasil diambil']);

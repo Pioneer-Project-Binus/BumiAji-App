@@ -63,7 +63,7 @@ class CategoryArticleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name',
+            'name' => 'required|string|max:255|unique:categoryarticles,name',
             'description' => 'nullable|string',
         ]);
 
@@ -142,7 +142,7 @@ class CategoryArticleController extends Controller
             ->firstOrFail();
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name,' . $categoryArticle->id,
+            'name' => 'required|string|max:255|unique:categoryarticles,name,' . $categoryArticle->id,
             'description' => 'nullable|string',
         ]);
 

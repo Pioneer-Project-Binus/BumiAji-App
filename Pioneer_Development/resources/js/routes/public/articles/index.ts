@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+ * @see app/Http/Controllers/ArticleController.php:40
  * @route '/artikel'
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+ * @see app/Http/Controllers/ArticleController.php:40
  * @route '/artikel'
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+ * @see app/Http/Controllers/ArticleController.php:40
  * @route '/artikel'
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -40,7 +40,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+ * @see app/Http/Controllers/ArticleController.php:40
  * @route '/artikel'
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -52,8 +52,60 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/landing'
+ */
+export const landing = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: landing.url(options),
+    method: 'get',
+})
+
+landing.definition = {
+    methods: ['get','head'],
+    url: '/landing',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/landing'
+ */
+landing.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return landing.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/landing'
+ */
+landing.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: landing.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/landing'
+ */
+landing.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: landing.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:94
  * @route '/artikel/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +123,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:94
  * @route '/artikel/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -97,7 +149,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:94
  * @route '/artikel/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -109,7 +161,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:94
  * @route '/artikel/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -121,6 +173,7 @@ show.head = (args: { slug: string | number } | [slug: string | number ] | string
 })
 const articles = {
     index,
+landing,
 show,
 }
 
