@@ -17,7 +17,7 @@ export default function ProdukShow({ product }: Props) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', href: dashboard().url },
+    { title: 'Home', href: '/' },
     { title: 'Produk', href: products.index().url },
     { title: product.productName, href: products.show(product.slug).url },
   ];
@@ -33,7 +33,10 @@ export default function ProdukShow({ product }: Props) {
 
   return (
     <>
-      <Head title={`Produk: ${product.productName}`} />
+      <Head title={`Produk: ${product.productName}`} >
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
+      </Head>
+
 
       <div className="min-h-dvh pb-4 bg-white">
         {/* Header */}
@@ -54,7 +57,7 @@ export default function ProdukShow({ product }: Props) {
           <nav className="flex text-sm text-gray-500 lg:max-w-lg">
             {breadcrumbs.map((item, index) => (
               <React.Fragment key={index}>
-                <Link href={item.href} className="hover:text-gray-700">
+                <Link href="#" className="hover:text-gray-700">
                   {item.title}
                 </Link>
                 {index < breadcrumbs.length - 1 && <span className="mx-2">/</span>}
@@ -97,19 +100,19 @@ export default function ProdukShow({ product }: Props) {
 
             {/* Product Info */}
             <div className="space-y-4 md:space-y-6 md:max-w-vw">
-              <div className="inline-block  bg-[#537D5D] text-white px-4 py-2 rounded-full text-sm font-medium">
+              <div className="inline-block  bg-[#537D5D] text-white px-4 py-2 rounded-full text-sm font-medium font-poppins">
                 {product.category?.name || 'Kategori'}
               </div>
 
-              <h1 className="text-2xl md:text-3xl font-bold text-black leading-tight">
+              <h1 className="text-2xl md:text-3xl font-bold text-black leading-tight font-poppins">
                 {product.productName}
               </h1>
 
-              <div className="text-xl md:text-2xl font-semibold text-[#878787]">
+              <div className="text-xl md:text-2xl font-semibold text-[#878787] font-poppins">
                 {formatPrice(product.price)}
               </div>
 
-              <div className="text-base md:text-lg text-gray-700 leading-relaxed break-words">
+              <div className="text-base md:text-lg text-gray-700 leading-relaxed break-words font-poppins">
                 {product.description}
               </div>
             </div>
@@ -150,19 +153,19 @@ export default function ProdukShow({ product }: Props) {
 
             {/* Right Column - Product Info */}
             <div className="space-y-6">
-              <div className="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-medium">
+              <div className="inline-block bg-[Green] text-white px-6 py-2 rounded-full text-sm font-medium font-poppins">
                 {product.category?.name || 'Kategori'}
               </div>
 
-              <h1 className="text-4xl xl:text-5xl font-bold text-black leading-tight">
+              <h1 className="text-4xl xl:text-5xl font-bold text-black leading-tight font-poppins">
                 {product.productName}
               </h1>
 
-              <div className="text-2xl xl:text-3xl font-semibold text-gray-700">
+              <div className="text-2xl xl:text-3xl font-semibold text-[#878787] font-poppins">
                 {formatPrice(product.price)}
               </div>
 
-              <div className="text-lg xl:text-xl text-gray-700 leading-relaxed break-words">
+              <div className="text-lg xl:text-xl text-black leading-relaxed break-words font-poppins">
                 {product.description}
               </div>
             </div>
