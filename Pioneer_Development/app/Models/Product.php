@@ -30,6 +30,7 @@ class Product extends Model
         'price',
         'stock',
         'status',
+        'highlight',
         'categoryId',
         'createdBy',
         'updatedBy',
@@ -44,8 +45,7 @@ class Product extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'stock' => 'integer',
-        'createdAt' => 'datetime',
-        'updatedAt' => 'datetime',
+        'highlight' => 'boolean',
         'isDeleted' => 'boolean',
     ];
 

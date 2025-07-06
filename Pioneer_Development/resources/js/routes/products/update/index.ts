@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProductController::withfile
- * @see app/Http/Controllers/ProductController.php:289
+ * @see app/Http/Controllers/ProductController.php:242
  * @route '/products/{slug}/update'
  */
 export const withfile = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ withfile.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::withfile
- * @see app/Http/Controllers/ProductController.php:289
+ * @see app/Http/Controllers/ProductController.php:242
  * @route '/products/{slug}/update'
  */
 withfile.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -45,7 +45,7 @@ withfile.url = (args: { slug: string | number } | [slug: string | number ] | str
 
 /**
 * @see \App\Http\Controllers\ProductController::withfile
- * @see app/Http/Controllers/ProductController.php:289
+ * @see app/Http/Controllers/ProductController.php:242
  * @route '/products/{slug}/update'
  */
 withfile.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

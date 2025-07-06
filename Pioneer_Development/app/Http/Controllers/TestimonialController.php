@@ -18,7 +18,7 @@ class TestimonialController extends Controller
     {
         $query = Testimonial::with('creator')
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc');
+            ->orderBy('created_at', 'desc');
 
         if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -33,7 +33,6 @@ class TestimonialController extends Controller
 
         $testimonials = $query->paginate(10);
 
-        // Tambahkan URL foto jika ada
         $testimonials->getCollection()->transform(function ($testimonial) {
             $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
             return $testimonial;

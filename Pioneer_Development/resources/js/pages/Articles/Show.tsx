@@ -1,217 +1,245 @@
-import React from 'react';
-import { Link } from '@inertiajs/react';
+import React, { useMemo } from 'react';
+import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import {
+    type BreadcrumbItem,
+    type InertiaSharedProps,
+    type Article,
+    type CategoryArticle as Category, // Alias for consistency
+    type Author,
+} from '@/types';
+import articlesRoute from '@/routes/articles';
+import { dashboard } from '@/routes';
+import {
+    CheckCircle,
+    XCircle,
+    CalendarDays,
+    User,
+    BookCopy,
+    Tag,
+    FilePenLine,
+    ArrowLeft,
+    Clock,
+    Eye,
+    Share2,
+    Sparkles,
+} from 'lucide-react';
 
-type Category = {
-  id: number;
-  name: string;
-};
+// --- Component Props ---
+interface ShowProps extends InertiaSharedProps {
+    article: Article;
+}
 
-type Author = {
-  id: number;
-  name: string;
-};
-
-type Article = {
-  title: string;
-  content: string;
-  featuredImage?: string | null;
-  status: 'draft' | 'published';
-  category?: Category | null;
-  author?: Author | null;
-  slug: string;
-  created_at?: string;
-  updated_at?: string;
-};
-
-type BreadcrumbItem = {
-  title: string;
-  href: string;
-};
-
-type ShowProps = {
-  article: Article;
-};
-
+// --- Main Component ---
 export default function Show({ article }: ShowProps) {
-  const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/dashboard' },
-    { title: 'Artikel Management', href: '/articles' },
-    { title: 'Detail Artikel', href: `/articles/${article.slug}` },
-  ];
+    const breadcrumbs: BreadcrumbItem[] = useMemo(() => [
+        { title: 'Dashboard', href: dashboard().url },
+        { title: 'Article Management', href: articlesRoute.index().url },
+        { title: 'Detail', href: '#' },
+    ], []);
 
-  const getStatusBadge = (status: string) => {
-    const baseClasses = "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium";
-    if (status === 'published') {
-      return `${baseClasses} bg-green-100 text-green-800 border border-green-200`;
-    }
-    return `${baseClasses} bg-yellow-100 text-yellow-800 border border-yellow-200`;
-  };
+    // Helper to format date
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return '-';
+        return new Date(dateString).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    };
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('id-ID', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={article.title} />
 
-  return (
-    <AppLayout breadcrumbs={breadcrumbs}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Detail Artikel</h1>
-                <p className="text-gray-600">Informasi lengkap artikel yang dipilih</p>
-              </div>
-              <Link
-                href="/articles"
-                className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Kembali ke Daftar
-              </Link>
+            <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-green-50/50 to-teal-50/70 dark:from-slate-950 dark:via-emerald-950/20 dark:to-slate-900">
+                <div className="relative overflow-hidden">
+                    {/* Decorative Background Elements */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl"></div>
+                        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-400/10 rounded-full blur-3xl"></div>
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl"></div>
+                    </div>
+
+                    {/* --- Enhanced Featured Image Header --- */}
+                    <div className="h-72 md:h-96 w-full overflow-hidden relative">
+                        <img
+                            src={`/storage/${article.featuredImage}`|| 'https://placehold.co/1200x400/10b981/ffffff?text=Article'}
+                            alt={article.title}
+                            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/20 via-transparent to-green-600/20"></div>
+                        
+                        {/* Floating Status Badge */}
+                        <div className="absolute top-6 right-6">
+                            {article.status === 'published' ? (
+                                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-emerald-500/90 text-white backdrop-blur-sm border border-emerald-400/30 shadow-lg">
+                                    <CheckCircle className="w-4 h-4" />
+                                    Published
+                                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-amber-500/90 text-white backdrop-blur-sm border border-amber-400/30 shadow-lg">
+                                    <Clock className="w-4 h-4" />
+                                    Draft
+                                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* --- Main Content Container --- */}
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+                        <div className="relative bg-white/95 dark:bg-slate-800/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-emerald-200/50 dark:border-slate-700/50 -mt-32 md:-mt-40 overflow-hidden">
+                            {/* Decorative Header Pattern */}
+                            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500"></div>
+                            
+                            <div className="p-8 md:p-12">
+                                {/* --- Enhanced Article Title and Metadata --- */}
+                                <header className="mb-12 pb-8 border-b border-dashed border-emerald-200 dark:border-slate-700">
+                                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-medium">
+                                                    <Sparkles className="w-4 h-4" />
+                                                    Featured Article
+                                                </div>
+                                                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <Eye className="w-4 h-4" />
+                                                    <span>Reading time: 5 min</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent leading-tight mb-4">
+                                                {article.title}
+                                            </h1>
+                                            
+                                            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                                                <div className="flex items-center gap-2">
+                                                    <User className="w-4 h-4" />
+                                                    <span className="font-medium">{article.author?.name || 'Unknown Author'}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Tag className="w-4 h-4" />
+                                                    <span className="font-medium">{article.category?.name || 'Uncategorized'}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <CalendarDays className="w-4 h-4" />
+                                                    <span className="font-medium">{formatDate(article.created_at)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex flex-col gap-3 lg:items-end">
+                                            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-all duration-200 border border-emerald-200 dark:border-emerald-800">
+                                                <Share2 className="w-4 h-4" />
+                                                Share Article
+                                            </button>
+                                        </div>
+                                    </div>
+                                </header>
+                                
+                                <div className="grid grid-cols-1 xl:grid-cols-12 gap-12">
+                                    {/* --- Enhanced Article Content --- */}
+                                    <div className="xl:col-span-8">
+                                        <div className="relative">
+                                            <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-400 to-green-600 rounded-full opacity-60"></div>
+                                            <div
+                                                className="prose prose-xl dark:prose-invert max-w-none prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-headings:text-gray-800 dark:prose-headings:text-gray-100 prose-headings:font-bold prose-a:text-emerald-600 hover:prose-a:text-emerald-700 dark:prose-a:text-emerald-400 prose-strong:text-gray-800 dark:prose-strong:text-gray-100 prose-blockquote:border-l-emerald-500 prose-blockquote:bg-emerald-50/50 dark:prose-blockquote:bg-emerald-900/10 prose-blockquote:rounded-r-lg prose-blockquote:py-4 prose-code:bg-emerald-100 dark:prose-code:bg-emerald-900/30 prose-code:text-emerald-800 dark:prose-code:text-emerald-200 prose-code:rounded prose-code:px-2 prose-code:py-1"
+                                                dangerouslySetInnerHTML={{ __html: article.content }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* --- Enhanced Metadata Sidebar --- */}
+                                    <aside className="xl:col-span-4 space-y-6">
+                                        <div className="sticky top-6 space-y-6">
+                                            <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-slate-800/80 dark:via-emerald-900/20 dark:to-slate-800/80 rounded-2xl p-6 border border-emerald-200/60 dark:border-slate-600/60 shadow-lg backdrop-blur-sm">
+                                                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
+                                                    <BookCopy className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                                                    Detail Informasi
+                                                </h3>
+                                                
+                                                <div className="space-y-6">
+                                                    <div className="group hover:bg-white/50 dark:hover:bg-slate-700/30 rounded-xl p-4 -m-4 transition-all duration-200">
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                                <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Penulis</p>
+                                                                <p className="font-bold text-gray-800 dark:text-gray-200">{article.author?.name || '-'}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="group hover:bg-white/50 dark:hover:bg-slate-700/30 rounded-xl p-4 -m-4 transition-all duration-200">
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                                <Tag className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Kategori</p>
+                                                                <p className="font-bold text-gray-800 dark:text-gray-200">{article.category?.name || '-'}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="group hover:bg-white/50 dark:hover:bg-slate-700/30 rounded-xl p-4 -m-4 transition-all duration-200">
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                                <CalendarDays className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Dibuat pada</p>
+                                                                <p className="font-bold text-gray-800 dark:text-gray-200">{formatDate(article.created_at)}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="group hover:bg-white/50 dark:hover:bg-slate-700/30 rounded-xl p-4 -m-4 transition-all duration-200">
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                                <Clock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Diperbarui pada</p>
+                                                                <p className="font-bold text-gray-800 dark:text-gray-200">{formatDate(article.updated_at)}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            {/* --- Enhanced Action Buttons --- */}
+                                            <div className="space-y-4">
+                                                <Link href={articlesRoute.edit(article?.slug).url} className="block group">
+                                                    <button className="w-full h-14 flex items-center justify-center gap-3 text-base font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 hover:from-emerald-700 hover:via-green-700 hover:to-teal-700 text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                                        <FilePenLine className="h-5 w-5 relative z-10" />
+                                                        <span className="relative z-10">Edit Artikel</span>
+                                                    </button>
+                                                </Link>
+                                                
+                                                <Link href={articlesRoute.index().url} className="block group">
+                                                    <button className="w-full h-14 flex items-center justify-center gap-3 text-base font-bold bg-white/90 dark:bg-slate-700/90 hover:bg-white dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 rounded-2xl shadow-md hover:shadow-lg border-2 border-emerald-200/60 dark:border-slate-600/60 hover:border-emerald-300 dark:hover:border-slate-500 transition-all duration-300 relative overflow-hidden">
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-50/50 to-green-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                                        <ArrowLeft className="h-5 w-5 relative z-10" />
+                                                        <span className="relative z-10">Kembali ke Daftar</span>
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </aside>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          {/* Main Content */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            {/* Featured Image Section */}
-            {article.featuredImage && (
-              <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
-                <img
-                  src={`/storage/${article.featuredImage}`}
-                  alt={article.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-            )}
-
-            <div className="p-8">
-              {/* Title and Status */}
-              <div className="mb-8">
-                <div className="flex items-start justify-between mb-4">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight flex-1 mr-4">
-                    {article.title}
-                  </h2>
-                  <div className={getStatusBadge(article.status)}>
-                    <div className={`w-2 h-2 rounded-full mr-2 ${
-                      article.status === 'published' ? 'bg-green-500' : 'bg-yellow-500'
-                    }`}></div>
-                    {article.status === 'published' ? 'Dipublikasi' : 'Draft'}
-                  </div>
-                </div>
-
-                {/* Meta Information */}
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 border-b border-gray-200 pb-6">
-                  {article.author && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span className="font-medium">{article.author.name}</span>
-                    </div>
-                  )}
-                  
-                  {article.category && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                      </svg>
-                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium">
-                        {article.category.name}
-                      </span>
-                    </div>
-                  )}
-
-                  {article.created_at && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>{formatDate(article.created_at)}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Content Section */}
-              <div className="prose prose-lg max-w-none">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Konten Artikel
-                </h3>
-                <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-blue-500">
-                  <p className="text-gray-800 leading-relaxed whitespace-pre-line">
-                    {article.content}
-                  </p>
-                </div>
-              </div>
-
-              {/* Additional Information Grid */}
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
-                  <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Penulis
-                  </h4>
-                  <p className="text-gray-700 font-medium">
-                    {article.author?.name || 'Tidak ada penulis'}
-                  </p>
-                </div>
-
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
-                  <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                    </svg>
-                    Kategori
-                  </h4>
-                  <p className="text-gray-700 font-medium">
-                    {article.category?.name || 'Tidak ada kategori'}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href={`/articles/${article.slug}/edit`}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    Edit Artikel
-                  </Link>
-                  
-                  <button
-                    onClick={() => window.print()}
-                    className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                  >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                    </svg>
-                    Print
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </AppLayout>
-  );
+        </AppLayout>
+    );
 }

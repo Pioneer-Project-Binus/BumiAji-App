@@ -11,17 +11,17 @@ use Inertia\Inertia;
 
 class CategoryArticleController extends Controller
 {
-    public function index(Request $request)
+    public function indexPublic(Request $request)
     {
         $query = CategoryArticle::withCount('articles')
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc');
+            ->orderBy('created_at', 'desc');
 
         if ($request->has('search')) {
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
 
@@ -31,24 +31,44 @@ class CategoryArticleController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $categoryArticles,
-                'message' => 'Kategori artikel berhasil diambil'
+                'message' => 'Kategori artikel berhasil diambil (Publik)'
             ]);
         }
 
-        if (Auth::check()) {
-            return Inertia::render('CategoryArticles/Index', [
-                'categoryArticles' => $categoryArticles,
-                'filters' => $request->only(['search']),
-                'can' => [
-                    'create_category_article' => Auth::user()->can('create', CategoryArticle::class),
-                ]
-            ]);
-        } else {
-            return Inertia::render('CategoryArticles/Public/Index', [
-                'categoryArticles' => $categoryArticles,
-                'filters' => $request->only(['search']),
+        return Inertia::render('CategoryArticles/Public/Index', [
+            'categoryArticles' => $categoryArticles,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function indexAdmin(Request $request)
+    {
+        $query = CategoryArticle::withCount('articles')
+            ->where('isDeleted', false)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $categoryArticles = $query->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $categoryArticles,
+                'message' => 'Kategori artikel berhasil diambil (Admin)'
             ]);
         }
+
+        return Inertia::render('CategoryArticles/Index', [
+            'categoryArticles' => $categoryArticles,
+            'filters' => $request->only(['search']),
+        ]);
     }
 
     public function create(Request $request)
@@ -63,7 +83,7 @@ class CategoryArticleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name',
+            'name' => 'required|string|max:255|unique:categoryArticles,name',
             'description' => 'nullable|string',
         ]);
 
@@ -93,7 +113,6 @@ class CategoryArticleController extends Controller
             return response()->json(['success' => true, 'data' => $categoryArticle, 'message' => 'Kategori artikel berhasil dibuat'], 201);
         }
 
-        return redirect()->route('category-articles.index')->with('success', 'Kategori artikel berhasil dibuat.');
     }
 
     public function show(Request $request, string $slug)
@@ -110,10 +129,6 @@ class CategoryArticleController extends Controller
         if (Auth::check()) {
             return Inertia::render('CategoryArticles/Show', [
                 'categoryArticle' => $categoryArticle,
-                'can' => [
-                    'edit_category_article' => Auth::user()->can('update', $categoryArticle),
-                    'delete_category_article' => Auth::user()->can('delete', $categoryArticle),
-                ]
             ]);
         } else {
             return Inertia::render('CategoryArticles/Public/Show', [
@@ -131,8 +146,6 @@ class CategoryArticleController extends Controller
         if (Auth::check()) {
             return Inertia::render('CategoryArticles/Edit', ['categoryArticle' => $categoryArticle]);
         }
-
-        return redirect()->route('category-articles.index');
     }
 
     public function update(Request $request, string $slug)
@@ -142,7 +155,7 @@ class CategoryArticleController extends Controller
             ->firstOrFail();
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:category_articles,name,' . $categoryArticle->id,
+            'name' => 'required|string|max:255|unique:categoryArticles,name,' . $categoryArticle->id,
             'description' => 'nullable|string',
         ]);
 

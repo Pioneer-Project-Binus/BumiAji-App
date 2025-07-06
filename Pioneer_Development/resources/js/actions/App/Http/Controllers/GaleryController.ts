@@ -1,28 +1,80 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
- * @route '/galeri/{slug}'
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
  */
-const show9730deb1bcde402adca69e6a8ea0c73c = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show9730deb1bcde402adca69e6a8ea0c73c.url(args, options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 
-show9730deb1bcde402adca69e6a8ea0c73c.definition = {
+indexPublic.definition = {
+    methods: ['get','head'],
+    url: '/galeri',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexPublic.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: indexPublic.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
+ * @route '/galeri/{slug}'
+ */
+export const showPublic = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showPublic.url(args, options),
+    method: 'get',
+})
+
+showPublic.definition = {
     methods: ['get','head'],
     url: '/galeri/{slug}',
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
-show9730deb1bcde402adca69e6a8ea0c73c.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showPublic.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
@@ -38,165 +90,91 @@ show9730deb1bcde402adca69e6a8ea0c73c.url = (args: { slug: string | number } | [s
                         slug: args.slug,
                 }
 
-    return show9730deb1bcde402adca69e6a8ea0c73c.definition.url
+    return showPublic.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
-show9730deb1bcde402adca69e6a8ea0c73c.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showPublic.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show9730deb1bcde402adca69e6a8ea0c73c.url(args, options),
+    url: showPublic.url(args, options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
-show9730deb1bcde402adca69e6a8ea0c73c.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showPublic.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show9730deb1bcde402adca69e6a8ea0c73c.url(args, options),
+    url: showPublic.url(args, options),
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
- * @route '/galeries/{slug}/preview'
- */
-const show6392b2e424d8351d45650231358c2d1b = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: show6392b2e424d8351d45650231358c2d1b.url(args, options),
-    method: 'get',
-})
-
-show6392b2e424d8351d45650231358c2d1b.definition = {
-    methods: ['get','head'],
-    url: '/galeries/{slug}/preview',
-}
-
 /**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
- * @route '/galeries/{slug}/preview'
- */
-show6392b2e424d8351d45650231358c2d1b.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { slug: args }
-    }
-
-    
-    if (Array.isArray(args)) {
-        args = {
-                    slug: args[0],
-                }
-    }
-
-    const parsedArgs = {
-                        slug: args.slug,
-                }
-
-    return show6392b2e424d8351d45650231358c2d1b.definition.url
-            .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
- * @route '/galeries/{slug}/preview'
- */
-show6392b2e424d8351d45650231358c2d1b.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: show6392b2e424d8351d45650231358c2d1b.url(args, options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
- * @route '/galeries/{slug}/preview'
- */
-show6392b2e424d8351d45650231358c2d1b.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: show6392b2e424d8351d45650231358c2d1b.url(args, options),
-    method: 'head',
-})
-
-export const show = {
-    '/galeri/{slug}': show9730deb1bcde402adca69e6a8ea0c73c,
-    '/galeries/{slug}/preview': show6392b2e424d8351d45650231358c2d1b,
-}
-
-/**
-* @see \App\Http\Controllers\GaleryController::index
- * @see app/Http/Controllers/GaleryController.php:16
+* @see \App\Http\Controllers\GaleryController::indexAdmin
+ * @see app/Http/Controllers/GaleryController.php:17
  * @route '/galeries'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexAdmin = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexAdmin.url(options),
     method: 'get',
 })
 
-index.definition = {
+indexAdmin.definition = {
     methods: ['get','head'],
     url: '/galeries',
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::index
- * @see app/Http/Controllers/GaleryController.php:16
+* @see \App\Http\Controllers\GaleryController::indexAdmin
+ * @see app/Http/Controllers/GaleryController.php:17
  * @route '/galeries'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+indexAdmin.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexAdmin.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::index
- * @see app/Http/Controllers/GaleryController.php:16
+* @see \App\Http\Controllers\GaleryController::indexAdmin
+ * @see app/Http/Controllers/GaleryController.php:17
  * @route '/galeries'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexAdmin.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexAdmin.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\GaleryController::index
- * @see app/Http/Controllers/GaleryController.php:16
+* @see \App\Http\Controllers\GaleryController::indexAdmin
+ * @see app/Http/Controllers/GaleryController.php:17
  * @route '/galeries'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: indexAdmin.url(options),
     method: 'head',
 })
 
 /**
 * @see \App\Http\Controllers\GaleryController::create
- * @see app/Http/Controllers/GaleryController.php:62
+ * @see app/Http/Controllers/GaleryController.php:76
  * @route '/galeries/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -214,7 +192,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\GaleryController::create
- * @see app/Http/Controllers/GaleryController.php:62
+ * @see app/Http/Controllers/GaleryController.php:76
  * @route '/galeries/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -223,7 +201,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\GaleryController::create
- * @see app/Http/Controllers/GaleryController.php:62
+ * @see app/Http/Controllers/GaleryController.php:76
  * @route '/galeries/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -235,7 +213,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\GaleryController::create
- * @see app/Http/Controllers/GaleryController.php:62
+ * @see app/Http/Controllers/GaleryController.php:76
  * @route '/galeries/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -248,7 +226,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\GaleryController::store
- * @see app/Http/Controllers/GaleryController.php:72
+ * @see app/Http/Controllers/GaleryController.php:82
  * @route '/galeries'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -266,7 +244,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\GaleryController::store
- * @see app/Http/Controllers/GaleryController.php:72
+ * @see app/Http/Controllers/GaleryController.php:82
  * @route '/galeries'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -275,7 +253,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\GaleryController::store
- * @see app/Http/Controllers/GaleryController.php:72
+ * @see app/Http/Controllers/GaleryController.php:82
  * @route '/galeries'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -287,8 +265,77 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\GaleryController::showAdmin
+ * @see app/Http/Controllers/GaleryController.php:155
+ * @route '/galeries/{slug}/preview'
+ */
+export const showAdmin = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'get',
+})
+
+showAdmin.definition = {
+    methods: ['get','head'],
+    url: '/galeries/{slug}/preview',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::showAdmin
+ * @see app/Http/Controllers/GaleryController.php:155
+ * @route '/galeries/{slug}/preview'
+ */
+showAdmin.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return showAdmin.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::showAdmin
+ * @see app/Http/Controllers/GaleryController.php:155
+ * @route '/galeries/{slug}/preview'
+ */
+showAdmin.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::showAdmin
+ * @see app/Http/Controllers/GaleryController.php:155
+ * @route '/galeries/{slug}/preview'
+ */
+showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\GaleryController::edit
- * @see app/Http/Controllers/GaleryController.php:163
+ * @see app/Http/Controllers/GaleryController.php:189
  * @route '/galeries/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -306,7 +353,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\GaleryController::edit
- * @see app/Http/Controllers/GaleryController.php:163
+ * @see app/Http/Controllers/GaleryController.php:189
  * @route '/galeries/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -332,7 +379,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\GaleryController::edit
- * @see app/Http/Controllers/GaleryController.php:163
+ * @see app/Http/Controllers/GaleryController.php:189
  * @route '/galeries/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -344,7 +391,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\GaleryController::edit
- * @see app/Http/Controllers/GaleryController.php:163
+ * @see app/Http/Controllers/GaleryController.php:189
  * @route '/galeries/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -357,25 +404,25 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\GaleryController::update
- * @see app/Http/Controllers/GaleryController.php:185
+ * @see app/Http/Controllers/GaleryController.php:201
  * @route '/galeries/{slug}'
  */
 export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
-    method: 'post',
+    method: 'put',
 } => ({
     url: update.url(args, options),
-    method: 'post',
+    method: 'put',
 })
 
 update.definition = {
-    methods: ['post'],
+    methods: ['put'],
     url: '/galeries/{slug}',
 }
 
 /**
 * @see \App\Http\Controllers\GaleryController::update
- * @see app/Http/Controllers/GaleryController.php:185
+ * @see app/Http/Controllers/GaleryController.php:201
  * @route '/galeries/{slug}'
  */
 update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -401,20 +448,20 @@ update.url = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\GaleryController::update
- * @see app/Http/Controllers/GaleryController.php:185
+ * @see app/Http/Controllers/GaleryController.php:201
  * @route '/galeries/{slug}'
  */
-update.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
-    method: 'post',
+    method: 'put',
 } => ({
     url: update.url(args, options),
-    method: 'post',
+    method: 'put',
 })
 
 /**
 * @see \App\Http\Controllers\GaleryController::destroy
- * @see app/Http/Controllers/GaleryController.php:273
+ * @see app/Http/Controllers/GaleryController.php:290
  * @route '/galeries/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -432,7 +479,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\GaleryController::destroy
- * @see app/Http/Controllers/GaleryController.php:273
+ * @see app/Http/Controllers/GaleryController.php:290
  * @route '/galeries/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -458,7 +505,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\GaleryController::destroy
- * @see app/Http/Controllers/GaleryController.php:273
+ * @see app/Http/Controllers/GaleryController.php:290
  * @route '/galeries/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -468,6 +515,6 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const GaleryController = { show, index, create, store, edit, update, destroy }
+const GaleryController = { indexPublic, showPublic, indexAdmin, create, store, showAdmin, edit, update, destroy }
 
 export default GaleryController

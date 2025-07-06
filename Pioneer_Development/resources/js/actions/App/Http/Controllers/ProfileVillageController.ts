@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profil-desa'
  */
 const showOrCreate64b10973650c616db165b8758bd680c2 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ showOrCreate64b10973650c616db165b8758bd680c2.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profil-desa'
  */
 showOrCreate64b10973650c616db165b8758bd680c2.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ showOrCreate64b10973650c616db165b8758bd680c2.url = (options?: { query?: QueryPar
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profil-desa'
  */
 showOrCreate64b10973650c616db165b8758bd680c2.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -40,7 +40,7 @@ showOrCreate64b10973650c616db165b8758bd680c2.get = (options?: { query?: QueryPar
 })
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profil-desa'
  */
 showOrCreate64b10973650c616db165b8758bd680c2.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -53,7 +53,7 @@ showOrCreate64b10973650c616db165b8758bd680c2.head = (options?: { query?: QueryPa
 
     /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profile-village/edit'
  */
 const showOrCreatee64b231b455fa9e383ad591ebfd26091 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ showOrCreatee64b231b455fa9e383ad591ebfd26091.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profile-village/edit'
  */
 showOrCreatee64b231b455fa9e383ad591ebfd26091.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -80,7 +80,7 @@ showOrCreatee64b231b455fa9e383ad591ebfd26091.url = (options?: { query?: QueryPar
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profile-village/edit'
  */
 showOrCreatee64b231b455fa9e383ad591ebfd26091.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -92,7 +92,7 @@ showOrCreatee64b231b455fa9e383ad591ebfd26091.get = (options?: { query?: QueryPar
 })
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:47
+ * @see app/Http/Controllers/ProfileVillageController.php:46
  * @route '/profile-village/edit'
  */
 showOrCreatee64b231b455fa9e383ad591ebfd26091.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -110,7 +110,7 @@ export const showOrCreate = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:66
+ * @see app/Http/Controllers/ProfileVillageController.php:63
  * @route '/profile-village'
  */
 export const storeOrUpdate = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -128,7 +128,7 @@ storeOrUpdate.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:66
+ * @see app/Http/Controllers/ProfileVillageController.php:63
  * @route '/profile-village'
  */
 storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -137,7 +137,7 @@ storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:66
+ * @see app/Http/Controllers/ProfileVillageController.php:63
  * @route '/profile-village'
  */
 storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

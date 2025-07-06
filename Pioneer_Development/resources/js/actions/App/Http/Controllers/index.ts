@@ -7,7 +7,6 @@ import ArticleController from './ArticleController'
 import TourismController from './TourismController'
 import TourismPhotoController from './TourismPhotoController'
 import ProfileVillageController from './ProfileVillageController'
-import AlbumController from './AlbumController'
 import TestimonialController from './TestimonialController'
 import GaleryController from './GaleryController'
 import ContactController from './ContactController'
@@ -22,7 +21,6 @@ ArticleController,
 TourismController,
 TourismPhotoController,
 ProfileVillageController,
-AlbumController,
 TestimonialController,
 GaleryController,
 ContactController,

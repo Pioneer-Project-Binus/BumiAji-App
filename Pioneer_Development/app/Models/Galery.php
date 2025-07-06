@@ -33,7 +33,6 @@ class Galery extends Model
         'filePath',         
         'thumbnail',
         'displayOrder',     
-        'albumId',          
         'createdBy',        
         'updatedBy',        
         'isDeleted'         
@@ -46,10 +45,8 @@ class Galery extends Model
      */
     protected $casts = [
         'displayOrder' => 'integer',
-        'createdAt' => 'datetime', // Laravel handle ini otomatis jika kolomnya 'createdAt'
-        'updatedAt' => 'datetime', // Laravel handle ini otomatis jika kolomnya 'updatedAt'
-        // Jika kolom di DB memang createdAt (camelCase), maka cast Anda sebelumnya sudah benar.
-        // Migrasi Anda menggunakan $table->timestamps(); yang membuat createdAt dan updatedAt.
+        'createdAt' => 'datetime', 
+        'updatedAt' => 'datetime', 
         'isDeleted' => 'boolean',
     ];
 
@@ -62,15 +59,6 @@ class Galery extends Model
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-    
-    /**
-     * Get the album that owns the gallery item.
-     */
-    public function album()
-    {
-        // Pastikan Album model Anda menggunakan primary key yang sesuai dengan tipe albumId (string/uuid/ulid)
-        return $this->belongsTo(Album::class, 'albumId'); 
     }
     
     /**
@@ -88,16 +76,4 @@ class Galery extends Model
     {
         return $this->belongsTo(User::class, 'updatedBy'); 
     }
-
-    // Anda bisa menambahkan mutator untuk auto-generate slug jika title diisi/diubah
-    // Namun, karena kita butuh slug yang unik (mungkin global atau per album),
-    // penanganan di controller saat store/update lebih fleksibel untuk check keunikan.
-    // public function setTitleAttribute($value)
-    // {
-    //     $this->attributes['title'] = $value;
-    //     if (empty($this->attributes['slug']) || $value !== $this->getOriginal('title')) {
-    //          // Logika dasar pembuatan slug, keunikan tetap perlu dicek di controller
-    //         $this->attributes['slug'] = Str::slug($value);
-    //     }
-    // }
 }

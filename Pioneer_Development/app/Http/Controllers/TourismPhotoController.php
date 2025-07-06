@@ -18,7 +18,7 @@ class TourismPhotoController extends Controller
     {
         $query = PhotoTourism::with('destination') 
             ->where('isDeleted', false)
-            ->orderBy('createdAt', 'desc'); 
+            ->orderBy('created_at', 'desc'); 
 
         if ($request->has('destination_id')) {
             $query->where('destinationId', $request->destination_id);
@@ -97,7 +97,7 @@ class TourismPhotoController extends Controller
                 $tourismPhoto->filePath = $filePath;
                 $tourismPhoto->description = $request->description; 
                 $tourismPhoto->createdBy = Auth::id();
-                $tourismPhoto->createdAt = now(); 
+                $tourismPhoto->created_at = now(); 
                 $tourismPhoto->save();
                 $createdPhotos[] = $tourismPhoto;
             }
@@ -157,8 +157,6 @@ class TourismPhotoController extends Controller
         }
         
         $tourismPhoto->updatedBy = Auth::id();
-        // Migrasi untuk tourismPhotos tidak memiliki timestamps() atau updatedAt.
-        // $tourismPhoto->updatedAt = now(); // Jika Anda menambahkan kolomnya
         $tourismPhoto->save();
 
         if ($request->wantsJson()) {

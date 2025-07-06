@@ -48,8 +48,6 @@ class Tourism extends Model
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
         'socialMedia' => 'json',
-        'createdAt' => 'datetime',
-        'updatedAt' => 'datetime',
         'isDeleted' => 'boolean',
     ];
     

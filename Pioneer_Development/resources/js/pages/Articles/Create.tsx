@@ -1,311 +1,301 @@
-import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
-import { Link } from "@inertiajs/react";
+import React, { FormEventHandler, useEffect, useMemo, useRef, useState } from 'react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { toast } from 'sonner';
 
-// Type definitions
-type Category = {
-  id: number;
-  name: string;
-};
+// Layout, Types, and Route Imports
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem, type InertiaSharedProps, type CategoryArticle, type Author } from '@/types';
+import articles from '@/routes/articles';
+import { dashboard } from '@/routes';
+import InputError from '@/components/input-error';
+import { XCircle } from 'lucide-react';
+import 'summernote/dist/summernote-lite.css';
+import $ from 'jquery';
+import 'summernote/dist/summernote-lite.js';
 
-type Author = {
-  id: number;
-  name: string;
-};
+// --- Impor dari paket NPM untuk Summernote telah dihapus ---
 
-type Props = {
-  categories: Category[];
-  authors: Author[];
-  errors: Record<string, string>;
-};
+// Memperluas interface Window untuk mengenali jQuery ($) dari CDN
+declare global {
+    interface Window {
+        jQuery: any;
+        $: any;
+    }
+}
 
-export default function Create({ categories, authors, errors }: Props) {
-  const { data, setData, post, processing, progress } = useForm({
-    title: "",
-    content: "",
-    featuredImage: null as File | null,
-    status: "draft",
-    categoryId: "",
-    authorId: "",
-  });
+// Component Props
+interface Props extends InertiaSharedProps {
+    categories: CategoryArticle[];
+    authors: Author[];
+}
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-cyan-400/10 to-blue-400/10 rounded-full blur-2xl"></div>
-      </div>
+// Form Data Structure
+interface CreateArticleForm {
+    title: string;
+    content: string;
+    featuredImage: File | null;
+    status: 'draft' | 'published';
+    categoryId: string;
+    author_id: string;
+}
 
-      {/* Back button with glassmorphism effect */}
-      <Link
-        href="/articles"
-        className="fixed md:top-8 md:left-8 top-4 left-4 z-20 group"
-      >
-        <div className="bg-white/80 backdrop-blur-md hover:bg-white/90 text-gray-700 hover:text-blue-600 font-semibold rounded-2xl px-6 py-3 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20 hover:border-blue-200/50 flex items-center gap-2">
-          <svg className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Kembali
-        </div>
-      </Link>
+export default function ArticleCreate({ categories, authors, errors: pageErrors }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = useMemo(() => [
+        { title: 'Dashboard', href: dashboard().url },
+        { title: 'Articles', href: articles.indexAdmin().url },
+        { title: 'Create New Article', href: articles.create().url },
+    ], []);
 
-      {/* Main content */}
-      <div className="flex justify-center items-center min-h-screen py-12 px-4 relative z-10">
-        <div className="w-full max-w-3xl">
-          {/* Main card with glassmorphism */}
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
-            {/* Header with gradient */}
-            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 p-8 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-black/10"></div>
-              <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
+    const { data, setData, post, processing, progress, errors, reset } = useForm<Required<CreateArticleForm>>({
+        title: '',
+        content: '',
+        featuredImage: null,
+        status: 'draft',
+        categoryId: '',
+        author_id: '',
+    });
+    
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    // Ref untuk textarea yang akan diubah menjadi Summernote
+    const summernoteRef = useRef<HTMLTextAreaElement>(null);
+
+    // --- Efek untuk memuat, inisialisasi, dan membersihkan Summernote dari CDN ---
+    useEffect(() => {
+        const loadScript = (src: string, onLoad: () => void) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.onload = onLoad;
+            document.head.appendChild(script);
+            return script;
+        };
+
+        const loadStyle = (href: string) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+            return link;
+        };
+
+        const initializeSummernote = () => {
+            if (summernoteRef.current && window.$) {
+                window.$(summernoteRef.current).summernote({
+                    height: 300,
+                    placeholder: 'Tulis konten artikel yang menarik...',
+                    tooltip: false,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['insert', ['link', 'picture']],
+                        ['view', ['codeview']],
+                    ],
+                    callbacks: {
+                        onChange: (contents: string) => {
+                            setData('content', contents);
+                        },
+                    },
+                });
+            }
+        };
+
+        // Menggunakan versi BS5 agar sesuai dengan tampilan umum
+        const summernoteCSS = loadStyle('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css');
+
+        // Memuat skrip
+        if (!window.jQuery) {
+            loadScript('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', () => {
+                // Skrip Popper.js dan Bootstrap diperlukan oleh Summernote BS5
+                loadScript('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', () => {
+                    loadScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js', initializeSummernote);
+                });
+            });
+        } else {
+             loadScript('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', () => {
+                loadScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js', initializeSummernote);
+            });
+        }
+
+        // Fungsi cleanup
+        return () => {
+            if (window.$ && summernoteRef.current && window.$(summernoteRef.current).data('summernote')) {
+                window.$(summernoteRef.current).summernote('destroy');
+            }
+            if (document.head.contains(summernoteCSS)) {
+                document.head.removeChild(summernoteCSS);
+            }
+            document.head.querySelectorAll('script[src*="jquery"], script[src*="summernote"], script[src*="bootstrap"]').forEach((el) => el.remove());
+        };
+    }, []);
+
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(articles.store().url, {
+            onSuccess: () => {
+                toast.success('Artikel berhasil dibuat!');
+                reset();
+                setImagePreview(null);
+                if (summernoteRef.current && window.$) {
+                    window.$(summernoteRef.current).summernote('reset');
+                }
+            },
+            onError: () => {
+                toast.error('Gagal membuat artikel. Silakan periksa kembali isian form.');
+            },
+        });
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setData('featuredImage', file);
+        if (file) {
+            setImagePreview(URL.createObjectURL(file));
+        } else {
+            setImagePreview(null);
+        }
+    };
+    
+    const removeImage = () => {
+        setImagePreview(null);
+        setData('featuredImage', null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Admin: Buat Artikel Baru" />
+
+            <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-gray-900">
+                <div className="relative z-10 flex justify-center items-center min-h-screen py-12 px-4">
+                    <div className="w-full max-w-4xl">
+                        <div className="text-center mb-12">
+                             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mb-6 shadow-lg">
+                                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                 </svg>
+                             </div>
+                             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+                                 Buat Artikel Baru
+                             </h1>
+                             <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+                                 Bagikan ide dan cerita menarik Anda kepada dunia.
+                             </p>
+                         </div>
+
+                        <form onSubmit={handleSubmit} className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border border-green-100 dark:border-slate-700 space-y-8">
+                            
+                            {/* Title Field */}
+                            <div className="space-y-3">
+                                <label htmlFor="title" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Judul Artikel</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    value={data.title}
+                                    onChange={(e) => setData('title', e.target.value)}
+                                    className="w-full px-6 py-4 border-2 border-green-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 transition-all text-lg"
+                                    placeholder="Masukkan judul yang menarik..."
+                                />
+                                <InputError message={errors.title} className="mt-2" />
+                            </div>
+
+                            {/* Content Field with Summernote */}
+                            <div className="space-y-3">
+                                <label className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Konten Artikel</label>
+                                {/* Textarea ini akan digantikan oleh Summernote */}
+                                <textarea
+                                    ref={summernoteRef}
+                                    id="content"
+                                    defaultValue={data.content}
+                                    className="hidden"
+                                />
+                                <InputError message={errors.content} className="mt-2" />
+                            </div>
+
+                            {/* Image Upload */}
+                            <div className="space-y-3">
+                                <label htmlFor="featuredImage" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Gambar Utama</label>
+                                <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-xl p-6 text-center hover:border-green-400 transition-all">
+                                    <input
+                                        type="file"
+                                        id="featuredImage"
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        className="hidden"
+                                        accept="image/*"
+                                    />
+                                    {imagePreview ? (
+                                        <div className="relative group">
+                                            <img src={imagePreview} alt="Pratinjau Gambar" className="w-full h-auto max-h-80 object-contain rounded-lg" />
+                                            <div onClick={removeImage} className="absolute -top-3 -right-3 cursor-pointer bg-red-600 text-white rounded-full p-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                                                <XCircle size={24} />
+                                            </div>
+                                            <label htmlFor="featuredImage" className="mt-4 inline-block text-green-700 font-semibold cursor-pointer hover:underline">
+                                                Ganti gambar
+                                            </label>
+                                        </div>
+                                    ) : (
+                                        <label htmlFor="featuredImage" className="cursor-pointer">
+                                            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mb-2">
+                                                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <p className="text-green-700 font-semibold">Klik untuk mengupload</p>
+                                            <p className="text-sm text-gray-500">atau seret gambar ke sini</p>
+                                        </label>
+                                    )}
+                                </div>
+                                {progress && (
+                                    <div className="mt-2">
+                                        <div className="w-full bg-gray-200 rounded-full h-2.5"><div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${progress.percentage}%` }}></div></div>
+                                        <p className="text-sm text-right">{progress.percentage}%</p>
+                                    </div>
+                                )}
+                                <InputError message={errors.featuredImage} className="mt-2" />
+                            </div>
+
+                            {/* Meta Fields Grid */}
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <div className="space-y-3">
+                                    <label htmlFor="categoryId" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Kategori</label>
+                                    <select id="categoryId" value={data.categoryId} onChange={(e) => setData('categoryId', e.target.value)} className="w-full px-6 py-4 border-2 border-green-200 rounded-xl text-lg">
+                                        <option value="">Pilih Kategori</option>
+                                        {categories.map((cat) => <option key={cat.id} value={String(cat.id)}>{cat.name}</option>)}
+                                    </select>
+                                    <InputError message={errors.categoryId} className="mt-2" />
+                                </div>
+                                <div className="space-y-3">
+                                    <label htmlFor="author_id" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Penulis</label>
+                                    <select id="author_id" value={data.author_id} onChange={(e) => setData('author_id', e.target.value)} className="w-full px-6 py-4 border-2 border-green-200 rounded-xl text-lg">
+                                        <option value="">Pilih Penulis</option>
+                                        {authors.map((author) => <option key={author.id} value={String(author.id)}>{author.name}</option>)}
+                                    </select>
+                                    <InputError message={errors.author_id} className="mt-2" />
+                                </div>
+                                <div className="space-y-3">
+                                    <label htmlFor="status" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Status</label>
+                                    <select id="status" value={data.status} onChange={(e) => setData('status', e.target.value as 'draft' | 'published')} className="w-full px-6 py-4 border-2 border-green-200 rounded-xl text-lg">
+                                        <option value="draft">Draft</option>
+                                        <option value="published">Published</option>
+                                    </select>
+                                    <InputError message={errors.status} className="mt-2" />
+                                </div>
+                            </div>
+                            
+                            {/* Submit Button */}
+                            <div className="pt-4">
+                                <button type="submit" disabled={processing} className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl text-lg">
+                                    {processing ? 'Membuat Artikel...' : 'Buat Artikel'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <h1 className="text-4xl font-bold text-white mb-2">Buat Artikel Baru</h1>
-                <p className="text-blue-100 text-lg">Bagikan ide dan cerita menarik Anda</p>
-              </div>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
             </div>
-
-            {/* Image preview section */}
-            {data.featuredImage && (
-              <div className="px-8 pt-6">
-                <div className="relative group">
-                  <img
-                    src={URL.createObjectURL(data.featuredImage as File)}
-                    alt="Preview"
-                    className="w-full h-48 object-cover rounded-2xl shadow-lg transition-transform duration-300 group-hover:scale-[1.02]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-              </div>
-            )}
-
-            {/* Form section */}
-            <div className="p-8">
-              <form
-                className="space-y-8"
-                onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                  e.preventDefault();
-                  post("/articles");
-                }}
-              >
-                {/* Title Field */}
-                <div className="group">
-                  <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    Judul Artikel
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      id="title"
-                      name="title"
-                      value={data.title}
-                      className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-800 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-lg placeholder-gray-400"
-                      placeholder="Masukkan judul artikel yang menarik..."
-                      onChange={(e) => setData("title", e.target.value)}
-                    />
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-indigo-500/0 group-focus-within:from-blue-500/5 group-focus-within:via-purple-500/5 group-focus-within:to-indigo-500/5 transition-all duration-300 pointer-events-none"></div>
-                  </div>
-                  {errors.title && <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    {errors.title}
-                  </p>}
-                </div>
-
-                {/* Content Field */}
-                <div className="group">
-                  <label htmlFor="content" className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    Konten Artikel
-                  </label>
-                  <div className="relative">
-                    <textarea
-                      name="content"
-                      id="content"
-                      rows={8}
-                      value={data.content}
-                      className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 resize-vertical text-gray-800 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-lg placeholder-gray-400"
-                      placeholder="Tulis konten artikel yang menarik dan informatif di sini..."
-                      onChange={(e) => setData("content", e.target.value)}
-                    />
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/0 via-pink-500/0 to-indigo-500/0 group-focus-within:from-purple-500/5 group-focus-within:via-pink-500/5 group-focus-within:to-indigo-500/5 transition-all duration-300 pointer-events-none"></div>
-                  </div>
-                  {errors.content && <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    {errors.content}
-                  </p>}
-                </div>
-
-                {/* Image Upload Field */}
-                <div className="group">
-                  <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-                    Gambar Utama
-                  </label>
-                  <div className="relative">
-                    <div className="border-2 border-dashed border-gray-300 rounded-2xl p-8 hover:border-indigo-400 transition-all duration-300 bg-gradient-to-br from-gray-50/80 to-indigo-50/80 backdrop-blur-sm hover:from-indigo-50/80 hover:to-purple-50/80 group-hover:shadow-lg">
-                      <div className="text-center">
-                        <div className="mx-auto w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                        <input
-                          type="file"
-                          id="image"
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          accept="image/*"
-                          onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              setData("featuredImage", e.target.files[0]);
-                            }
-                          }}
-                        />
-                        <p className="text-gray-700 font-medium mb-2">Klik atau seret gambar ke sini</p>
-                        <p className="text-gray-500 text-sm">PNG, JPG, GIF hingga 10MB</p>
-                      </div>
-                      
-                      {progress && (
-                        <div className="mt-6">
-                          <div className="flex justify-between text-sm text-gray-700 mb-2">
-                            <span className="font-medium">Mengupload gambar...</span>
-                            <span className="font-bold text-indigo-600">{progress.percentage}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                            <div
-                              className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-500 shadow-lg"
-                              style={{ width: `${progress.percentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {errors.featuredImage && <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    {errors.featuredImage}
-                  </p>}
-                </div>
-
-                {/* Form grid for selects */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Category Field */}
-                  <div className="group">
-                    <label htmlFor="kategori" className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      Kategori
-                    </label>
-                    <div className="relative">
-                      <select
-                        name="category"
-                        id="kategori"
-                        className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-gray-800 text-lg appearance-none cursor-pointer"
-                        onChange={(e) => setData("categoryId", e.target.value)}
-                        value={data.categoryId}
-                      >
-                        <option value="">Pilih kategori...</option>
-                        {categories.map((cat) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.name}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                    {errors.categoryId && <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                      </svg>
-                      {errors.categoryId}
-                    </p>}
-                  </div>
-
-                  {/* Author Field */}
-                  <div className="group">
-                    <label htmlFor="author" className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                      Penulis
-                    </label>
-                    <div className="relative">
-                      <select
-                        name="author"
-                        id="author"
-                        className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-pink-500/20 focus:border-pink-500 transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-gray-800 text-lg appearance-none cursor-pointer"
-                        onChange={(e) => setData("authorId", e.target.value)}
-                        value={data.authorId}
-                      >
-                        <option value="">Pilih penulis...</option>
-                        {authors.map((author) => (
-                          <option key={author.id} value={author.id}>
-                            {author.name}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                    {errors.authorId && <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                      </svg>
-                      {errors.authorId}
-                    </p>}
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-6">
-                  <button
-                    type="submit"
-                    disabled={processing}
-                    className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-5 px-8 rounded-2xl transition-all duration-300 focus:ring-4 focus:ring-blue-500/30 focus:ring-offset-2 text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-[0.98] group"
-                  >
-                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-                    <div className="relative flex items-center justify-center gap-3">
-                      {processing ? (
-                        <>
-                          <svg className="animate-spin w-6 h-6 text-white" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Membuat Artikel...
-                        </>
-                      ) : (
-                        <>
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                          </svg>
-                          Buat Artikel Sekarang
-                        </>
-                      )}
-                    </div>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+        </AppLayout>
+    );
 }

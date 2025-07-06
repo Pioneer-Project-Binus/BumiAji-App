@@ -1,7 +1,59 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexPublic.url(options),
+    method: 'get',
+})
+
+indexPublic.definition = {
+    methods: ['get','head'],
+    url: '/galeri',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexPublic.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: indexPublic.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +71,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -45,7 +97,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -57,7 +109,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\GaleryController::show
- * @see app/Http/Controllers/GaleryController.php:134
+ * @see app/Http/Controllers/GaleryController.php:172
  * @route '/galeri/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -68,7 +120,8 @@ show.head = (args: { slug: string | number } | [slug: string | number ] | string
     method: 'head',
 })
 const galeries = {
-    show,
+    indexPublic,
+show,
 }
 
 export default galeries

@@ -18,9 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('type', ['photo', 'video'])->default('photo');
             $table->string('filePath'); // camelCase
-            $table->string('thumbnail')->nullable();
             $table->integer('displayOrder')->default(0); // camelCase
-            $table->string('albumId'); // camelCase
             $table->timestamps();
             $table->uuid('createdBy')->index(); // camelCase
             $table->foreign('createdBy')
@@ -35,8 +33,6 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->boolean('isDeleted')->default(false); // camelCase
-            $table->timestamp('createdAt')->useCurrent(); 
-            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

@@ -16,37 +16,35 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
-            $table->string('featuredImage')->nullable(); // camelCase
+            $table->string('featuredImage')->nullable();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
 
-            $table->uuid('categoryId')->nullable(); // camelCase & type fix
+            $table->uuid('categoryId')->nullable();
             $table->foreign('categoryId')->references('id')->on('categoryArticles')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->uuid('authorId')->nullable(); // camelCase & type fix
+            $table->uuid('authorId')->nullable();
             $table->foreign('authorId')->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
+            // Tambahkan kolom views dengan default 0
+            $table->unsignedBigInteger('views')->default(0);
+
             $table->timestamps();
 
-            $table->uuid('createdBy')->index(); // camelCase & defined
-            $table->foreign('createdBy')
-                ->references('id')->on('users')
+            $table->uuid('createdBy')->index();
+            $table->foreign('createdBy')->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->uuid('updatedBy')->nullable()->index(); // camelCase
-            $table->foreign('updatedBy')
-                ->references('id')->on('users')
+            $table->uuid('updatedBy')->nullable()->index();
+            $table->foreign('updatedBy')->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->boolean('isDeleted')->default(false); // camelCase
-            $table->timestamp('createdAt')->useCurrent(); 
-            $table->timestamp('updatedAt')->useCurrent()->useCurrentOnUpdate();
-
+            $table->boolean('isDeleted')->default(false);
         });
     }
 

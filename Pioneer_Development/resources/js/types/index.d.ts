@@ -1,76 +1,96 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 
-export interface Auth {
-    user: User;
-}
+// =================================================================
+// 1. SHARED INERTIA & PAGE PROPS
+// =================================================================
 
-export interface BreadcrumbItem {
-    title: string;
-    href: string;
-}
-
-export interface NavGroup {
-    title: string;
-    items: NavItem[];
-}
-
-export interface NavItem {
-    title: string;
-    href: string;
-    icon?: LucideIcon | null;
-    isActive?: boolean;
-}
-
-export interface SharedData {
-    name: string;
-    quote: { message: string; author: string };
-    auth: Auth;
-    ziggy: Config & { location: string };
-    sidebarOpen: boolean;
-    [key: string]: unknown;
-}
-
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    createdAt: string;
-    updatedAt: string;
-    [key: string]: unknown; // This allows for additional properties...
-}
-
-// resources/js/types/index.d.ts
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    email_verified_at: string;
-    // tambahkan properti lain jika ada
-}
-
+/**
+ * Defines the props that are shared across all pages,
+ * provided by Laravel's HandleInertiaRequests middleware.
+ */
 export interface InertiaSharedProps {
     auth: {
         user: User;
-        // tambahkan properti auth lain jika ada (misal roles, permissions)
+        // You can add other auth-related properties like roles or permissions here
+        // can: { [key: string]: boolean };
     };
     errors: Record<string, string>;
     flash: {
         success?: string;
         error?: string;
-        // tipe flash message lain
+        info?: string;
+        warning?: string;
     };
-    // ziggy: object; // jika menggunakan Ziggy
+    ziggy: Config & { location: string };
 }
 
-export interface BreadcrumbItem {
+// Tipe untuk link paginasi dari Laravel
+export interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+// Tipe untuk objek respons paginasi dari Laravel
+export interface PaginatedResponse<T> {
+    data: T[];
+    links: PaginationLink[];
+    current_page: number;
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
+export interface Galery {
+    id: number;
     title: string;
-    href: string;
+    slug: string;
+    description: string | null;
+    type: 'photo' | 'video';
+    filePath: string; // Ini adalah path mentah dari database
+    displayOrder: number | null;
+    
+    // Properti ini ditambahkan di controller, jadi bersifat opsional
+    filePath?: string | null; 
+}
+// =================================================================
+// 2. CORE & UTILITY TYPES
+// =================================================================
+
+/**
+ * Represents a standard user of the application.
+ */
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    avatar_url?: string; // Accessor for full URL is often helpful
+    email_verified_at: string | null;
+    created_at: string;
+    updated_at: string;
 }
 
-export interface PaginatedData<T> {
+/**
+ * Represents an author, which could be a simplified User or a separate entity.
+ */
+export interface Author {
+    id: number;
+    name: string;
+}
+
+
+/**
+ * A generic interface for Laravel's paginated API responses.
+ */
+export interface Paginated<T> {
     current_page: number;
     data: T[];
     first_page_url: string;
@@ -90,72 +110,126 @@ export interface PaginatedData<T> {
     total: number;
 }
 
-export type ProductStatus = 'draft' | 'published' | 'outofstock';
+/**
+ * Represents common filter parameters passed to index pages.
+ */
+export interface Filter {
+    search?: string;
+    status?: string;
+    [key: string]: any; // Allows for other dynamic filter keys
+}
+
+
+// =================================================================
+// 3. APPLICATION-SPECIFIC MODELS
+// =================================================================
+
+// --- Articles ---
+
+export interface CategoryArticle {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    articles_count?: number; // from withCount
+    created_at: string;
+    updated_at: string;
+}
+
+export type ArticleStatus = 'draft' | 'published' | 'archived';
+
+export interface Article {
+    id: number;
+    title: string;
+    slug: string;
+    content: string;
+    featuredImage?: string; // Accessor for full URL
+    status: ArticleStatus;
+    category_id: number;
+    category?: CategoryArticle; // Optional relation
+    author_id: number;
+    author?: Author; // Optional relation
+    created_at: string;
+    updated_at: string;
+}
+
+
+// --- Products ---
 
 export interface CategoryProduct {
     id: number;
     name: string;
     slug: string;
     description?: string;
-    products_count?: number; // Jika ada withCount
-    createdAt: string; // atau Date
-    updatedAt: string; // atau Date
-    // Tambahkan field lain jika ada
+    products_count?: number; // from withCount
+    created_at: string;
+    updated_at: string;
 }
 
-export interface PhotoProducts {
+export interface PhotoProduct {
     id: number;
-    productId: number;
-    product?: Product; // Relasi opsional jika di-load
     title: string;
-    slug: string;
-    filePath: string;
-    file_path_url?: string; // Accessor untuk URL lengkap
-    displayOrder?: number;
-    createdAt: string;
-    updatedAt: string;
+    file_path_url: string; // Accessor for full URL
+    display_order?: number;
+    created_at: string;
+    updated_at: string;
 }
+
+export type ProductStatus = 'draft' | 'published' | 'out_of_stock';
 
 export interface Product {
     id: number;
-    productName: string;
+    name: string;
     slug: string;
     description: string;
     price: number;
     stock: number;
-    categoryId: number | null;
-    category?: CategoryProduct; // Relasi opsional
     status: ProductStatus;
-    photos?: PhotoProducts[]; // Relasi opsional
-    creator?: User; // Relasi opsional
-    updater?: User; // Relasi opsional
-    createdAt: string;
-    updatedAt: string;
-    // Tambahkan field lain seperti createdBy, updatedBy, isDeleted jika perlu di frontend
-    // can?: { update: boolean, delete: boolean }; // Hak akses per item jika ada
+    category_id: number | null;
+    category?: CategoryProduct; // Optional relation
+    photos?: PhotoProduct[]; // Optional relation
+    creator?: User; // Optional relation
+    updater?: User; // Optional relation
+    created_at: string;
+    updated_at: string;
 }
 
-// Komponen Pagination (contoh sederhana)
-// Anda mungkin punya komponen Pagination yang lebih baik
-declare module '@/components/pagination' {
-    import React from 'react';
-    interface PaginationProps {
-        links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
-        }>;
-    }
-    const Pagination: React.FC<PaginationProps>;
-    export default Pagination;
+
+export interface BreadcrumbItem {
+    title: string;
+    href: string;
 }
 
-// Pastikan InputError juga punya definisi jika belum
+export interface NavItem {
+    title: string;
+    href: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
+}
+
+/**
+
+ * Represents a group of navigation items, often used for sidebar sections.
+ */
+export interface NavGroup {
+    title: string;
+    items: NavItem[];
+}
+
+export interface PaginationProps {
+    links: Paginated<any>['links'];
+}
+
+export interface InputErrorProps extends React.HTMLAttributes<HTMLParagraphElement> {
+    message?: string;
+}
+
 declare module '@/components/input-error' {
-    import React from 'react';
-    interface InputErrorProps extends React.HTMLAttributes<HTMLParagraphElement> {
-        message?: string;
-    }
     const InputError: React.FC<InputErrorProps>;
     export default InputError;
+}
+
+declare module '@/components/pagination' {
+    const Pagination: React.FC<PaginationProps>;
+    export default Pagination;
 }

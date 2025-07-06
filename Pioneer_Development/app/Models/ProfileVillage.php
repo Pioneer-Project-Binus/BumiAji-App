@@ -50,8 +50,6 @@ class ProfileVillage extends Model
     protected $casts = [
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
-        'createdAt' => 'datetime',
-        'updatedAt' => 'datetime',
     ];
     
     /**

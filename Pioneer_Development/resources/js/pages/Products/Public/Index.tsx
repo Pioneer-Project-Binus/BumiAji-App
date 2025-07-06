@@ -180,9 +180,6 @@ export default function AdminProductIndex({ products: productsData, categories, 
             }
         }
         
-        // Ensure productsRoute.export() can construct the URL with query parameters
-        // This might require your route helper (e.g., Ziggy) to be set up for named routes
-        // and the 'admin.products.export' route to exist in your Laravel routes.
         const exportUrl = productsRoute.export(activeFilters).url;
         window.location.href = exportUrl;
 

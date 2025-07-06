@@ -5,7 +5,6 @@ import articles from './articles'
 import tourism from './tourism'
 import tourismPhotos from './tourism-photos'
 import profileVillage from './profile-village'
-import albums from './albums'
 import testimonials from './testimonials'
 import galeries from './galeries'
 import contact from './contact'
@@ -17,7 +16,6 @@ articles,
 tourism,
 tourismPhotos,
 profileVillage,
-albums,
 testimonials,
 galeries,
 contact,

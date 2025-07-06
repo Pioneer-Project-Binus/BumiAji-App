@@ -38,8 +38,6 @@ class CategoryProduct extends Model
      * @var array
      */
     protected $casts = [
-        'createdAt' => 'datetime',  
-        'updatedAt' => 'datetime',  
         'isDeleted' => 'boolean',   
     ];
     

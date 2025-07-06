@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, InertiaSharedProps, PaginatedData, CategoryProduct } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import React, { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
-import productsRoute from '@/routes/products'; // Menggunakan nama variabel yang tidak konflik
+import productsRoute from '@/routes/products';
 import { dashboard } from '@/routes';
 
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import Pagination from '@/components/pagination';
-import { format as formatDateFns } from 'date-fns'; // Memberi nama alias yang lebih jelas
+import { format as formatDateFns } from 'date-fns';
 
 import {
     Package,
@@ -26,9 +26,9 @@ import {
     Trash2,
     FilterX,
     Search,
-    BarChart3
+    BarChart3,
+    Leaf
 } from 'lucide-react';
-
 
 const ALL_CATEGORIES_VALUE = "__ALL_CATEGORIES__";
 const ALL_STATUS_VALUE = "__ALL_STATUS__";
@@ -55,7 +55,7 @@ interface Props extends InertiaSharedProps {
 interface Product {
   id: string | number;
   productName: string;
-  slug: string; // Make sure slug is available for routing
+  slug: string;
   category: {
     name: string;
     [key: string]: any; 
@@ -64,8 +64,8 @@ interface Product {
   stock: number;
   status: 'published' | 'draft' | string; 
   createdAt: string; 
-  description?: string; // Added for completeness from render
-  photos?: Array<{ id: string | number; filePath: string }>; // Added for completeness
+  description?: string;
+  photos?: Array<{ id: string | number; filePath: string }>;
   [key: string]: any; 
 }
 
@@ -147,7 +147,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
 
     const handleDelete = useCallback((product: Product) => {
         if (confirm(`Anda yakin ingin menghapus "${product.productName}"? Tindakan ini adalah soft delete.`)) { 
-            router.delete(productsRoute.destroy(product.slug).url, { // Assuming destroy uses slug
+            router.delete(productsRoute.destroy(product.slug).url, {
                 preserveScroll: true,
             });
         }
@@ -160,7 +160,6 @@ export default function AdminProductIndex({ products: productsData, categories, 
         });
     }, []);
 
-    // NEW: Handler for export button
     const handleExport = useCallback(() => {
         const currentFilters = {
             search: searchTerm,
@@ -169,7 +168,6 @@ export default function AdminProductIndex({ products: productsData, categories, 
             sort: filters.sort,
             direction: filters.direction,
         };
-        // Remove empty filters to keep URL clean
         const activeFilters: Record<string, string> = {};
         for (const key in currentFilters) {
             if (Object.prototype.hasOwnProperty.call(currentFilters, key)) {
@@ -180,12 +178,8 @@ export default function AdminProductIndex({ products: productsData, categories, 
             }
         }
         
-        // Ensure productsRoute.export() can construct the URL with query parameters
-        // This might require your route helper (e.g., Ziggy) to be set up for named routes
-        // and the 'admin.products.export' route to exist in your Laravel routes.
         const exportUrl = productsRoute.export(activeFilters).url;
         window.location.href = exportUrl;
-
     }, [searchTerm, selectedCategory, selectedStatus, filters.sort, filters.direction]);
 
     const getNestedValue = (obj: any, path: string): any => {
@@ -205,20 +199,20 @@ export default function AdminProductIndex({ products: productsData, categories, 
                 <div className="flex items-center gap-3">
                     {row.photos && row.photos.length > 0 && row.photos[0].filePath ? (
                         <img
-                            src={`${row.photos[0].filePath}`} // Assuming filePath is already a full URL from backend
+                            src={`${row.photos[0].filePath}`}
                             alt={row.productName}
-                            className="h-12 w-12 rounded-lg object-cover shadow-sm ring-1 ring-slate-200 dark:ring-slate-700"
+                            className="h-12 w-12 rounded-lg object-cover shadow-sm ring-1 ring-emerald-200 dark:ring-emerald-700"
                             loading="lazy"
                         />
                     ) : (
-                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-                            <Package className="h-6 w-6 text-slate-400 dark:text-slate-500" />
+                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-emerald-100 to-green-200 dark:from-emerald-800 dark:to-green-900 flex items-center justify-center shadow-sm ring-1 ring-emerald-200 dark:ring-emerald-700">
+                            <Package className="h-6 w-6 text-emerald-500 dark:text-emerald-400" />
                         </div>
                     )}
                     <div>
                         <Link
-                            href={productsRoute.show(row.slug).url} // Assuming show uses slug
-                            className="font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            href={productsRoute.show(row.slug).url}
+                            className="font-medium text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         >
                             {row.productName}
                         </Link>
@@ -235,10 +229,10 @@ export default function AdminProductIndex({ products: productsData, categories, 
     {
         key: 'category.name',
         label: 'Category',
-        sortable: true, // Note: Sorting by category.name might need backend adjustment if not directly supported
+        sortable: true,
         render: (value: string | undefined, row: Product) => {
             return (
-                <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                <Badge variant="secondary" className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700">
                     {value || 'Uncategorized'}
                 </Badge>
             );
@@ -269,8 +263,8 @@ export default function AdminProductIndex({ products: productsData, categories, 
                         value <= 5
                             ? 'text-red-600 dark:text-red-400'
                             : value <= 20
-                                ? 'text-yellow-600 dark:text-yellow-400'
-                                : 'text-green-600 dark:text-green-400'
+                                ? 'text-amber-600 dark:text-amber-400'
+                                : 'text-emerald-600 dark:text-emerald-400'
                     ) : 'text-slate-500 dark:text-slate-400'}`}>
                         {typeof value === 'number' ? formatNumber(value) : 'N/A'}
                     </span>
@@ -291,22 +285,22 @@ export default function AdminProductIndex({ products: productsData, categories, 
             const statusConfig = {
                 published: {
                     label: 'Published',
-                    className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
+                    className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700',
                     icon: <TrendingUp className="h-3 w-3" />
                 },
                 draft: {
                     label: 'Draft',
-                    className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
+                    className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border-amber-200 dark:border-amber-700',
                     icon: <Edit3 className="h-3 w-3" />
                 },
-                outofstock: { // Ensure this key matches your backend status value if different
+                outofstock: {
                     label: 'Out of Stock',
-                    className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+                    className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border-red-200 dark:border-red-700',
                     icon: <TrendingDown className="h-3 w-3" />
                 }
             };
             const currentStatus = value as keyof typeof statusConfig;
-            const config = statusConfig[currentStatus] || statusConfig.draft; // Default to draft if unknown
+            const config = statusConfig[currentStatus] || statusConfig.draft;
             return (
                 <Badge className={`flex items-center gap-1 ${config.className}`}>
                     {config.icon}
@@ -334,7 +328,6 @@ export default function AdminProductIndex({ products: productsData, categories, 
     }
 ], [formatPrice, formatNumber]);
 
-
     const actions = useMemo(() => [
         {
             label: 'View',
@@ -350,28 +343,27 @@ export default function AdminProductIndex({ products: productsData, categories, 
         },
         {
             label: 'Delete',
-            icon: <Trash2 className="h-4 w-4" />, // Icon color fixed in button className
+            icon: <Trash2 className="h-4 w-4" />,
             onClick: handleDelete,
             variant: 'destructive' as const,
         },
-    ], [handleDelete]); // router is stable, no need to include
-
+    ], [handleDelete]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Admin: Product Management">
                 <meta name="description" content="Halaman untuk mengelola produk admin, termasuk filter, sorting, dan operasi lainnya pada katalog produk." />
             </Head>
-            <div className="min-h-screen py-8 px-4 md:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <div className="min-h-screen py-8 px-4 md:px-6 lg:px-8 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100 dark:from-emerald-900 dark:via-green-900 dark:to-teal-900">
                 <div className="max-w-7xl mx-auto space-y-8">
                     {/* Header */}
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                         <div className="flex items-center gap-4">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg">
-                                <Package className="h-7 w-7" />
+                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg">
+                                <Leaf className="h-7 w-7" />
                             </div>
                             <div>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                                <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
                                     Product Management
                                 </h1>
                                 <p className="text-slate-600 dark:text-slate-400 mt-1">
@@ -386,18 +378,17 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                 variant="outline"
                                 size="sm"
                                 disabled={isRefreshing}
-                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
+                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-emerald-200 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                             >
                                 <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
                                 Refresh
                             </Button>
 
-                            {/* UPDATED EXPORT BUTTON */}
                             <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
-                                onClick={handleExport} // Call the new handler
+                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-emerald-200 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+                                onClick={handleExport}
                             >
                                 <Download className="h-4 w-4 mr-2" />
                                 Export
@@ -405,7 +396,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
 
                             <Button
                                 onClick={() => router.visit(productsRoute.create().url)}
-                                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg"
+                                className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-lg"
                             >
                                 <PlusCircle className="h-4 w-4 mr-2" />
                                 Add Product
@@ -413,32 +404,32 @@ export default function AdminProductIndex({ products: productsData, categories, 
                         </div>
                     </div>
 
-                    {/* Stats Cards */}
+                    {/* Stats Cards - Removed out_of_stock and total_value */}
                     {stats && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-200/50 dark:border-emerald-700/50">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Products</p>
                                         <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{formatNumber(stats.total_products)}</p>
                                     </div>
-                                    <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                                        <Package className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                    <div className="h-12 w-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
+                                        <Package className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
+                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-200/50 dark:border-emerald-700/50">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Published</p>
-                                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">{formatNumber(stats.published_products)}</p>
+                                        <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(stats.published_products)}</p>
                                     </div>
-                                    <div className="h-12 w-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                                        <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                                    <div className="h-12 w-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
+                                        <TrendingUp className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
+                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-200/50 dark:border-emerald-700/50">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Draft</p>
@@ -449,58 +440,36 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Out of Stock</p>
-                                        <p className="text-2xl font-bold text-red-600 dark:text-red-400">{formatNumber(stats.out_of_stock)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                                        <TrendingDown className="h-6 w-6 text-red-600 dark:text-red-400" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Value</p>
-                                        <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{formatPrice(stats.total_value)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
-                                        <BarChart3 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     )}
 
                     {/* Filters */}
-                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
+                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-200/50 dark:border-emerald-700/50">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="search">Search Products</Label> {/* Added htmlFor */}
+                                <Label htmlFor="search" className="text-emerald-700 dark:text-emerald-300">Search Products</Label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-400" />
                                     <Input
                                         id="search"
                                         type="text"
                                         placeholder="Cari berdasarkan nama atau deskripsi..."
                                         value={searchTerm}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                                        className="pl-10 bg-white/50 dark:bg-slate-900/50"
+                                        className="pl-10 bg-white/50 dark:bg-slate-900/50 border-emerald-200 dark:border-emerald-700 focus:border-emerald-400 dark:focus:border-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Category</Label>
+                                <Label className="text-emerald-700 dark:text-emerald-300">Category</Label>
                                 <Select
                                     value={selectedCategory === '' ? ALL_CATEGORIES_VALUE : selectedCategory}
                                     onValueChange={(value) => {
                                         setSelectedCategory(value === ALL_CATEGORIES_VALUE ? "" : value);
                                     }}
                                 >
-                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50">
+                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50 border-emerald-200 dark:border-emerald-700 focus:border-emerald-400 dark:focus:border-emerald-500">
                                         <SelectValue placeholder="All Categories" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -515,14 +484,14 @@ export default function AdminProductIndex({ products: productsData, categories, 
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Status</Label>
+                                <Label className="text-emerald-700 dark:text-emerald-300">Status</Label>
                                 <Select
                                     value={selectedStatus === '' ? ALL_STATUS_VALUE : selectedStatus}
                                     onValueChange={(value) => {
                                         setSelectedStatus(value === ALL_STATUS_VALUE ? "" : value);
                                     }}
                                 >
-                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50">
+                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50 border-emerald-200 dark:border-emerald-700 focus:border-emerald-400 dark:focus:border-emerald-500">
                                         <SelectValue placeholder="All Status" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -538,7 +507,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                 <Button
                                     onClick={clearFilters}
                                     variant="outline"
-                                    className="w-full bg-white/50 dark:bg-slate-900/50"
+                                    className="w-full bg-white/50 dark:bg-slate-900/50 border-emerald-200 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300"
                                 >
                                     <FilterX className="h-4 w-4 mr-2" />
                                     Clear Filters
@@ -548,14 +517,14 @@ export default function AdminProductIndex({ products: productsData, categories, 
                     </div>
                     
                     {/* Data Table */}
-                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 dark:border-slate-700/50 overflow-x-auto">
+                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-emerald-200/50 dark:border-emerald-700/50 overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-slate-50 dark:bg-slate-800/50">
+                            <thead className="bg-emerald-50 dark:bg-emerald-900/20">
                                 <tr>
                                     {columns.map((col) => (
                                         <th
                                             key={col.key}
-                                            className={`p-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ${col.className || ''} ${col.sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors' : ''}`}
+                                            className={`p-4 text-left text-xs font-medium text-emerald-700 dark:text-emerald-300 uppercase tracking-wider ${col.className || ''} ${col.sortable ? 'cursor-pointer hover:bg-emerald-100 dark:hover:bg-emerald-800/30 transition-colors' : ''}`}
                                             onClick={() => col.sortable && handleSort(col.key)}
                                         >
                                             <div className="flex items-center gap-1">
@@ -566,12 +535,12 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                             </div>
                                         </th>
                                     ))}
-                                    <th className="p-4 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+                                    <th className="p-4 text-right text-xs font-medium text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                            <tbody className="divide-y divide-emerald-100 dark:divide-emerald-800">
                                 {productsData.data.map((product) => (
-                                    <tr key={product.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
+                                    <tr key={product.id} className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition-colors">
                                         {columns.map((col) => (
                                             <td key={`${product.id}-${col.key}`} className={`p-4 whitespace-nowrap ${col.className || ''}`}>
                                                 {(() => {
@@ -588,10 +557,9 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                                         onClick={() => action.onClick(product)}
                                                         variant={action.variant}
                                                         size="sm"
-                                                        // Adjusted className for destructive button icon color
                                                         className={action.variant === 'destructive' ?
                                                             "border-red-500 text-red-500 hover:bg-red-100 hover:text-red-700 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/50 dark:hover:text-red-300 [&>svg]:text-red-500 dark:[&>svg]:text-red-400"
-                                                            : "border-slate-300 text-slate-600 hover:bg-slate-50 hover:border-slate-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:hover:border-slate-500"
+                                                            : "border-emerald-300 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-400 dark:border-emerald-600 dark:text-emerald-300 dark:hover:bg-emerald-900/20 dark:hover:border-emerald-500"
                                                         }
                                                     >
                                                         {action.icon}
@@ -607,7 +575,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
 
                         {productsData.data.length === 0 && (
                             <div className="text-center py-12">
-                                <Package className="h-16 w-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
+                                <Package className="h-16 w-16 text-emerald-400 dark:text-emerald-500 mx-auto mb-4" />
                                 <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">
                                     Tidak ada produk ditemukan
                                 </h3>
@@ -617,13 +585,13 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                         : "Mulai dengan membuat produk pertama Anda."
                                     }
                                 </p>
-                                    <Button
-                                        onClick={() => router.visit(productsRoute.create().url)}
-                                        className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white"
-                                    >
-                                        <PlusCircle className="h-4 w-4 mr-2" />
-                                        Buat Produk Pertama Anda
-                                    </Button>
+                                <Button
+                                    onClick={() => router.visit(productsRoute.create().url)}
+                                    className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white"
+                                >
+                                    <PlusCircle className="h-4 w-4 mr-2" />
+                                    Buat Produk Pertama Anda
+                                </Button>
                             </div>
                         )}
                     </div>

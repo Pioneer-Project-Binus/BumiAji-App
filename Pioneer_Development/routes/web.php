@@ -23,7 +23,6 @@ require __DIR__.'/articles.php';
 require __DIR__.'/tourism.php';
 require __DIR__.'/tourismPhoto.php';
 require __DIR__.'/profileVillage.php';
-require __DIR__.'/albums.php';
 require __DIR__.'/testimonials.php';
 require __DIR__.'/galeries.php';
 require __DIR__.'/contact.php';

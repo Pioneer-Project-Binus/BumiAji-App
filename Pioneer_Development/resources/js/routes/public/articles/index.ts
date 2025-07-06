@@ -1,59 +1,111 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
-* @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+* @see \App\Http\Controllers\ArticleController::indexPublic
+ * @see app/Http/Controllers/ArticleController.php:39
  * @route '/artikel'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 
-index.definition = {
+indexPublic.definition = {
     methods: ['get','head'],
     url: '/artikel',
 }
 
 /**
-* @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+* @see \App\Http\Controllers\ArticleController::indexPublic
+ * @see app/Http/Controllers/ArticleController.php:39
  * @route '/artikel'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+* @see \App\Http\Controllers\ArticleController::indexPublic
+ * @see app/Http/Controllers/ArticleController.php:39
  * @route '/artikel'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\ArticleController::index
- * @see app/Http/Controllers/ArticleController.php:18
+* @see \App\Http\Controllers\ArticleController::indexPublic
+ * @see app/Http/Controllers/ArticleController.php:39
  * @route '/artikel'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: indexPublic.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/artikel/landing'
+ */
+export const landing = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: landing.url(options),
+    method: 'get',
+})
+
+landing.definition = {
+    methods: ['get','head'],
+    url: '/artikel/landing',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/artikel/landing'
+ */
+landing.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return landing.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/artikel/landing'
+ */
+landing.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: landing.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::landing
+ * @see app/Http/Controllers/ArticleController.php:17
+ * @route '/artikel/landing'
+ */
+landing.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: landing.url(options),
     method: 'head',
 })
 
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:202
  * @route '/artikel/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +123,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:202
  * @route '/artikel/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -97,7 +149,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:202
  * @route '/artikel/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -109,7 +161,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\ArticleController::show
- * @see app/Http/Controllers/ArticleController.php:72
+ * @see app/Http/Controllers/ArticleController.php:202
  * @route '/artikel/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -120,7 +172,8 @@ show.head = (args: { slug: string | number } | [slug: string | number ] | string
     method: 'head',
 })
 const articles = {
-    index,
+    indexPublic,
+landing,
 show,
 }
 

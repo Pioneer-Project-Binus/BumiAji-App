@@ -15,6 +15,10 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
+    --breakpoint-phone: 402px;
+    --breakpoint-tablet: 834px;
+    --breakpoint-desktop: 1280px;
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
@@ -156,4 +160,10 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif !important;
 }

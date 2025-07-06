@@ -16,7 +16,6 @@ class ProfileVillageController extends Controller
 
     public function index(Request $request)
     {
-        // Ambil semua profil desa yang tidak dihapus, urut berdasarkan created_at terbaru
         $profileVillages = ProfileVillage::where('isDeleted', false)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -46,7 +45,7 @@ class ProfileVillageController extends Controller
 
     public function showOrCreate(Request $request)
     {
-        $profileVillage = ProfileVillage::first(); // Ambil profil pertama, asumsi hanya satu
+        $profileVillage = ProfileVillage::first(); 
 
         if ($request->wantsJson()) {
             if ($profileVillage) {
@@ -56,13 +55,11 @@ class ProfileVillageController extends Controller
             }
         }
         
-        return Inertia::render('ProfileVillage/Edit', [ // Atau 'ProfileVillage/Form'
+        return Inertia::render('ProfileVillage/Edit', [
             'profileVillage' => $profileVillage
         ]);
     }
 
-
-    // Menyimpan atau memperbarui profil desa
     public function storeOrUpdate(Request $request)
     {
         $profileVillage = ProfileVillage::first();
@@ -79,7 +76,7 @@ class ProfileVillageController extends Controller
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
             'website' => 'nullable|url|max:255',
-            'socialMedia' => 'nullable|string', // Migrasi menggunakan string, bukan JSON
+            'socialMedia' => 'nullable|string', 
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
         ];
@@ -109,12 +106,11 @@ class ProfileVillageController extends Controller
         $profileVillage->phone = $request->phone;
         $profileVillage->email = $request->email;
         $profileVillage->website = $request->website;
-        $profileVillage->socialMedia = $request->socialMedia; // Jika ingin JSON, ubah migrasi dan parsing di sini
+        $profileVillage->socialMedia = $request->socialMedia;
         $profileVillage->latitude = $request->latitude;
         $profileVillage->longitude = $request->longitude;
 
         if ($request->hasFile('logo')) {
-            // Hapus logo lama jika ada dan sedang update
             if (!$isCreating && $profileVillage->logo && Storage::disk('public')->exists($profileVillage->logo)) {
                 Storage::disk('public')->delete($profileVillage->logo);
             }
@@ -139,28 +135,4 @@ class ProfileVillageController extends Controller
         return redirect()->route('profile-village.show') // Arahkan ke tampilan profil
                          ->with('success', $message);
     }
-    
-    /*
-    public function destroy(Request $request)
-    {
-        $profileVillage = ProfileVillage::first();
-        if ($profileVillage) {
-            if ($profileVillage->logo && Storage::disk('public')->exists($profileVillage->logo)) {
-                Storage::disk('public')->delete($profileVillage->logo);
-            }
-            $profileVillage->delete(); // Hard delete
-
-            if ($request->wantsJson()) {
-                return response()->json(['success' => true, 'message' => 'Profil desa berhasil dihapus.'], 200);
-            }
-            return redirect()->route('dashboard') // Atau halaman lain yang sesuai
-                             ->with('success', 'Profil desa berhasil dihapus.');
-        }
-
-        if ($request->wantsJson()) {
-            return response()->json(['success' => false, 'message' => 'Profil desa tidak ditemukan.'], 404);
-        }
-        return redirect()->back()->with('error', 'Profil desa tidak ditemukan.');
-    }
-    */
 }
