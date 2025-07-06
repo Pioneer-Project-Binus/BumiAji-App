@@ -178,7 +178,7 @@ export default function AdminProductCreate({ categories }: Props) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <Link
                             href={products.index().url}
                             className="group inline-flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 rounded-xl border border-slate-200/50 dark:border-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10 hover:-translate-y-0.5 backdrop-blur-sm"
@@ -377,9 +377,9 @@ export default function AdminProductCreate({ categories }: Props) {
                                         <div className="text-slate-600 dark:text-slate-400">
                                             <p className="text-sm">Ready to add this fresh product to your store?</p>
                                         </div>
-                                        <Button 
-                                            type="submit" 
-                                            disabled={processing} 
+                                        <Button
+                                            type="submit"
+                                            disabled={processing}
                                             className="group h-14 px-10 text-lg font-bold bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 text-white rounded-xl shadow-xl shadow-green-500/25 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/40 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]"
                                         >
                                             {processing ? (
@@ -430,48 +430,48 @@ export default function AdminProductCreate({ categories }: Props) {
                     backdrop-filter: blur(4px) !important;
                     transition: all 0.3s ease !important;
                 }
-                
+
                 .note-editor:focus-within {
                     border-color: rgb(34 197 94) !important;
                     box-shadow: 0 0 0 4px rgba(34 197 94 / 0.2) !important;
                     background: white !important;
                 }
-                
+
                 .note-toolbar {
                     background: linear-gradient(to right, rgba(240 253 244 / 0.8), rgba(236 253 245 / 0.8)) !important;
                     border-bottom: 1px solid rgba(34 197 94 / 0.2) !important;
                     border-radius: 12px 12px 0 0 !important;
                 }
-                
+
                 .note-editing-area {
                     border-radius: 0 0 12px 12px !important;
                 }
-                
+
                 .note-btn {
                     border-radius: 6px !important;
                     transition: all 0.2s ease !important;
                 }
-                
+
                 .note-btn:hover {
                     background: rgba(34 197 94 / 0.1) !important;
                     color: rgb(34 197 94) !important;
                 }
-                
+
                 .note-btn.active {
                     background: rgb(34 197 94) !important;
                     color: white !important;
                 }
-                
+
                 .dark .note-editor {
                     border-color: rgb(75 85 99) !important;
                     background: rgba(51 65 85 / 0.5) !important;
                 }
-                
+
                 .dark .note-editor:focus-within {
                     border-color: rgb(34 197 94) !important;
                     background: rgb(51 65 85) !important;
                 }
-                
+
                 .dark .note-toolbar {
                     background: linear-gradient(to right, rgba(51 65 85 / 0.5), rgba(15 23 42 / 0.3)) !important;
                     border-bottom-color: rgba(34 197 94 / 0.2) !important;
