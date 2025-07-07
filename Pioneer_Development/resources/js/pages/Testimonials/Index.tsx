@@ -142,6 +142,14 @@
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
+                                 {/* Tombol Archive */}
+                                <Link
+                                    href={testimonialsRoute.archived().url}
+                                    className="inline-flex items-center px-4 py-2 rounded-xl border border-purple-600 text-purple-700 bg-white hover:bg-purple-50 transition-all font-medium text-sm"
+                                >
+                                    Archive
+                                </Link>
+
                                 <Button onClick={handleRefresh} variant="outline" size="sm" disabled={isRefreshing} className="bg-white/70 dark:bg-slate-800/70"><RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} /> Refresh</Button>
                                 {can.create_testimonial && <Button asChild className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white shadow-lg"><Link href={testimonialsRoute.create().url}><PlusCircle className="h-4 w-4 mr-2" /> Add Testimonial</Link></Button>}
                             </div>

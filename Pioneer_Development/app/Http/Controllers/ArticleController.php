@@ -361,4 +361,73 @@ public function indexAdmin(Request $request)
 
             return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
         }
+
+        public function archivedIndex(Request $request)
+        {
+            $query = Article::with(['category', 'author'])
+                ->where('isDeleted', true);
+
+            if ($request->filled('search')) {
+                $query->where('title', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->filled('category') && $request->category !== 'Semua Kategori') {
+                $query->where('categoryId', $request->category);
+            }
+
+            if ($request->filled('status') && $request->status !== 'Semua Status') {
+                $query->where('status', $request->status);
+            }
+
+            if ($request->filled('author') && $request->author !== 'Semua Penulis') {
+                $query->where('authorId', $request->author);
+            }
+
+            $articles = $query->latest()->paginate(10)->withQueryString();
+
+            return Inertia::render('Articles/Archived', [
+                'articles' => $articles,
+                'categories' => CategoryArticle::all(),
+                'authors' => User::all(),
+                'filters' => $request->only(['search', 'category', 'status', 'author']),
+            ]);
+        }
+
+
+        public function restore(Request $request, $slug)
+        {
+            $article = Article::where('slug', $slug)
+                ->where('isDeleted', true)
+                ->firstOrFail();
+
+            $article->isDeleted = false;
+            $article->updatedBy = Auth::id();
+            $article->save();
+
+            if ($request->wantsJson()) {
+                return response()->json(['success' => true, 'message' => 'Artikel berhasil dipulihkan']);
+            }
+
+            return redirect()->route('articles.index')->with('success', 'Artikel berhasil dipulihkan.');
+        }
+
+        public function deletePermanent(Request $request, $slug)
+        {
+            $article = Article::where('slug', $slug)
+                ->where('isDeleted', true)
+                ->firstOrFail();
+
+            // Hapus gambar jika ada
+            if ($article->featuredImage && Storage::disk('public')->exists($article->featuredImage)) {
+                Storage::disk('public')->delete($article->featuredImage);
+            }
+
+            $article->delete(); // Hapus permanen dari DB
+
+            if ($request->wantsJson()) {
+                return response()->json(['success' => true, 'message' => 'Artikel dihapus permanen']);
+            }
+
+            return redirect()->route('articles.archived')->with('success', 'Artikel berhasil dihapus permanen.');
+        }
     }

@@ -161,6 +161,18 @@ function ActionButtons() {
     );
 }
 
+function ArchiveButton(){
+    return (
+        <div className="flex flex-wrap gap-3">
+                <Link href={categoryArticlesRoutes.archived().url}>
+                    <Button size="lg" className="h-12 text-base font-bold bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 group">
+                        <PlusCircle className="mr-2 h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
+                        Archive
+                    </Button>
+                </Link>
+            </div>
+    );
+}
 // --- Enhanced Table Row Component ---
 function CategoryTableRow({
     category,
@@ -401,7 +413,10 @@ function CategoryTableContent({ categoryArticles, filters, stats, auth, errors, 
                                 </Button>
                             </div>
                         </div>
-                        <ActionButtons/>
+                        <div className="flex gap-3 ml-auto">
+                            <ArchiveButton />
+                            <ActionButtons />
+                        </div>
                     </div>
                 </div>
 

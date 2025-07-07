@@ -303,4 +303,56 @@ class GaleryController extends Controller
             ? response()->json(['success' => true, 'message' => 'Item galeri berhasil dihapus'], 200)
             : redirect()->route('galeries.index')->with('success', 'Item galeri berhasil dihapus.');
     }
+
+    public function archivedIndex(Request $request)
+    {
+        $query = Galery::where('isDeleted', true)
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $galeries = $query->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'data' => $galeries, 'message' => 'Daftar arsip galeri berhasil diambil']);
+        }
+
+        return Inertia::render('Galeries/Archived', [
+            'galeries' => $galeries,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function restore(Request $request, string $slug)
+    {
+        $galery = Galery::where('slug', $slug)->where('isDeleted', true)->firstOrFail();
+        $galery->isDeleted = false;
+        $galery->updatedBy = Auth::id();
+        $galery->save();
+
+        return $request->wantsJson()
+            ? response()->json(['success' => true, 'message' => 'Galeri berhasil dipulihkan.'])
+            : redirect()->route('galeries.archived')->with('success', 'Galeri berhasil dipulihkan.');
+    }
+
+    public function deletePermanent(Request $request, string $slug)
+    {
+        $galery = Galery::where('slug', $slug)->where('isDeleted', true)->firstOrFail();
+
+        if ($galery->type === 'photo' && $galery->filePath && Storage::disk('public')->exists($galery->filePath)) {
+            Storage::disk('public')->delete($galery->filePath);
+        }
+
+        $galery->delete();
+
+        return $request->wantsJson()
+            ? response()->json(['success' => true, 'message' => 'Galeri berhasil dihapus permanen.'])
+            : redirect()->route('galeries.archived')->with('success', 'Galeri berhasil dihapus permanen.');
+    }
 }

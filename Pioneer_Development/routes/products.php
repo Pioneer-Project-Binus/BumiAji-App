@@ -14,6 +14,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
+    Route::get('/products/archived', [ProductController::class, 'archived'])->name('products.archived');
+    Route::put('/products/{slug}/restore', [ProductController::class, 'restore'])->name('products.restore');
+    Route::delete('/products/{slug}/delete-permanent', [ProductController::class, 'deletePermanent'])->name('products.deletePermanent');
     Route::get('/products/{slug}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{slug}', [ProductController::class, 'update'])->name('products.update');
     Route::post('/products/{slug}/update', [ProductController::class, 'update'])->name('products.update.withfile');

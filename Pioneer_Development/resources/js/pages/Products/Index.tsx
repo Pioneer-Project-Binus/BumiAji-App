@@ -394,6 +394,14 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                 Export
                             </Button>
 
+                             {/* Tombol Archive */}
+                                <Link
+                                    href={productsRoute.archived().url}
+                                    className="inline-flex items-center px-4 py-2 rounded-xl border border-purple-600 text-purple-700 bg-white hover:bg-purple-50 transition-all font-medium text-sm"
+                                >
+                                    Archive
+                                </Link>
+
                             <Button
                                 onClick={() => router.visit(productsRoute.create().url)}
                                 className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-lg"

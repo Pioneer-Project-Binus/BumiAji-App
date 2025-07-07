@@ -104,6 +104,58 @@ indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
 })
 
 /**
+* @see \App\Http\Controllers\CategoryArticleController::archivedIndex
+ * @see app/Http/Controllers/CategoryArticleController.php:208
+ * @route '/category-articles/archived'
+ */
+export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+
+archivedIndex.definition = {
+    methods: ['get','head'],
+    url: '/category-articles/archived',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::archivedIndex
+ * @see app/Http/Controllers/CategoryArticleController.php:208
+ * @route '/category-articles/archived'
+ */
+archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archivedIndex.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::archivedIndex
+ * @see app/Http/Controllers/CategoryArticleController.php:208
+ * @route '/category-articles/archived'
+ */
+archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\CategoryArticleController::archivedIndex
+ * @see app/Http/Controllers/CategoryArticleController.php:208
+ * @route '/category-articles/archived'
+ */
+archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\CategoryArticleController::create
  * @see app/Http/Controllers/CategoryArticleController.php:74
  * @route '/category-articles/create'
@@ -377,6 +429,120 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const CategoryArticleController = { indexPublic, indexAdmin, create, store, edit, update, destroy }
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::restore
+ * @see app/Http/Controllers/CategoryArticleController.php:237
+ * @route '/category-articles/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/category-articles/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::restore
+ * @see app/Http/Controllers/CategoryArticleController.php:237
+ * @route '/category-articles/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::restore
+ * @see app/Http/Controllers/CategoryArticleController.php:237
+ * @route '/category-articles/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::deletePermanent
+ * @see app/Http/Controllers/CategoryArticleController.php:257
+ * @route '/category-articles/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/category-articles/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::deletePermanent
+ * @see app/Http/Controllers/CategoryArticleController.php:257
+ * @route '/category-articles/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryArticleController::deletePermanent
+ * @see app/Http/Controllers/CategoryArticleController.php:257
+ * @route '/category-articles/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+const CategoryArticleController = { indexPublic, indexAdmin, archivedIndex, create, store, edit, update, destroy, restore, deletePermanent }
 
 export default CategoryArticleController

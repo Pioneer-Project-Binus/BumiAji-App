@@ -232,4 +232,62 @@ class TestimonialController extends Controller
         }
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil dihapus.'); // Arahkan ke index admin
     }
+    // Menampilkan daftar testimoni yang diarsipkan
+    public function archivedIndex(Request $request)
+    {
+        $query = Testimonial::with('creator')
+            ->where('isDeleted', true)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('message', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $testimonials = $query->paginate(10);
+
+        $testimonials->getCollection()->transform(function ($testimonial) {
+            $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
+            return $testimonial;
+        });
+
+        return Inertia::render('Testimonials/Archived', [
+            'testimonials' => $testimonials,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    // Mengembalikan (restore) testimoni dari archive
+    public function restore(string $slug)
+    {
+        $testimonial = Testimonial::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $testimonial->isDeleted = false;
+        $testimonial->save();
+
+        return redirect()->route('testimonials.archived')->with('success', 'Testimoni berhasil dipulihkan.');
+    }
+
+    // Menghapus permanen testimoni
+    public function deletePermanent(string $slug)
+    {
+        $testimonial = Testimonial::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        // Hapus foto dari storage jika ada
+        if ($testimonial->photo && Storage::disk('public')->exists($testimonial->photo)) {
+            Storage::disk('public')->delete($testimonial->photo);
+        }
+
+        $testimonial->delete(); // Hapus dari database secara permanen
+
+        return redirect()->route('testimonials.archived')->with('success', 'Testimoni berhasil dihapus secara permanen.');
+    }
+
 }

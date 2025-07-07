@@ -233,14 +233,27 @@ export default function Index({ articles, categories, authors, filters }: Props)
                     
                     {/* Table Card */}
                     <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-slate-700/50 overflow-hidden">
-                        <div className="p-6 flex justify-between items-center border-b border-gray-200/80 dark:border-slate-700/80">
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Daftar Artikel ({articles.total})</h3>
+                        <div className="p-6 flex flex-wrap justify-between items-center gap-4 border-b border-gray-200/80 dark:border-slate-700/80">
+                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                                Daftar Artikel ({articles.total})
+                            </h3>
+                            <div className="flex gap-3">
+                                <Link href={articlesRoute.archived().url}>
+                                    <Button
+                                        variant="outline"
+                                        className="h-12 text-base font-semibold border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700"
+                                    >
+                                        <RotateCcw className="mr-2 h-5 w-5" />
+                                        Arsip
+                                    </Button>
+                                </Link>
                                 <Link href={articlesRoute.create().url}>
                                     <Button size="lg" className="h-12 text-base font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
                                         <PlusCircle className="mr-2 h-5 w-5" />
                                         Buat Artikel
                                     </Button>
                                 </Link>
+                            </div>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="min-w-full text-base">

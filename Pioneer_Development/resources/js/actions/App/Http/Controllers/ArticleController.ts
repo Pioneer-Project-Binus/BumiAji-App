@@ -351,6 +351,58 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\ArticleController::archivedIndex
+ * @see app/Http/Controllers/ArticleController.php:365
+ * @route '/articles/archived'
+ */
+export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+
+archivedIndex.definition = {
+    methods: ['get','head'],
+    url: '/articles/archived',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::archivedIndex
+ * @see app/Http/Controllers/ArticleController.php:365
+ * @route '/articles/archived'
+ */
+archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archivedIndex.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::archivedIndex
+ * @see app/Http/Controllers/ArticleController.php:365
+ * @route '/articles/archived'
+ */
+archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ArticleController::archivedIndex
+ * @see app/Http/Controllers/ArticleController.php:365
+ * @route '/articles/archived'
+ */
+archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ArticleController::store
  * @see app/Http/Controllers/ArticleController.php:230
  * @route '/articles'
@@ -634,6 +686,120 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const ArticleController = { indexPublic, landing, show, indexAdmin, create, store, edit, update, destroy }
+
+/**
+* @see \App\Http\Controllers\ArticleController::restore
+ * @see app/Http/Controllers/ArticleController.php:397
+ * @route '/articles/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: restore.url(args, options),
+    method: 'post',
+})
+
+restore.definition = {
+    methods: ['post'],
+    url: '/articles/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::restore
+ * @see app/Http/Controllers/ArticleController.php:397
+ * @route '/articles/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::restore
+ * @see app/Http/Controllers/ArticleController.php:397
+ * @route '/articles/{slug}/restore'
+ */
+restore.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: restore.url(args, options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\ArticleController::deletePermanent
+ * @see app/Http/Controllers/ArticleController.php:414
+ * @route '/articles/{slug}/permanent-delete'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/articles/{slug}/permanent-delete',
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::deletePermanent
+ * @see app/Http/Controllers/ArticleController.php:414
+ * @route '/articles/{slug}/permanent-delete'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ArticleController::deletePermanent
+ * @see app/Http/Controllers/ArticleController.php:414
+ * @route '/articles/{slug}/permanent-delete'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+const ArticleController = { indexPublic, landing, show, indexAdmin, create, archivedIndex, store, edit, update, destroy, restore, deletePermanent }
 
 export default ArticleController

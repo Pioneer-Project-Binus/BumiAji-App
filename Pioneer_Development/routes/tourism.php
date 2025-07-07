@@ -12,6 +12,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/tourism', [TourismController::class, 'index'])->name('tourism.index'); // Index Admin
     Route::get('/tourism/create', [TourismController::class, 'create'])->name('tourism.create');
     Route::post('/tourism', [TourismController::class, 'store'])->name('tourism.store');
+    Route::get('/tourism/archived', [TourismController::class, 'archivedIndex'])->name('tourism.archived');
+    Route::put('/tourism/{slug}/restore', [TourismController::class, 'restore'])->name('tourism.restore');
+    Route::delete('/tourism/{slug}/delete-permanent', [TourismController::class, 'deletePermanent'])->name('tourism.deletePermanent');
     Route::get('/tourism/{slug}/edit', [TourismController::class, 'edit'])->name('tourism.edit');
     Route::put('/tourism/{slug}', [TourismController::class, 'update'])->name('tourism.update');
     Route::delete('/tourism/{slug}', [TourismController::class, 'destroy'])->name('tourism.destroy');

@@ -52,6 +52,58 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\CategoryProductController::archived
+ * @see app/Http/Controllers/CategoryProductController.php:216
+ * @route '/category-products/archived'
+ */
+export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+
+archived.definition = {
+    methods: ['get','head'],
+    url: '/category-products/archived',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::archived
+ * @see app/Http/Controllers/CategoryProductController.php:216
+ * @route '/category-products/archived'
+ */
+archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archived.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::archived
+ * @see app/Http/Controllers/CategoryProductController.php:216
+ * @route '/category-products/archived'
+ */
+archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\CategoryProductController::archived
+ * @see app/Http/Controllers/CategoryProductController.php:216
+ * @route '/category-products/archived'
+ */
+archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archived.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\CategoryProductController::create
  * @see app/Http/Controllers/CategoryProductController.php:51
  * @route '/category-products/create'
@@ -394,14 +446,131 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::restore
+ * @see app/Http/Controllers/CategoryProductController.php:246
+ * @route '/category-products/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/category-products/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::restore
+ * @see app/Http/Controllers/CategoryProductController.php:246
+ * @route '/category-products/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::restore
+ * @see app/Http/Controllers/CategoryProductController.php:246
+ * @route '/category-products/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::deletePermanent
+ * @see app/Http/Controllers/CategoryProductController.php:266
+ * @route '/category-products/{slug}/permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/category-products/{slug}/permanent',
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::deletePermanent
+ * @see app/Http/Controllers/CategoryProductController.php:266
+ * @route '/category-products/{slug}/permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CategoryProductController::deletePermanent
+ * @see app/Http/Controllers/CategoryProductController.php:266
+ * @route '/category-products/{slug}/permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
 const categoryProducts = {
     index,
+archived,
 create,
 store,
 show,
 edit,
 update,
 destroy,
+restore,
+deletePermanent,
 }
 
 export default categoryProducts

@@ -185,4 +185,54 @@ class TourismPhotoController extends Controller
         }
         return redirect()->back()->with('success', 'Foto wisata berhasil dihapus.');
     }
+
+    // Menampilkan daftar foto wisata yang sudah dihapus (arsip)
+    public function archivedIndex(Request $request)
+    {
+        $query = PhotoTourism::with('destination')
+            ->where('isDeleted', true)
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where('filePath', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%")
+                ->orWhereHas('destination', function($q) use ($searchTerm){
+                    $q->where('name', 'like', "%{$searchTerm}%");
+                });
+        }
+
+        $tourismPhotos = $query->paginate(10);
+
+        return Inertia::render('TourismPhotos/Archived', [
+            'tourismPhotos' => $tourismPhotos,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    // Mengembalikan (restore) foto wisata yang diarsipkan
+    public function restore($id)
+    {
+        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($id);
+        $tourismPhoto->isDeleted = false;
+        $tourismPhoto->updatedBy = Auth::id();
+        $tourismPhoto->save();
+
+        return redirect()->back()->with('success', 'Foto wisata berhasil dipulihkan.');
+    }
+
+    // Menghapus permanen foto wisata dari arsip
+    public function deletePermanent($id)
+    {
+        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($id);
+
+        if ($tourismPhoto->filePath && Storage::disk('public')->exists($tourismPhoto->filePath)) {
+            Storage::disk('public')->delete($tourismPhoto->filePath);
+        }
+
+        $tourismPhoto->delete();
+
+        return redirect()->back()->with('success', 'Foto wisata berhasil dihapus permanen.');
+    }
+
 }

@@ -144,6 +144,58 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\PhotoProductController::archived
+ * @see app/Http/Controllers/PhotoProductController.php:306
+ * @route '/photo-products/archived'
+ */
+export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+
+archived.definition = {
+    methods: ['get','head'],
+    url: '/photo-products/archived',
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::archived
+ * @see app/Http/Controllers/PhotoProductController.php:306
+ * @route '/photo-products/archived'
+ */
+archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archived.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::archived
+ * @see app/Http/Controllers/PhotoProductController.php:306
+ * @route '/photo-products/archived'
+ */
+archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\PhotoProductController::archived
+ * @see app/Http/Controllers/PhotoProductController.php:306
+ * @route '/photo-products/archived'
+ */
+archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archived.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\PhotoProductController::show
  * @see app/Http/Controllers/PhotoProductController.php:155
  * @route '/photo-products/{slug}'
@@ -394,14 +446,131 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::restore
+ * @see app/Http/Controllers/PhotoProductController.php:335
+ * @route '/photo-products/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/photo-products/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::restore
+ * @see app/Http/Controllers/PhotoProductController.php:335
+ * @route '/photo-products/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::restore
+ * @see app/Http/Controllers/PhotoProductController.php:335
+ * @route '/photo-products/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::deletePermanent
+ * @see app/Http/Controllers/PhotoProductController.php:348
+ * @route '/photo-products/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/photo-products/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::deletePermanent
+ * @see app/Http/Controllers/PhotoProductController.php:348
+ * @route '/photo-products/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\PhotoProductController::deletePermanent
+ * @see app/Http/Controllers/PhotoProductController.php:348
+ * @route '/photo-products/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
 const photoProducts = {
     index,
 create,
 store,
+archived,
 show,
 edit,
 update,
 destroy,
+restore,
+deletePermanent,
 }
 
 export default photoProducts

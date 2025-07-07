@@ -145,4 +145,73 @@ class ContactController extends Controller
         return redirect()->route('admin.contacts.index')
             ->with('success', 'Pesan kontak berhasil dihapus.');
     }
+
+    public function archivedIndex(Request $request)
+    {
+        $query = Contact::where('isDeleted', true)->orderBy('sentAt', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('email', 'like', "%{$searchTerm}%")
+                ->orWhere('subject', 'like', "%{$searchTerm}%")
+                ->orWhere('slug', 'like', "%{$searchTerm}%")
+                ->orWhere('message', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $contacts = $query->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $contacts,
+                'message' => 'Kontak yang diarsipkan berhasil diambil'
+            ]);
+        }
+
+        return Inertia::render('Contacts/Archived', [
+            'contacts' => $contacts,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function restore(Request $request, string $slug)
+    {
+        $contact = Contact::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $contact->isDeleted = false;
+        $contact->save();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kontak berhasil dipulihkan'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Kontak berhasil dipulihkan.');
+    }
+
+    public function deletePermanent(Request $request, string $slug)
+    {
+        $contact = Contact::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $contact->delete(); // Soft delete nonaktif, maka ini akan menghapus permanen dari DB
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kontak berhasil dihapus permanen'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Kontak berhasil dihapus permanen.');
+    }
+
 }

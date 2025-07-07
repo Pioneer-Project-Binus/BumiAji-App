@@ -92,6 +92,58 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\ContactController::archivedIndex
+ * @see app/Http/Controllers/ContactController.php:149
+ * @route '/contacts-archived'
+ */
+export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+
+archivedIndex.definition = {
+    methods: ['get','head'],
+    url: '/contacts-archived',
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::archivedIndex
+ * @see app/Http/Controllers/ContactController.php:149
+ * @route '/contacts-archived'
+ */
+archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archivedIndex.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::archivedIndex
+ * @see app/Http/Controllers/ContactController.php:149
+ * @route '/contacts-archived'
+ */
+archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ContactController::archivedIndex
+ * @see app/Http/Controllers/ContactController.php:149
+ * @route '/contacts-archived'
+ */
+archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ContactController::show
  * @see app/Http/Controllers/ContactController.php:104
  * @route '/contacts/{id}'
@@ -216,6 +268,120 @@ destroy.delete = (args: { id: string | number } | [id: string | number ] | strin
     url: destroy.url(args, options),
     method: 'delete',
 })
-const ContactController = { store, index, show, destroy }
+
+/**
+* @see \App\Http\Controllers\ContactController::restore
+ * @see app/Http/Controllers/ContactController.php:180
+ * @route '/contacts/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/contacts/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::restore
+ * @see app/Http/Controllers/ContactController.php:180
+ * @route '/contacts/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::restore
+ * @see app/Http/Controllers/ContactController.php:180
+ * @route '/contacts/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\ContactController::deletePermanent
+ * @see app/Http/Controllers/ContactController.php:199
+ * @route '/contacts/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/contacts/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::deletePermanent
+ * @see app/Http/Controllers/ContactController.php:199
+ * @route '/contacts/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ContactController::deletePermanent
+ * @see app/Http/Controllers/ContactController.php:199
+ * @route '/contacts/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+const ContactController = { store, index, archivedIndex, show, destroy, restore, deletePermanent }
 
 export default ContactController

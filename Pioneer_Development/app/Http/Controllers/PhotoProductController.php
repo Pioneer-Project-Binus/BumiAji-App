@@ -303,4 +303,61 @@ class PhotoProductController extends Controller
         return redirect()->route('admin.products.edit', $product->slug)
             ->with('success', 'Foto produk berhasil dihapus.');
     }
+    public function archived(Request $request)
+    {
+        $query = PhotoProducts::with('product')
+            ->where('isDeleted', true);
+
+        if ($request->filled('productId')) {
+            $query->where('productId', $request->productId);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                ->orWhere('filePath', 'like', "%{$searchTerm}%")
+                ->orWhereHas('product', function($subQ) use ($searchTerm){
+                    $subQ->where('productName', 'like', "%{$searchTerm}%");
+                });
+            });
+        }
+
+        $photoProducts = $query->paginate(10);
+        $products = Product::where('isDeleted', false)->orderBy('productName')->get(['id', 'productName', 'slug']);
+
+        return Inertia::render('PhotoProducts/Archived', [
+            'photoProducts' => $photoProducts,
+            'products' => $products,
+            'filters' => $request->only(['search', 'product_id'])
+        ]);
+    }
+
+    public function restore($slug)
+    {
+        $photoProduct = PhotoProducts::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $photoProduct->isDeleted = false;
+        $photoProduct->updatedBy = Auth::id();
+        $photoProduct->save();
+
+        return redirect()->back()->with('success', 'Foto produk berhasil dipulihkan.');
+    }
+
+    public function deletePermanent($slug)
+    {
+        $photoProduct = PhotoProducts::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        if ($photoProduct->filePath && Storage::disk('public')->exists($photoProduct->filePath)) {
+            Storage::disk('public')->delete($photoProduct->filePath);
+        }
+
+        $photoProduct->delete();
+
+        return redirect()->back()->with('success', 'Foto produk berhasil dihapus permanen.');
+    }
+
 }

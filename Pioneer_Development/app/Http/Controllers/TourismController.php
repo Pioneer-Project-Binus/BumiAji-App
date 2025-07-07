@@ -214,4 +214,59 @@ class TourismController extends Controller
         }
         return redirect()->route('tourism.index')->with('success', 'Destinasi wisata berhasil dihapus.');
     }
+
+    // Menampilkan data tourism yang diarsipkan
+public function archivedIndex(Request $request)
+{
+    $query = Tourism::with(['photos', 'creator', 'updater'])
+        ->where('isDeleted', true)
+        ->orderBy('createdAt', 'desc');
+
+    if ($request->has('search')) {
+        $searchTerm = $request->search;
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('name', 'like', "%{$searchTerm}%")
+              ->orWhere('description', 'like', "%{$searchTerm}%")
+              ->orWhere('address', 'like', "%{$searchTerm}%");
+        });
+    }
+
+    $tourism = $query->paginate(10);
+
+    if ($request->wantsJson()) {
+        return response()->json(['success' => true, 'data' => $tourism]);
+    }
+
+    return Inertia::render('Tourism/Archived', [
+        'tourism' => $tourism,
+        'filters' => $request->only(['search']),
+    ]);
+}
+
+// Mengembalikan data dari arsip
+public function restore(string $slug)
+{
+    $tourism = Tourism::where('slug', $slug)
+        ->where('isDeleted', true)
+        ->firstOrFail();
+
+    $tourism->isDeleted = false;
+    $tourism->updatedBy = Auth::id();
+    $tourism->save();
+
+    return redirect()->route('tourism.archived')->with('success', 'Data destinasi berhasil dipulihkan.');
+}
+
+// Hapus permanen data
+public function deletePermanent(string $slug)
+{
+    $tourism = Tourism::where('slug', $slug)
+        ->where('isDeleted', true)
+        ->firstOrFail();
+
+    $tourism->delete(); // Hapus dari DB
+
+    return redirect()->route('tourism.archived')->with('success', 'Data destinasi berhasil dihapus permanen.');
+}
+
 }

@@ -173,6 +173,58 @@ indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
 })
 
 /**
+* @see \App\Http\Controllers\GaleryController::archivedIndex
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+
+archivedIndex.definition = {
+    methods: ['get','head'],
+    url: '/galeries/archived',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::archivedIndex
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archivedIndex.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::archivedIndex
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::archivedIndex
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\GaleryController::create
  * @see app/Http/Controllers/GaleryController.php:76
  * @route '/galeries/create'
@@ -515,6 +567,120 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const GaleryController = { indexPublic, showPublic, indexAdmin, create, store, showAdmin, edit, update, destroy }
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/galeries/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/galeries/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+const GaleryController = { indexPublic, showPublic, indexAdmin, archivedIndex, create, store, showAdmin, edit, update, destroy, restore, deletePermanent }
 
 export default GaleryController
