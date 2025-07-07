@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { usePage, router } from '@inertiajs/react';
 import productsRoute from '@/routes/public/products';
 import { Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
 
 // Tipe data produk
@@ -44,12 +45,12 @@ interface Props {
 export default function ProductList() {
   const { products, categories, filters } = usePage<Props>().props;
 
-  const [form, setForm] = useState({
+    const [form, setForm] = useState({
     search: filters.search || '',
     category: Array.isArray(filters.category) ? filters.category : (filters.category ? [filters.category] : []),
     status: Array.isArray(filters.status) ? filters.status : (filters.status ? [filters.status] : []),
-    sort: filters.sort || '',
-  });
+    sort: typeof filters.sort === 'string' ? filters.sort : '',
+    });
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -130,9 +131,29 @@ export default function ProductList() {
     }
     return `${filterName === 'sort' ? 'Sort' : filterName === 'category' ? 'Kategori' : 'Status'} (${selected.length} dipilih)`;
   };
-
+  
   return (
     <div className="min-h-screen bg-gray-100 font-sans text-gray-800">
+        <Head>
+        <title>Daftar Produk - BumiAji Store</title>
+        <meta name="description" content="Temukan berbagai produk terbaik dengan harga terjangkau hanya di BumiAji Store." />
+        <meta name="keywords" content="produk, toko, belanja online, BumiAji, murah, terbaik" />
+        <meta name="author" content="BumiAji Store" />
+
+        {/* Open Graph untuk sosmed */}
+        <meta property="og:title" content="Daftar Produk - BumiAji Store" />
+        <meta property="og:description" content="Jelajahi koleksi produk pilihan dari BumiAji Store." />
+        <meta property="og:image" content="https://placehold.co/1200x630/E5E7EB/9CA3AF?text=Produk+BumiAji" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Daftar Produk - BumiAji Store" />
+        <meta name="twitter:description" content="Jelajahi koleksi produk pilihan dari BumiAji Store." />
+        <meta name="twitter:image" content="https://placehold.co/1200x630/E5E7EB/9CA3AF?text=Produk+BumiAji" />
+        </Head>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tombol Kembali */}
         <button

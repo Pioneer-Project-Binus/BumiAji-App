@@ -33,9 +33,19 @@ export default function ProdukShow({ product }: Props) {
 
   return (
     <>
-      <Head title={`Produk: ${product.productName}`} >
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
-      </Head>
+        <Head
+        title={`Produk: ${product.productName}`}
+        meta={[
+            { name: 'description', content: product.description },
+            { name: 'keywords', content: `${product.productName}, toko, jual beli` },
+            { name: 'author', content: 'Nama Toko Kamu' },
+        ]}
+        >
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        </Head>
 
 
       <div className="min-h-dvh pb-4 bg-white">
