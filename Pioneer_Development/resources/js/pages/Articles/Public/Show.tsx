@@ -103,7 +103,27 @@ const ArticleDetail: React.FC = () => {
 
   return (
     <>
-      <Head title={article.title} />
+      <Head>
+        <meta charSet="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{article?.title ? article.title + " | Desa Wisata Bumi Aji" : "Desa Wisata Bumi Aji"}</title>
+        <meta name="robots" content="index, follow" />
+        <meta name="description" content={article?.content ? article.content.slice(0, 150).replace(/<[^>]+>/g, '') + '...' : "Desa Wisata Bumi Aji adalah destinasi wisata alam dan budaya terbaik di Kota Batu. Temukan keindahan alam, kuliner, dan pengalaman tak terlupakan di sini."} />
+        <meta name="keywords" content="Desa Wisata, Bumi Aji, Wisata Batu, Wisata Alam, Wisata Budaya, Desa Wisata Bumi Aji, Kota Batu, Pariwisata" />
+        {/* Favicon */}
+        <link rel="icon" type="image/png" href="/AMAZING.png" />
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={article?.title ? article.title + " | Desa Wisata Bumi Aji" : "Desa Wisata Bumi Aji"} />
+        <meta property="og:description" content={article?.content ? article.content.slice(0, 150).replace(/<[^>]+>/g, '') + '...' : "Desa Wisata Bumi Aji adalah destinasi wisata alam dan budaya terbaik di Kota Batu."} />
+        <meta property="og:image" content={article?.featuredImage ? (article.featuredImage.startsWith('/storage') ? article.featuredImage : `/storage/${article.featuredImage}`) : "/AMAZING.png"} />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ""} />
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={article?.title ? article.title + " | Desa Wisata Bumi Aji" : "Desa Wisata Bumi Aji"} />
+        <meta name="twitter:description" content={article?.content ? article.content.slice(0, 150).replace(/<[^>]+>/g, '') + '...' : "Desa Wisata Bumi Aji adalah destinasi wisata alam dan budaya terbaik di Kota Batu."} />
+        <meta name="twitter:image" content={article?.featuredImage ? (article.featuredImage.startsWith('/storage') ? article.featuredImage : `/storage/${article.featuredImage}`) : "/AMAZING.png"} />
+      </Head>
       <div className="min-h-screen bg-gray-50 relative font-poppins">
         {/* Back button */}
         <motion.div

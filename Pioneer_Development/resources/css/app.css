@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
 @plugin 'tailwindcss-animate';
 
@@ -162,13 +164,9 @@
     }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 * {
   font-family: 'Poppins', sans-serif !important;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
 .stroke-default { -webkit-text-stroke-color: #B0D3C2; }
 .group:hover .stroke-hover { -webkit-text-stroke-color: #FFD600; }

@@ -198,9 +198,6 @@ class ArticleController extends Controller
         ]);
     }
 
-    /**
-     * Show a public article by slug, with popular and related articles.
-     */
     public function showPublic(Request $request, $slug)
     {
         $article = Article::with(['category', 'author', 'creator', 'updater'])
