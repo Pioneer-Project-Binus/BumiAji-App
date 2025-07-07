@@ -137,7 +137,7 @@ export default function ProductList() {
         {/* Tombol Kembali */}
         <button
           onClick={() => window.location.href = '/'}
-          className="text-gray-600 hover:text-gray-800 mb-6 flex items-center focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-md"
+          className="text-gray-600 cursor-pointer hover:text-gray-800 mb-6 flex items-center rounded-md"
           aria-label="Go back"
         >
           <svg
