@@ -167,6 +167,15 @@ export default function ArticleSection({
     };
 
     return (
+        <>
+        <Head>
+            <meta charSet="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Berita Desa Bumi Aji</title>
+            <meta name="description" content="Berita Desa Bumi Aji" />
+            <link rel="icon" href="/LOGO.svg" type="image/svg+xml" />
+        </Head>
+
         <div className="min-h-screen bg-white w-full pb-10">
             {/* Header */}
             <div className="w-full px-10 pt-6">
@@ -408,5 +417,6 @@ export default function ArticleSection({
                 </div>
             </div>
         </div>
+        </>
     );
 }
