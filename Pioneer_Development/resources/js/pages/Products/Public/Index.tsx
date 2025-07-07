@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { usePage, router } from '@inertiajs/react';
 import productsRoute from '@/routes/public/products';
+import { Link } from '@inertiajs/react';
+
 
 // Tipe data produk
 interface Product {
@@ -74,25 +76,44 @@ export default function ProductList() {
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
 
-    if (form.search) params.append('search', form.search);
-    if (form.sort) params.append('sort', form.sort);
+    if (form.search.trim()) params.append('search', form.search.trim());
 
-    form.category.forEach(cat => params.append('category[]', cat));
-    form.status.forEach(stat => params.append('status[]', stat));
+    // SORT: pisahkan menjadi sort + direction
+    if (form.sort) {
+        const [sort, direction] = form.sort.split('_');
+        params.append('sort', sort);
+        params.append('direction', direction);
+    }
+
+    // CATEGORY dan STATUS: ambil hanya satu (ambil pertama saja)
+    if (form.category.length > 0) {
+        params.append('category', form.category[0]);
+    }
+
+    if (form.status.includes('ready')) {
+    params.append('stock_min', '1'); // artinya stock > 0
+    }
+    if (form.status.includes('outofstock')) {
+    params.append('stock_max', '0'); // artinya stock <= 0
+    }
+
 
     router.get(`${productsRoute.index.url()}?${params.toString()}`, {}, { preserveState: true });
-  };
+    };
 
-  const sortOptions = [
-    { value: 'name_asc', label: 'Nama A-Z' },
-    { value: 'name_desc', label: 'Nama Z-A' },
+
+
+    const sortOptions = [
+    { value: 'productName_asc', label: 'Nama A-Z' },
+    { value: 'productName_desc', label: 'Nama Z-A' },
     { value: 'price_asc', label: 'Harga Termurah' },
     { value: 'price_desc', label: 'Harga Termahal' },
-  ];
+    ];
+
 
   const statusOptions = [
     { value: 'ready', label: 'Tersedia' },
@@ -201,7 +222,7 @@ export default function ProductList() {
               )}
             </div>
 
-            {/* Pilihan Status dengan Dropdown Interaktif (Checkbox) */}
+            {/* Pilihan Status dengan Dropdown Interaktif (Checkbox)
             <div className="relative">
               <button
                 type="button"
@@ -238,7 +259,7 @@ export default function ProductList() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Input Pencarian */}
             <div className="relative flex-1 min-w-full sm:min-w-[180px]">
@@ -275,7 +296,7 @@ export default function ProductList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.data.length > 0 ? (
             products.data.map((product) => (
-              <div key={product.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out transform hover:-translate-y-1 cursor-pointer">
+              <Link href={`/produk/${product.slug}`} key={product.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out transform hover:-translate-y-1 cursor-pointer">
                 <div className="bg-gray-100 h-40 rounded-md mb-3 flex items-center justify-center overflow-hidden">
                   {product.photos?.[0]?.filePath ? (
                     <img
@@ -303,7 +324,7 @@ export default function ProductList() {
                     Rp {parseInt(product.price).toLocaleString('id-ID')}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <div className="col-span-full text-center py-10 text-gray-500">

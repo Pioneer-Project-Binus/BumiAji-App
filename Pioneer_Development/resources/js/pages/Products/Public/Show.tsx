@@ -18,8 +18,8 @@ export default function ProdukShow({ product }: Props) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Home', href: '/' },
-    { title: 'Produk', href: products.index().url },
-    { title: product.productName , href: products.show(product.slug).url },
+    { title: 'Produk', href: '/produk' },
+    { title: product.productName , href: `/produk/${product.slug}` },
   ];
 
   const formatPrice = (price: number) => {
@@ -42,8 +42,8 @@ export default function ProdukShow({ product }: Props) {
         {/* Header */}
         <div className="flex items-center gap-3 p-4 md:p-6 lg:pl-8 lg:pr-8">
           <button
-            onClick={() => router.visit(products.index().url)}
-            className="flex items-center justify-center"
+            onClick={() => router.visit('/produk')}
+            className="flex items-center justify-center cursor-pointer"
           >
             <ArrowLeft className="w-6 h-6 text-black" />
           </button>
@@ -57,7 +57,9 @@ export default function ProdukShow({ product }: Props) {
           <nav className="flex text-sm text-gray-500 lg:max-w-lg">
             {breadcrumbs.map((item, index) => (
               <React.Fragment key={index}>
-                <Link href="#" className="hover:text-gray-700">
+                <Link href={item.href}           className={index === breadcrumbs.length - 1
+                ? 'font-normal text-[#0E2815] cursor-default pointer-events-none'
+                : 'hover:text-[#878787]'}>
                   {item.title}
                 </Link>
                 {index < breadcrumbs.length - 1 && <span className="mx-2">/</span>}
