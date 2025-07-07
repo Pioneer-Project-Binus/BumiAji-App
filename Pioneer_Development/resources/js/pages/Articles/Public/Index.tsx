@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import 'dayjs/locale/id';
+import articlesRoute from '@/routes/public/articles';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -133,12 +134,12 @@ export default function ArticleSection({
     };
 
     const handleArticleClick = (article: Article) => {
-        router.visit(`/artikel/${article.slug}`);
+        router.visit(articlesRoute.show(article.slug).url);
     };
 
     const handleHighlightClick = () => {
         if (displayHighlight.slug) {
-            router.visit(`/artikel/${displayHighlight.slug}`);
+            router.visit(articlesRoute.show(displayHighlight.slug).url);
         }
     };
 
@@ -169,7 +170,7 @@ export default function ArticleSection({
         <div className="min-h-screen bg-white w-full pb-10">
             {/* Header */}
             <div className="w-full px-10 pt-6">
-                <Link href="/landing" className="flex items-center text-gray-700 mb-4">
+                <Link href="artikel/landing" className="flex items-center text-gray-700 mb-4">
                     <svg
                         className="w-5 h-5 mr-2"
                         fill="none"
