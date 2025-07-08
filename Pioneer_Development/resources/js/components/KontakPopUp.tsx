@@ -16,7 +16,7 @@ const KontakPopup = () => {
       <div className=" bg-blue-500 hover:bg-blue-600 rounded-lg flex items-center justify-center">
         <button
           onClick={handleReopen}
-          className="bg-[#537D5D] cursor-pointer text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          className="bg-[#537D5D] cursor-pointer text-white px-6 py-3 rounded-xl font-medium transition-colors"
         >
           Kirim Pesan
         </button>
