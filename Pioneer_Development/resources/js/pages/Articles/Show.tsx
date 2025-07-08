@@ -34,7 +34,7 @@ interface ShowProps extends InertiaSharedProps {
 export default function Show({ article }: ShowProps) {
     const breadcrumbs: BreadcrumbItem[] = useMemo(() => [
         { title: 'Dashboard', href: dashboard().url },
-        { title: 'Article Management', href: articlesRoute.index().url },
+        { title: 'Article Management', href: articlesRoute.indexAdmin().url },
         { title: 'Detail', href: '#' },
     ], []);
 
@@ -224,7 +224,7 @@ export default function Show({ article }: ShowProps) {
                                                     </button>
                                                 </Link>
                                                 
-                                                <Link href={articlesRoute.index().url} className="block group">
+                                                <Link href={articlesRoute.indexAdmin().url} className="block group">
                                                     <button className="w-full h-14 flex items-center justify-center gap-3 text-base font-bold bg-white/90 dark:bg-slate-700/90 hover:bg-white dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 rounded-2xl shadow-md hover:shadow-lg border-2 border-emerald-200/60 dark:border-slate-600/60 hover:border-emerald-300 dark:hover:border-slate-500 transition-all duration-300 relative overflow-hidden">
                                                         <div className="absolute inset-0 bg-gradient-to-r from-emerald-50/50 to-green-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                         <ArrowLeft className="h-5 w-5 relative z-10" />

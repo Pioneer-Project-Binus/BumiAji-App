@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, CategoryProduct, Product, ProductStatus, InertiaSharedProps, ProductPhoto } from '@/types';
 import { Head, Link, useForm, router } from '@inertiajs/react';
-import React, { FormEventHandler, useState, ChangeEvent, useEffect, useMemo, useCallback } from 'react';
+import React, { FormEventHandler, useState, ChangeEvent, useEffect, useMemo, useCallback, useRef } from 'react';
 import { dashboard } from '@/routes';
 import photoProductsRoute from '@/routes/photo-products';
 import productsRoute from '@/routes/products';
@@ -10,13 +10,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
     LoaderCircle, Package, ArrowLeft, Save, Trash2, Edit3, GripVertical,
     Sparkles, ShoppingCart, DollarSign, Archive, FileText, Tag, Camera, Upload,
     Image as ImageIcon, AlertCircle, CheckCircle, Star, Leaf, X
 } from 'lucide-react';
+
+// Extend the Window interface to recognize jQuery ($) if loaded from a CDN
+declare global {
+    interface Window {
+        jQuery: any;
+        $: any;
+    }
+}
 
 interface Props extends InertiaSharedProps {
     product: Product & { photos: ProductPhoto[] };
@@ -35,7 +42,7 @@ interface EditProductForm {
 const TANPA_KATEGORI_VALUE = "__TANPA_KATEGORI_DIPILIH__";
 
 export default function AdminProductEdit({ product, categories }: Props) {
-    console.log(product)
+    const descriptionEditorRef = useRef<HTMLTextAreaElement>(null);
     const { data, setData, put, processing, errors } = useForm<Required<EditProductForm>>({
         productName: product.productName || '',
         description: product.description || '',
@@ -51,6 +58,77 @@ export default function AdminProductEdit({ product, categories }: Props) {
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
     const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({});
+
+    // Effect for initializing and destroying Summernote editor
+    useEffect(() => {
+        const loadScript = (src: string, onLoad: () => void, onError?: () => void) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.onload = onLoad;
+            script.onerror = onError || (() => console.error(`Failed to load script: ${src}`));
+            document.head.appendChild(script);
+            return script;
+        };
+
+        const loadStyle = (href: string) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+            return link;
+        };
+
+        const initializeSummernote = () => {
+            if (descriptionEditorRef.current && window.$) {
+                window.$(descriptionEditorRef.current).summernote({
+                    tooltip: false,
+                    height: 300,
+                    placeholder: 'Jelaskan produk Anda secara detail...',
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['codeview']],
+                    ],
+                    callbacks: {
+                        onChange: (contents: string) => {
+                            setData('description', contents);
+                        }
+                    }
+                });
+            }
+        };
+
+        const summernoteCSS = loadStyle('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css');
+        const bootstrapCSS = loadStyle('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+
+
+        if (!window.jQuery) {
+            loadScript('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', () => {
+                loadScript('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', () => {
+                    loadScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js', initializeSummernote);
+                });
+            });
+        } else {
+             loadScript('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', () => {
+                loadScript('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js', initializeSummernote);
+            });
+        }
+
+        return () => {
+            if (window.$ && descriptionEditorRef.current && window.$(descriptionEditorRef.current).data('summernote')) {
+                window.$(descriptionEditorRef.current).summernote('destroy');
+            }
+            // Clean up loaded scripts and styles
+            document.head.querySelectorAll('script[src*="jquery"], script[src*="summernote"], script[src*="bootstrap"]').forEach(el => el.remove());
+            if (document.head.contains(summernoteCSS)) document.head.removeChild(summernoteCSS);
+            if (document.head.contains(bootstrapCSS)) document.head.removeChild(bootstrapCSS);
+        };
+    }, []);
 
     useEffect(() => {
         if (photoFiles.length === 0) {
@@ -141,7 +219,7 @@ export default function AdminProductEdit({ product, categories }: Props) {
 
     const breadcrumbs = useMemo<BreadcrumbItem[]>(() => [
         { title: 'Dasbor Admin', href: dashboard().url },
-        { title: 'Manajemen Produk', href: productsRoute.index().url },
+        { title: 'Manajemen Produk', href: productsRoute.indexAdmin().url },
         { title: 'Edit Produk', href: productsRoute.edit(product.slug).url },
     ], [product.slug]);
 
@@ -184,7 +262,7 @@ export default function AdminProductEdit({ product, categories }: Props) {
                         </div>
 
                         <Link
-                            href={productsRoute.index().url}
+                            href={productsRoute.indexAdmin().url}
                             className="group inline-flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 rounded-xl border border-slate-200/50 dark:border-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 hover:-translate-y-0.5 backdrop-blur-sm"
                         >
                             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -278,13 +356,11 @@ export default function AdminProductEdit({ product, categories }: Props) {
                                                 <FileText className="h-5 w-5 text-emerald-500" />
                                                 <Label htmlFor="description" className="text-lg font-bold text-slate-700 dark:text-slate-300">Deskripsi Produk</Label>
                                             </div>
-                                            <Textarea
+                                            <textarea
+                                                ref={descriptionEditorRef}
                                                 id="description"
-                                                value={data.description}
-                                                onChange={(e) => setData('description', e.target.value)}
-                                                className="min-h-[160px] text-lg border-2 border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50/50 dark:bg-slate-700/50 backdrop-blur-sm transition-all duration-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 focus:bg-white dark:focus:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 placeholder:text-slate-400 resize-none"
-                                                placeholder="Jelaskan produk Anda secara detail..."
-                                                required
+                                                defaultValue={data.description}
+                                                className="hidden" // Hide original textarea
                                             />
                                             <InputError message={errors.description} className="mt-3 text-red-500 font-medium" />
                                         </div>
@@ -339,7 +415,7 @@ export default function AdminProductEdit({ product, categories }: Props) {
                                                     </SelectItem>
                                                     <SelectItem value="outofstock" className="text-lg py-3">
                                                         <div className="flex items-center gap-2">
-                                                          <div className="w-2 h-2 rounded-full bg-red-500"></div>Stok Habis
+                                                            <div className="w-2 h-2 rounded-full bg-red-500"></div>Stok Habis
                                                         </div>
                                                     </SelectItem>
                                                 </SelectContent>

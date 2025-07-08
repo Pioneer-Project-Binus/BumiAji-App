@@ -1,137 +1,80 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
+* @see \App\Http\Controllers\ProductController::indexPublic
+ * @see app/Http/Controllers/ProductController.php:67
  * @route '/produk'
  */
-const index001bfca3a656fb418beb4420fa158591 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index001bfca3a656fb418beb4420fa158591.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 
-index001bfca3a656fb418beb4420fa158591.definition = {
+indexPublic.definition = {
     methods: ['get','head'],
     url: '/produk',
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
+* @see \App\Http\Controllers\ProductController::indexPublic
+ * @see app/Http/Controllers/ProductController.php:67
  * @route '/produk'
  */
-index001bfca3a656fb418beb4420fa158591.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index001bfca3a656fb418beb4420fa158591.definition.url + queryParams(options)
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
+* @see \App\Http\Controllers\ProductController::indexPublic
+ * @see app/Http/Controllers/ProductController.php:67
  * @route '/produk'
  */
-index001bfca3a656fb418beb4420fa158591.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index001bfca3a656fb418beb4420fa158591.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
+* @see \App\Http\Controllers\ProductController::indexPublic
+ * @see app/Http/Controllers/ProductController.php:67
  * @route '/produk'
  */
-index001bfca3a656fb418beb4420fa158591.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index001bfca3a656fb418beb4420fa158591.url(options),
+    url: indexPublic.url(options),
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
- * @route '/products'
- */
-const indexcdff108606cb7e4bb2af83e29c4f29fb = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexcdff108606cb7e4bb2af83e29c4f29fb.url(options),
-    method: 'get',
-})
-
-indexcdff108606cb7e4bb2af83e29c4f29fb.definition = {
-    methods: ['get','head'],
-    url: '/products',
-}
-
 /**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
- * @route '/products'
- */
-indexcdff108606cb7e4bb2af83e29c4f29fb.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return indexcdff108606cb7e4bb2af83e29c4f29fb.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
- * @route '/products'
- */
-indexcdff108606cb7e4bb2af83e29c4f29fb.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexcdff108606cb7e4bb2af83e29c4f29fb.url(options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\ProductController::index
- * @see app/Http/Controllers/ProductController.php:19
- * @route '/products'
- */
-indexcdff108606cb7e4bb2af83e29c4f29fb.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: indexcdff108606cb7e4bb2af83e29c4f29fb.url(options),
-    method: 'head',
-})
-
-export const index = {
-    '/produk': index001bfca3a656fb418beb4420fa158591,
-    '/products': indexcdff108606cb7e4bb2af83e29c4f29fb,
-}
-
-/**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
+* @see \App\Http\Controllers\ProductController::showPublic
+ * @see app/Http/Controllers/ProductController.php:146
  * @route '/produk/{slug}'
  */
-const show4ee204ed85b0615c55d988ac08e69642 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const showPublic = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show4ee204ed85b0615c55d988ac08e69642.url(args, options),
+    url: showPublic.url(args, options),
     method: 'get',
 })
 
-show4ee204ed85b0615c55d988ac08e69642.definition = {
+showPublic.definition = {
     methods: ['get','head'],
     url: '/produk/{slug}',
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
+* @see \App\Http\Controllers\ProductController::showPublic
+ * @see app/Http/Controllers/ProductController.php:146
  * @route '/produk/{slug}'
  */
-show4ee204ed85b0615c55d988ac08e69642.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showPublic.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
@@ -147,113 +90,91 @@ show4ee204ed85b0615c55d988ac08e69642.url = (args: { slug: string | number } | [s
                         slug: args.slug,
                 }
 
-    return show4ee204ed85b0615c55d988ac08e69642.definition.url
+    return showPublic.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
+* @see \App\Http\Controllers\ProductController::showPublic
+ * @see app/Http/Controllers/ProductController.php:146
  * @route '/produk/{slug}'
  */
-show4ee204ed85b0615c55d988ac08e69642.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showPublic.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show4ee204ed85b0615c55d988ac08e69642.url(args, options),
+    url: showPublic.url(args, options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
+* @see \App\Http\Controllers\ProductController::showPublic
+ * @see app/Http/Controllers/ProductController.php:146
  * @route '/produk/{slug}'
  */
-show4ee204ed85b0615c55d988ac08e69642.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showPublic.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show4ee204ed85b0615c55d988ac08e69642.url(args, options),
+    url: showPublic.url(args, options),
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
- * @route '/products/view/{slug}'
+/**
+* @see \App\Http\Controllers\ProductController::indexAdmin
+ * @see app/Http/Controllers/ProductController.php:106
+ * @route '/products'
  */
-const show9c6c78afcd9b9556a0d485230f128ff7 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexAdmin = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show9c6c78afcd9b9556a0d485230f128ff7.url(args, options),
+    url: indexAdmin.url(options),
     method: 'get',
 })
 
-show9c6c78afcd9b9556a0d485230f128ff7.definition = {
+indexAdmin.definition = {
     methods: ['get','head'],
-    url: '/products/view/{slug}',
+    url: '/products',
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
- * @route '/products/view/{slug}'
+* @see \App\Http\Controllers\ProductController::indexAdmin
+ * @see app/Http/Controllers/ProductController.php:106
+ * @route '/products'
  */
-show9c6c78afcd9b9556a0d485230f128ff7.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { slug: args }
-    }
-
-    
-    if (Array.isArray(args)) {
-        args = {
-                    slug: args[0],
-                }
-    }
-
-    const parsedArgs = {
-                        slug: args.slug,
-                }
-
-    return show9c6c78afcd9b9556a0d485230f128ff7.definition.url
-            .replace('{slug}', parsedArgs.slug.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+indexAdmin.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexAdmin.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
- * @route '/products/view/{slug}'
+* @see \App\Http\Controllers\ProductController::indexAdmin
+ * @see app/Http/Controllers/ProductController.php:106
+ * @route '/products'
  */
-show9c6c78afcd9b9556a0d485230f128ff7.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexAdmin.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show9c6c78afcd9b9556a0d485230f128ff7.url(args, options),
+    url: indexAdmin.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\ProductController::show
- * @see app/Http/Controllers/ProductController.php:179
- * @route '/products/view/{slug}'
+* @see \App\Http\Controllers\ProductController::indexAdmin
+ * @see app/Http/Controllers/ProductController.php:106
+ * @route '/products'
  */
-show9c6c78afcd9b9556a0d485230f128ff7.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show9c6c78afcd9b9556a0d485230f128ff7.url(args, options),
+    url: indexAdmin.url(options),
     method: 'head',
 })
-
-export const show = {
-    '/produk/{slug}': show4ee204ed85b0615c55d988ac08e69642,
-    '/products/view/{slug}': show9c6c78afcd9b9556a0d485230f128ff7,
-}
 
 /**
 * @see \App\Http\Controllers\ProductController::create
- * @see app/Http/Controllers/ProductController.php:110
+ * @see app/Http/Controllers/ProductController.php:232
  * @route '/products/create'
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -271,7 +192,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::create
- * @see app/Http/Controllers/ProductController.php:110
+ * @see app/Http/Controllers/ProductController.php:232
  * @route '/products/create'
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -280,7 +201,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProductController::create
- * @see app/Http/Controllers/ProductController.php:110
+ * @see app/Http/Controllers/ProductController.php:232
  * @route '/products/create'
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -292,7 +213,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\ProductController::create
- * @see app/Http/Controllers/ProductController.php:110
+ * @see app/Http/Controllers/ProductController.php:232
  * @route '/products/create'
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -305,7 +226,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProductController::store
- * @see app/Http/Controllers/ProductController.php:118
+ * @see app/Http/Controllers/ProductController.php:240
  * @route '/products'
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -323,7 +244,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::store
- * @see app/Http/Controllers/ProductController.php:118
+ * @see app/Http/Controllers/ProductController.php:240
  * @route '/products'
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -332,7 +253,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProductController::store
- * @see app/Http/Controllers/ProductController.php:118
+ * @see app/Http/Controllers/ProductController.php:240
  * @route '/products'
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -397,7 +318,7 @@ exportMethod.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\ProductController::archived
- * @see app/Http/Controllers/ProductController.php:332
+ * @see app/Http/Controllers/ProductController.php:375
  * @route '/products/archived'
  */
 export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -415,7 +336,7 @@ archived.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::archived
- * @see app/Http/Controllers/ProductController.php:332
+ * @see app/Http/Controllers/ProductController.php:375
  * @route '/products/archived'
  */
 archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -424,7 +345,7 @@ archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => 
 
 /**
 * @see \App\Http\Controllers\ProductController::archived
- * @see app/Http/Controllers/ProductController.php:332
+ * @see app/Http/Controllers/ProductController.php:375
  * @route '/products/archived'
  */
 archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -436,7 +357,7 @@ archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\ProductController::archived
- * @see app/Http/Controllers/ProductController.php:332
+ * @see app/Http/Controllers/ProductController.php:375
  * @route '/products/archived'
  */
 archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -449,7 +370,7 @@ archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProductController::restore
- * @see app/Http/Controllers/ProductController.php:361
+ * @see app/Http/Controllers/ProductController.php:399
  * @route '/products/{slug}/restore'
  */
 export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -467,7 +388,7 @@ restore.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::restore
- * @see app/Http/Controllers/ProductController.php:361
+ * @see app/Http/Controllers/ProductController.php:399
  * @route '/products/{slug}/restore'
  */
 restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -493,7 +414,7 @@ restore.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ProductController::restore
- * @see app/Http/Controllers/ProductController.php:361
+ * @see app/Http/Controllers/ProductController.php:399
  * @route '/products/{slug}/restore'
  */
 restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -506,7 +427,7 @@ restore.put = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ProductController::deletePermanent
- * @see app/Http/Controllers/ProductController.php:374
+ * @see app/Http/Controllers/ProductController.php:412
  * @route '/products/{slug}/delete-permanent'
  */
 export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -524,7 +445,7 @@ deletePermanent.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::deletePermanent
- * @see app/Http/Controllers/ProductController.php:374
+ * @see app/Http/Controllers/ProductController.php:412
  * @route '/products/{slug}/delete-permanent'
  */
 deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -550,7 +471,7 @@ deletePermanent.url = (args: { slug: string | number } | [slug: string | number 
 
 /**
 * @see \App\Http\Controllers\ProductController::deletePermanent
- * @see app/Http/Controllers/ProductController.php:374
+ * @see app/Http/Controllers/ProductController.php:412
  * @route '/products/{slug}/delete-permanent'
  */
 deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -563,7 +484,7 @@ deletePermanent.delete = (args: { slug: string | number } | [slug: string | numb
 
 /**
 * @see \App\Http\Controllers\ProductController::edit
- * @see app/Http/Controllers/ProductController.php:220
+ * @see app/Http/Controllers/ProductController.php:285
  * @route '/products/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -581,7 +502,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::edit
- * @see app/Http/Controllers/ProductController.php:220
+ * @see app/Http/Controllers/ProductController.php:285
  * @route '/products/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -607,7 +528,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\ProductController::edit
- * @see app/Http/Controllers/ProductController.php:220
+ * @see app/Http/Controllers/ProductController.php:285
  * @route '/products/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -619,7 +540,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\ProductController::edit
- * @see app/Http/Controllers/ProductController.php:220
+ * @see app/Http/Controllers/ProductController.php:285
  * @route '/products/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -632,7 +553,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}'
  */
 const update0cba029d50e47125a3214f2b5292d469 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -650,7 +571,7 @@ update0cba029d50e47125a3214f2b5292d469.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}'
  */
 update0cba029d50e47125a3214f2b5292d469.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -676,7 +597,7 @@ update0cba029d50e47125a3214f2b5292d469.url = (args: { slug: string | number } | 
 
 /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}'
  */
 update0cba029d50e47125a3214f2b5292d469.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -689,7 +610,7 @@ update0cba029d50e47125a3214f2b5292d469.put = (args: { slug: string | number } | 
 
     /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}/update'
  */
 const update4c9815caad8aaa671f52bd4158188027 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -707,7 +628,7 @@ update4c9815caad8aaa671f52bd4158188027.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}/update'
  */
 update4c9815caad8aaa671f52bd4158188027.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -733,7 +654,7 @@ update4c9815caad8aaa671f52bd4158188027.url = (args: { slug: string | number } | 
 
 /**
 * @see \App\Http\Controllers\ProductController::update
- * @see app/Http/Controllers/ProductController.php:245
+ * @see app/Http/Controllers/ProductController.php:310
  * @route '/products/{slug}/update'
  */
 update4c9815caad8aaa671f52bd4158188027.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -750,8 +671,77 @@ export const update = {
 }
 
 /**
+* @see \App\Http\Controllers\ProductController::showAdmin
+ * @see app/Http/Controllers/ProductController.php:200
+ * @route '/products/view/{slug}'
+ */
+export const showAdmin = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'get',
+})
+
+showAdmin.definition = {
+    methods: ['get','head'],
+    url: '/products/view/{slug}',
+}
+
+/**
+* @see \App\Http\Controllers\ProductController::showAdmin
+ * @see app/Http/Controllers/ProductController.php:200
+ * @route '/products/view/{slug}'
+ */
+showAdmin.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return showAdmin.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProductController::showAdmin
+ * @see app/Http/Controllers/ProductController.php:200
+ * @route '/products/view/{slug}'
+ */
+showAdmin.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ProductController::showAdmin
+ * @see app/Http/Controllers/ProductController.php:200
+ * @route '/products/view/{slug}'
+ */
+showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: showAdmin.url(args, options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ProductController::destroy
- * @see app/Http/Controllers/ProductController.php:311
+ * @see app/Http/Controllers/ProductController.php:361
  * @route '/products/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -769,7 +759,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProductController::destroy
- * @see app/Http/Controllers/ProductController.php:311
+ * @see app/Http/Controllers/ProductController.php:361
  * @route '/products/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -795,7 +785,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ProductController::destroy
- * @see app/Http/Controllers/ProductController.php:311
+ * @see app/Http/Controllers/ProductController.php:361
  * @route '/products/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -805,6 +795,6 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const ProductController = { index, show, create, store, exportMethod, archived, restore, deletePermanent, edit, update, destroy, export: exportMethod }
+const ProductController = { indexPublic, showPublic, indexAdmin, create, store, exportMethod, archived, restore, deletePermanent, edit, update, showAdmin, destroy, export: exportMethod }
 
 export default ProductController

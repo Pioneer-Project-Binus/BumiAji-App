@@ -47,7 +47,7 @@ export default function FooterSection({ profile, galeries }: FooterSectionProps)
   ];
 
   return (
-    <footer className="bg-[#0E2815] text-white py-16 px-4 sm:px-6 lg:px-8 mt-40 relative overflow-hidden">
+    <footer className="bg-[#0E2815] text-white py-16 px-4 sm:px-6 lg:px-8 mt-40 relative overflow-hidden w-full">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0E2815] via-[#0E2815] to-[#1a3a22] opacity-50"></div>
       

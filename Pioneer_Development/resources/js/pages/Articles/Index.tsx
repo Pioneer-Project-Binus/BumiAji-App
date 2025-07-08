@@ -297,7 +297,7 @@ export default function Index({ articles, categories, authors, filters }: Props)
                                                             {/* --- PERUBAHAN DIMULAI DI SINI --- */}
                                                             <Tooltip>
                                                                 <TooltipTrigger asChild>
-                                                                    <Link href={articlesRoute.show(article.slug).url}>
+                                                                    <Link href={articlesRoute.showAdmin(article.slug).url}>
                                                                         <Button variant="outline" size="icon" className="h-9 w-9 border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700/50">
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
@@ -331,7 +331,7 @@ export default function Index({ articles, categories, authors, filters }: Props)
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                         <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-slate-700">
                             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Konfirmasi Hapus</h2>
-                            <p className="text-gray-600 dark:text-gray-400 mb-8">Apakah Anda yakin ingin menghapus artikel ini? Tindakan ini tidak dapat dibatalkan.</p>
+                            <p className="text-gray-600 dark:text-gray-400 mb-8">Apakah Anda yakin ingin menyembunyikan artikel ini? Artikel tidak akan dihapus secara permanen dan masih dapat dipulihkan.</p>
                             <div className="flex justify-end gap-4">
                                 <Button variant="outline" size="lg" onClick={() => setConfirmingDeletionSlug(null)} className="font-semibold" disabled={isDeleting}>Batal</Button>
                                 <Button variant="destructive" size="lg" className="font-bold text-base" onClick={() => handleDelete(confirmingDeletionSlug)} disabled={isDeleting}>

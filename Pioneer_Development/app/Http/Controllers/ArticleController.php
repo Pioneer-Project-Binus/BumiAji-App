@@ -38,13 +38,11 @@ class ArticleController extends Controller
 
     public function indexPublic(Request $request)
     {
-        // Query artikel untuk publik: hanya yang status 'published' dan isDeleted false
         $query = Article::with(['category', 'author'])
             ->where('isDeleted', false)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc');
 
-        // Search filter
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
@@ -53,15 +51,13 @@ class ArticleController extends Controller
             });
         }
 
-        // Category filter
         if ($request->filled('category') && $request->category !== 'Semua Kategori') {
             $query->where('categoryId', $request->category);
         }
 
-        // Pagination
         $articles = $query->paginate(10);
 
-        // Transform the data to match the expected format
+        // FIX: Check for null relationships before accessing properties.
         $articles->getCollection()->transform(function ($article) {
             return [
                 'id' => $article->id,
@@ -72,28 +68,25 @@ class ArticleController extends Controller
                 'image' => $article->image,
                 'created_at' => $article->created_at->toISOString(),
                 'updated_at' => $article->updated_at->toISOString(),
-                'category' => [
-                    'id' => $article->category->id,
+                // ✅ Added a null check for category
+                'category' => $article->category ? [
                     'name' => $article->category->name,
-                ],
-                'author' => [
-                    'id' => $article->author->id,
+                ] : null,
+                // ✅ Added a null check for author
+                'author' => $article->author ? [
                     'name' => $article->author->name,
-                ],
-                // Add these for backward compatibility
+                ] : null,
                 'date' => $article->created_at->format('d M Y'),
                 'createdAt' => $article->created_at->toISOString(),
             ];
         });
 
-        // Ambil artikel terbaru sebagai highlight
         $highlight = Article::with(['category', 'author'])
             ->where('isDeleted', false)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // Transform highlight data
         if ($highlight) {
             $highlight = [
                 'id' => $highlight->id,
@@ -104,37 +97,23 @@ class ArticleController extends Controller
                 'image' => $highlight->image,
                 'created_at' => $highlight->created_at->toISOString(),
                 'updated_at' => $highlight->updated_at->toISOString(),
-                'category' => [
+                'category' => $highlight->category ? [
                     'id' => $highlight->category->id,
                     'name' => $highlight->category->name,
-                ],
-                'author' => [
+                ] : null,
+                'author' => $highlight->author ? [
                     'id' => $highlight->author->id,
                     'name' => $highlight->author->name,
-                ],
-                // Add these for backward compatibility
+                ] : null,
                 'date' => $highlight->created_at->format('d M Y'),
                 'createdAt' => $highlight->created_at->toISOString(),
             ];
         }
 
-        // Get categories
         $categories = CategoryArticle::where('isDeleted', false)
             ->orderBy('name')
             ->get(['id', 'name']);
 
-        // API response
-        if ($request->wantsJson()) {
-            return response()->json([
-                'success' => true,
-                'data' => $articles,
-                'highlight' => $highlight,
-                'categories' => $categories,
-                'message' => 'Artikel berhasil diambil'
-            ]);
-        }
-
-        // Web response
         return Inertia::render('Articles/Public/Index', [
             'articles' => $articles,
             'highlight' => $highlight,
@@ -179,15 +158,6 @@ class ArticleController extends Controller
 
         $categories = CategoryArticle::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
         $authors = User::orderBy('name')->get(['id', 'name']);
-
-        if ($request->wantsJson()) {
-            return response()->json([
-                'success' => true,
-                'data' => $articles,
-                'highlight' => $highlight,
-                'message' => 'Artikel berhasil diambil'
-            ]);
-        }
 
         return Inertia::render('Articles/Index', [
             'articles' => $articles,

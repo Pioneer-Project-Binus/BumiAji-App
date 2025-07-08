@@ -10,12 +10,8 @@ import { dashboard } from '@/routes';
 import InputError from '@/components/input-error';
 import { XCircle } from 'lucide-react';
 import 'summernote/dist/summernote-lite.css';
-import $ from 'jquery';
 import 'summernote/dist/summernote-lite.js';
 
-// --- Impor dari paket NPM untuk Summernote telah dihapus ---
-
-// Memperluas interface Window untuk mengenali jQuery ($) dari CDN
 declare global {
     interface Window {
         jQuery: any;
@@ -45,6 +41,8 @@ export default function ArticleCreate({ categories, authors, errors: pageErrors 
         { title: 'Articles', href: articles.indexAdmin().url },
         { title: 'Create New Article', href: articles.create().url },
     ], []);
+    console.log(categories);
+    
 
     const { data, setData, post, processing, progress, errors, reset } = useForm<Required<CreateArticleForm>>({
         title: '',

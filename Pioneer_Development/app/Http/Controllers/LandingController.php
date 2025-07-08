@@ -21,14 +21,14 @@ class LandingController extends Controller
     {
         $profile = ProfileVillage::first();
 
-        $latestArticle = Article::where('status', 'published')
+        $latestArticles = Article::where('status', 'published')
             ->where('isDeleted', false)
             ->orderByDesc('created_at')
-            ->first();
+            ->limit(5)
+            ->get();
 
         $otherArticles = Article::where('status', 'published')
             ->where('isDeleted', false)
-            ->when($latestArticle, fn ($query) => $query->where('id', '!=', $latestArticle->id))
             ->orderByDesc('created_at')
             ->limit(3)
             ->get();
@@ -59,7 +59,7 @@ class LandingController extends Controller
 
         return Inertia::render('welcome', [
             'profile' => $profile,
-            'latestArticle' => $latestArticle,
+            'latestArticles' => $latestArticles,
             'otherArticles' => $otherArticles,
             'tourism' => $tourism,
             'products' => $products,

@@ -31,7 +31,7 @@ interface Props extends InertiaSharedProps {}
 export default function CategoryArticleCreate({ errors: pageErrors }: Props) {
     const breadcrumbs: BreadcrumbItem[] = useMemo(() => [
         { title: 'Dashboard', href: dashboard().url },
-        { title: 'Article Categories', href: categoryArticles.admin().url },
+        { title: 'Article Categories', href: categoryArticles.indexAdmin().url },
         { title: 'Add New Category', href: categoryArticles.create().url },
     ], []);
 

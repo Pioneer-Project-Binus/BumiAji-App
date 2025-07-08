@@ -342,7 +342,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
                     ">
                       
                       {/* Image Section */}
-                      <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-3 sm:p-4 md:p-5">
+                      <div className="bg-gradient-to-br from-white p-1 sm:p-2 md:p-3">
                         <div className="w-full h-full bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
                           <img
                             src={
@@ -362,7 +362,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
                       </div>
                       
                       {/* Content Section */}
-                      <div className="p-3 sm:p-4 md:p-5 flex flex-col justify-between">
+                      <div className="p-1 sm:p-2 md:p-3 flex flex-col justify-between">
                         <div className="text-center mb-3 sm:mb-4">
                           <h3 className="font-poppins text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-gray-800 mb-2 line-clamp-2">
                             {product.productName || product.name}
@@ -372,8 +372,8 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
                           </p>
                         </div>
                         
-                        <div className="border-t pt-3 sm:pt-4">
-                          <p className="text-center text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 font-poppins">
+                        <div className="pt-3 sm:pt-4">
+                          <p className="text-start text-base sm:text-lg md:text-lg lg:text-xl font-light text-gray-900 font-poppins">
                             Rp. {product.price.toLocaleString('id-ID')}
                           </p>
                         </div>

@@ -79,7 +79,7 @@ interface Column<T> {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Dashboard', href: dashboard().url },
-    { title: 'Product Management', href: productsRoute.index().url },
+    { title: 'Product Management', href: productsRoute.indexAdmin().url },
 ];
 
 export default function AdminProductIndex({ products: productsData, categories, filters, stats, auth }: Props) {
@@ -211,7 +211,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
                     )}
                     <div>
                         <Link
-                            href={productsRoute.show(row.slug).url}
+                            href={productsRoute.showAdmin(row.slug).url}
                             className="font-medium text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         >
                             {row.productName}

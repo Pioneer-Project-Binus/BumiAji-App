@@ -29,7 +29,7 @@ export default function ContactSection() {
   };
 
   return (
-    <div className='bg-white min-h-screen mt-20 mb-30'>
+    <div className='bg-white min-h-screen mt-20 mb-30 w-full'>
       <div className='h-auto lg:h-[800px] bg-[#B0D3C2] pb-8 lg:pb-0'>
         <div className="flex flex-col items-center pt-14 px-4">
           <div className="text-3xl md:text-4xl lg:text-[48px] font-semibold mb-2 text-center">

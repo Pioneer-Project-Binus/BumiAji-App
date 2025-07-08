@@ -155,7 +155,7 @@ function ArchiveStatsCards({ stats }: { stats?: EnhancedProps['stats'] }) {
 function ArchiveActionButtons() {
     return (
         <div className="flex flex-wrap gap-3">
-            <Link href={categoryArticlesRoutes.admin().url}>
+            <Link href={categoryArticlesRoutes.indexAdmin().url}>
                 <Button size="lg" className="h-12 text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 group">
                     <ArchiveIcon className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                     Back to Categories
@@ -276,8 +276,8 @@ export default function Archive(props: EnhancedProps) {
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: dashboard().url },
-        { title: 'Article Categories', href: categoryArticlesRoutes.admin().url },
-        { title: 'Archive', href: 'archive' },
+        { title: 'Article Categories', href: categoryArticlesRoutes.indexAdmin().url },
+        { title: 'Archive', href: categoryArticlesRoutes.archived().url },
     ];
 
     return (
@@ -320,7 +320,7 @@ function ArchiveTableContent({ categoryArticles, filters, stats }: EnhancedProps
 
     const handleRestore = (slug: string) => {
         setIsRestoring(true);
-        router.patch(categoryArticlesRoutes.restore(slug).url, {}, {
+        router.put(categoryArticlesRoutes.restore(slug).url, {}, {
             onSuccess: () => {
                 toast.success('Category has been restored successfully.');
                 setConfirmingRestoreSlug(null);

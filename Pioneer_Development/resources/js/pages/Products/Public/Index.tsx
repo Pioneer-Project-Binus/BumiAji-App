@@ -1,637 +1,379 @@
-import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, InertiaSharedProps, PaginatedData, CategoryProduct } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import React, { useState, useEffect, ChangeEvent, useCallback, useMemo } from 'react';
-import productsRoute from '@/routes/products'; // Menggunakan nama variabel yang tidak konflik
-import { dashboard } from '@/routes';
-
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-import Pagination from '@/components/pagination';
-import { format as formatDateFns } from 'date-fns'; // Memberi nama alias yang lebih jelas
-
-import {
-    Package,
-    TrendingUp,
-    Edit3,
-    TrendingDown,
-    RefreshCw,
-    Download,
-    PlusCircle,
-    Eye,
-    Trash2,
-    FilterX,
-    Search,
-    BarChart3
-} from 'lucide-react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { usePage, router } from '@inertiajs/react';
+import productsRoute from '@/routes/products';
+import { Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
 
-const ALL_CATEGORIES_VALUE = "__ALL_CATEGORIES__";
-const ALL_STATUS_VALUE = "__ALL_STATUS__";
-
-interface Props extends InertiaSharedProps {
-    products: PaginatedData<Product>;
-    categories: CategoryProduct[];
-    filters: {
-        search?: string;
-        category?: string;
-        status?: string;
-        sort?: string;
-        direction?: 'asc' | 'desc';
-    };
-    stats?: {
-        total_products: number;
-        published_products: number;
-        draft_products: number;
-        out_of_stock: number;
-        total_value: number;
-    };
-}
-
+// Tipe data produk
 interface Product {
-  id: string | number;
+  id: string;
   productName: string;
-  slug: string; // Make sure slug is available for routing
-  category: {
-    name: string;
-    [key: string]: any; 
+  description: string;
+  price: string;
+  slug: string;
+  status: string;
+  photos?: { filePath: string }[]; // ✅ Diperbaiki
+}
+
+// Tipe data kategori
+interface Category {
+  id: string;
+  name: string;
+}
+
+// Props dari Laravel
+interface Props {
+  products: {
+    data: Product[];
+    links: {
+      url: string | null;
+      label: string;
+      active: boolean;
+    }[];
   };
-  price: number;
-  stock: number;
-  status: 'published' | 'draft' | string; 
-  createdAt: string; 
-  description?: string; // Added for completeness from render
-  photos?: Array<{ id: string | number; filePath: string }>; // Added for completeness
-  [key: string]: any; 
+  categories: Category[];
+  filters: {
+    search?: string;
+    category?: string;
+    status?: string;
+    sort?: string;
+  };
+  [key: string]: any;
 }
 
-interface Column<T> {
-  key: string;           
-  label: string;                       
-  sortable?: boolean;               
-  className?: string;                 
-  render: (value: any, row: T) => React.ReactNode;
-}
+export default function ProductList() {
+  const { products, categories, filters } = usePage<Props>().props;
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: dashboard().url },
-    { title: 'Product Management', href: productsRoute.index().url },
-];
+    const [form, setForm] = useState({
+    search: filters.search || '',
+    category: Array.isArray(filters.category) ? filters.category : (filters.category ? [filters.category] : []),
+    status: Array.isArray(filters.status) ? filters.status : (filters.status ? [filters.status] : []),
+    sort: typeof filters.sort === 'string' ? filters.sort : '',
+    });
 
-export default function AdminProductIndex({ products: productsData, categories, filters, stats, auth }: Props) {
-    const [searchTerm, setSearchTerm] = useState(filters.search || '');
-    const [selectedCategory, setSelectedCategory] = useState(filters.category || '');
-    const [selectedStatus, setSelectedStatus] = useState(filters.status || '');
-    const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
-    const formatPrice = useMemo(() => {
-        const formatter = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        });
-        return (price: number) => formatter.format(price);
-    }, []);
+  const closeAllDropdowns = () => {
+    setIsSortDropdownOpen(false);
+    setIsCategoryDropdownOpen(false);
+    setIsStatusDropdownOpen(false);
+  };
 
-    const formatNumber = useMemo(() => {
-        const formatter = new Intl.NumberFormat('id-ID');
-        return (num: number) => formatter.format(num);
-    }, []);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-    const handleFilterChange = useCallback(() => {
-        router.get(productsRoute.index().url, {
-            search: searchTerm,
-            category: selectedCategory,
-            status: selectedStatus,
-            sort: filters.sort,
-            direction: filters.direction,
-        }, { preserveState: true, replace: true, preserveScroll: true });
-    }, [searchTerm, selectedCategory, selectedStatus, filters.sort, filters.direction]);
+  const handleCheckboxChange = (filterName: 'sort' | 'category' | 'status', value: string) => {
+    setForm(prevForm => {
+      const currentValues = Array.isArray(prevForm[filterName]) ? prevForm[filterName] : (prevForm[filterName] ? [prevForm[filterName]] : []);
+      if (currentValues.includes(value)) {
+        return { ...prevForm, [filterName]: currentValues.filter(item => item !== value) };
+      } else {
+        return { ...prevForm, [filterName]: [...currentValues, value] };
+      }
+    });
+  };
 
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (searchTerm !== (filters.search || '')) {
-                handleFilterChange();
-            }
-        }, 500);
-        return () => clearTimeout(delayDebounceFn);
-    }, [searchTerm, filters.search, handleFilterChange]);
+    const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
 
-    useEffect(() => {
-        if (selectedCategory !== (filters.category || '') || selectedStatus !== (filters.status || '')) {
-            handleFilterChange();
-        }
-    }, [selectedCategory, selectedStatus, filters.category, filters.status, handleFilterChange]);
+    if (form.search.trim()) params.append('search', form.search.trim());
 
-    const clearFilters = useCallback(() => {
-        setSearchTerm('');
-        setSelectedCategory('');
-        setSelectedStatus('');
-        router.get(productsRoute.index().url, {}, { preserveState: true, replace: true, preserveScroll: true });
-    }, []);
-
-    const handleSort = useCallback((column: string) => {
-        const newDirection = filters.sort === column && filters.direction === 'asc' ? 'desc' : 'asc';
-        router.get(productsRoute.index().url, {
-            search: searchTerm,
-            category: selectedCategory,
-            status: selectedStatus,
-            sort: column,
-            direction: newDirection,
-        }, { preserveState: true, replace: true, preserveScroll: true });
-    }, [searchTerm, selectedCategory, selectedStatus, filters.sort, filters.direction]);
-
-    const handleDelete = useCallback((product: Product) => {
-        if (confirm(`Anda yakin ingin menghapus "${product.productName}"? Tindakan ini adalah soft delete.`)) { 
-            router.delete(productsRoute.destroy(product.slug).url, { // Assuming destroy uses slug
-                preserveScroll: true,
-            });
-        }
-    }, []);
-
-    const handleRefresh = useCallback(() => {
-        setIsRefreshing(true);
-        router.reload({
-            onFinish: () => setIsRefreshing(false),
-        });
-    }, []);
-
-    // NEW: Handler for export button
-    const handleExport = useCallback(() => {
-        const currentFilters = {
-            search: searchTerm,
-            category: selectedCategory,
-            status: selectedStatus,
-            sort: filters.sort,
-            direction: filters.direction,
-        };
-        // Remove empty filters to keep URL clean
-        const activeFilters: Record<string, string> = {};
-        for (const key in currentFilters) {
-            if (Object.prototype.hasOwnProperty.call(currentFilters, key)) {
-                const value = (currentFilters as any)[key];
-                if (value !== undefined && value !== null && value !== '') {
-                    activeFilters[key] = value;
-                }
-            }
-        }
-        
-        const exportUrl = productsRoute.export(activeFilters).url;
-        window.location.href = exportUrl;
-
-    }, [searchTerm, selectedCategory, selectedStatus, filters.sort, filters.direction]);
-
-    const getNestedValue = (obj: any, path: string): any => {
-        if (path.indexOf('.') === -1) {
-            return obj[path];
-        }
-        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-    };
-    
-    const columns = useMemo<Column<Product>[]>(() => [
-    {
-        key: 'productName',
-        label: 'Product',
-        sortable: true,
-        render: (value: string, row: Product) => {
-            return (
-                <div className="flex items-center gap-3">
-                    {row.photos && row.photos.length > 0 && row.photos[0].filePath ? (
-                        <img
-                            src={`${row.photos[0].filePath}`} // Assuming filePath is already a full URL from backend
-                            alt={row.productName}
-                            className="h-12 w-12 rounded-lg object-cover shadow-sm ring-1 ring-slate-200 dark:ring-slate-700"
-                            loading="lazy"
-                        />
-                    ) : (
-                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-                            <Package className="h-6 w-6 text-slate-400 dark:text-slate-500" />
-                        </div>
-                    )}
-                    <div>
-                        <Link
-                            href={productsRoute.show(row.slug).url} // Assuming show uses slug
-                            className="font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        >
-                            {row.productName}
-                        </Link>
-                        {row.description && (
-                            <p className="text-sm text-slate-500 dark:text-slate-400 truncate max-w-xs">
-                                {row.description}
-                            </p>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-    },
-    {
-        key: 'category.name',
-        label: 'Category',
-        sortable: true, // Note: Sorting by category.name might need backend adjustment if not directly supported
-        render: (value: string | undefined, row: Product) => {
-            return (
-                <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {value || 'Uncategorized'}
-                </Badge>
-            );
-        }
-    },
-    {
-        key: 'price',
-        label: 'Price',
-        sortable: true,
-        className: 'text-right',
-        render: (value: number | undefined) => {
-            return (
-                <span className="font-medium text-slate-900 dark:text-slate-100">
-                    {typeof value === 'number' ? formatPrice(value) : 'N/A'}
-                </span>
-            );
-        }
-    },
-    {
-        key: 'stock',
-        label: 'Stock',
-        sortable: true,
-        className: 'text-center',
-        render: (value: number | undefined) => {
-            return (
-                <div className="flex items-center justify-center gap-2">
-                    <span className={`font-medium ${typeof value === 'number' ? (
-                        value <= 5
-                            ? 'text-red-600 dark:text-red-400'
-                            : value <= 20
-                                ? 'text-yellow-600 dark:text-yellow-400'
-                                : 'text-green-600 dark:text-green-400'
-                    ) : 'text-slate-500 dark:text-slate-400'}`}>
-                        {typeof value === 'number' ? formatNumber(value) : 'N/A'}
-                    </span>
-                    {typeof value === 'number' && value <= 5 && (
-                        <Badge variant="destructive" className="text-xs">
-                            Low
-                        </Badge>
-                    )}
-                </div>
-            );
-        }
-    },
-    {
-        key: 'status',
-        label: 'Status',
-        sortable: true,
-        render: (value: string | undefined) => {
-            const statusConfig = {
-                published: {
-                    label: 'Published',
-                    className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-                    icon: <TrendingUp className="h-3 w-3" />
-                },
-                draft: {
-                    label: 'Draft',
-                    className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
-                    icon: <Edit3 className="h-3 w-3" />
-                },
-                outofstock: { // Ensure this key matches your backend status value if different
-                    label: 'Out of Stock',
-                    className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
-                    icon: <TrendingDown className="h-3 w-3" />
-                }
-            };
-            const currentStatus = value as keyof typeof statusConfig;
-            const config = statusConfig[currentStatus] || statusConfig.draft; // Default to draft if unknown
-            return (
-                <Badge className={`flex items-center gap-1 ${config.className}`}>
-                    {config.icon}
-                    {config.label}
-                </Badge>
-            );
-        }
-    },
-    {
-        key: 'createdAt',
-        label: 'Created',
-        sortable: true,
-        render: (value: string | undefined) => {
-            return (
-                <div className="text-sm">
-                    <div className="font-medium text-slate-900 dark:text-slate-100">
-                        {value ? formatDateFns(new Date(value), "dd MMM yyyy") : "N/A"}
-                    </div>
-                    <div className="text-slate-500 dark:text-slate-400">
-                        {value ? formatDateFns(new Date(value), "HH:mm") : ""}
-                    </div>
-                </div>
-            );
-        }
+    // SORT: pisahkan menjadi sort + direction
+    if (form.sort) {
+        const [sort, direction] = form.sort.split('_');
+        params.append('sort', sort);
+        params.append('direction', direction);
     }
-], [formatPrice, formatNumber]);
+
+    // CATEGORY dan STATUS: ambil hanya satu (ambil pertama saja)
+    if (form.category.length > 0) {
+        params.append('category', form.category[0]);
+    }
+
+    if (form.status.includes('ready')) {
+    params.append('stock_min', '1'); // artinya stock > 0
+    }
+    if (form.status.includes('outofstock')) {
+    params.append('stock_max', '0'); // artinya stock <= 0
+    }
 
 
-    const actions = useMemo(() => [
-        {
-            label: 'View',
-            icon: <Eye className="h-4 w-4" />,
-            onClick: (product: Product) => router.visit(productsRoute.show(product.slug).url),
-            variant: 'outline' as const,
-        },
-        {
-            label: 'Edit',
-            icon: <Edit3 className="h-4 w-4" />,
-            onClick: (product: Product) => router.visit(productsRoute.edit(product.slug).url),
-            variant: 'outline' as const,
-        },
-        {
-            label: 'Delete',
-            icon: <Trash2 className="h-4 w-4" />, // Icon color fixed in button className
-            onClick: handleDelete,
-            variant: 'destructive' as const,
-        },
-    ], [handleDelete]); // router is stable, no need to include
+    router.get(`${productsRoute.index.url()}?${params.toString()}`, {}, { preserveState: true });
+    };
 
 
-    return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Admin: Product Management">
-                <meta name="description" content="Halaman untuk mengelola produk admin, termasuk filter, sorting, dan operasi lainnya pada katalog produk." />
-            </Head>
-            <div className="min-h-screen py-8 px-4 md:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-                <div className="max-w-7xl mx-auto space-y-8">
-                    {/* Header */}
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg">
-                                <Package className="h-7 w-7" />
-                            </div>
-                            <div>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                                    Product Management
-                                </h1>
-                                <p className="text-slate-600 dark:text-slate-400 mt-1">
-                                    Kelola katalog produk Anda dengan filter canggih dan operasi massal.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div className="flex items-center gap-3">
-                            <Button
-                                onClick={handleRefresh}
-                                variant="outline"
-                                size="sm"
-                                disabled={isRefreshing}
-                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
-                            >
-                                <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
-                                Refresh
-                            </Button>
+    const sortOptions = [
+    { value: 'productName_asc', label: 'Nama A-Z' },
+    { value: 'productName_desc', label: 'Nama Z-A' },
+    { value: 'price_asc', label: 'Harga Termurah' },
+    { value: 'price_desc', label: 'Harga Termahal' },
+    ];
 
-                            {/* UPDATED EXPORT BUTTON */}
-                            <Button 
-                                variant="outline" 
-                                size="sm" 
-                                className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
-                                onClick={handleExport} // Call the new handler
-                            >
-                                <Download className="h-4 w-4 mr-2" />
-                                Export
-                            </Button>
 
-                            <Button
-                                onClick={() => router.visit(productsRoute.create().url)}
-                                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg"
-                            >
-                                <PlusCircle className="h-4 w-4 mr-2" />
-                                Add Product
-                            </Button>
-                        </div>
-                    </div>
+  const statusOptions = [
+    { value: 'ready', label: 'Tersedia' },
+    { value: 'outofstock', label: 'Stok Habis' },
+  ];
 
-                    {/* Stats Cards */}
-                    {stats && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Products</p>
-                                        <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{formatNumber(stats.total_products)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                                        <Package className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Published</p>
-                                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">{formatNumber(stats.published_products)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                                        <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Draft</p>
-                                        <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">{formatNumber(stats.draft_products)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
-                                        <Edit3 className="h-6 w-6 text-amber-600 dark:text-amber-400" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Out of Stock</p>
-                                        <p className="text-2xl font-bold text-red-600 dark:text-red-400">{formatNumber(stats.out_of_stock)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                                        <TrendingDown className="h-6 w-6 text-red-600 dark:text-red-400" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Value</p>
-                                        <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{formatPrice(stats.total_value)}</p>
-                                    </div>
-                                    <div className="h-12 w-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
-                                        <BarChart3 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+  const getButtonText = (filterName: 'sort' | 'category' | 'status', options: { value: string; label: string }[]) => {
+    const selected = form[filterName];
+    if (!selected || selected.length === 0) {
+      return filterName === 'sort' ? 'Sort' : filterName === 'category' ? 'Kategori' : 'Status';
+    }
+    if (selected.length === 1) {
+      return options.find(opt => opt.value === selected[0])?.label || filterName;
+    }
+    return `${filterName === 'sort' ? 'Sort' : filterName === 'category' ? 'Kategori' : 'Status'} (${selected.length} dipilih)`;
+  };
+  
+  return (
+    <div className="min-h-screen bg-gray-100 font-sans text-gray-800">
+        <Head>
+        <title>Daftar Produk - BumiAji Store</title>
+        <meta name="description" content="Temukan berbagai produk terbaik dengan harga terjangkau hanya di BumiAji Store." />
+        <meta name="keywords" content="produk, toko, belanja online, BumiAji, murah, terbaik" />
+        <meta name="author" content="BumiAji Store" />
 
-                    {/* Filters */}
-                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-slate-700/50">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="search">Search Products</Label> {/* Added htmlFor */}
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                                    <Input
-                                        id="search"
-                                        type="text"
-                                        placeholder="Cari berdasarkan nama atau deskripsi..."
-                                        value={searchTerm}
-                                        onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                                        className="pl-10 bg-white/50 dark:bg-slate-900/50"
-                                    />
-                                </div>
-                            </div>
+        {/* Open Graph untuk sosmed */}
+        <meta property="og:title" content="Daftar Produk - BumiAji Store" />
+        <meta property="og:description" content="Jelajahi koleksi produk pilihan dari BumiAji Store." />
+        <meta property="og:image" content="https://placehold.co/1200x630/E5E7EB/9CA3AF?text=Produk+BumiAji" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta property="og:type" content="website" />
 
-                            <div className="space-y-2">
-                                <Label>Category</Label>
-                                <Select
-                                    value={selectedCategory === '' ? ALL_CATEGORIES_VALUE : selectedCategory}
-                                    onValueChange={(value) => {
-                                        setSelectedCategory(value === ALL_CATEGORIES_VALUE ? "" : value);
-                                    }}
-                                >
-                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50">
-                                        <SelectValue placeholder="All Categories" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value={ALL_CATEGORIES_VALUE}>All Categories</SelectItem>
-                                        {categories.map((category) => (
-                                            <SelectItem key={category.id} value={category.id.toString()}>
-                                                {category.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Daftar Produk - BumiAji Store" />
+        <meta name="twitter:description" content="Jelajahi koleksi produk pilihan dari BumiAji Store." />
+        <meta name="twitter:image" content="https://placehold.co/1200x630/E5E7EB/9CA3AF?text=Produk+BumiAji" />
+        </Head>
 
-                            <div className="space-y-2">
-                                <Label>Status</Label>
-                                <Select
-                                    value={selectedStatus === '' ? ALL_STATUS_VALUE : selectedStatus}
-                                    onValueChange={(value) => {
-                                        setSelectedStatus(value === ALL_STATUS_VALUE ? "" : value);
-                                    }}
-                                >
-                                    <SelectTrigger className="bg-white/50 dark:bg-slate-900/50">
-                                        <SelectValue placeholder="All Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value={ALL_STATUS_VALUE}>All Status</SelectItem>
-                                        <SelectItem value="published">Published</SelectItem>
-                                        <SelectItem value="draft">Draft</SelectItem>
-                                        <SelectItem value="outofstock">Out of Stock</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Tombol Kembali */}
+        <button
+          onClick={() => window.location.href = '/'}
+          className="text-gray-600 cursor-pointer hover:text-gray-800 mb-6 flex items-center rounded-md"
+          aria-label="Go back"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
 
-                            <div className="flex items-end">
-                                <Button
-                                    onClick={clearFilters}
-                                    variant="outline"
-                                    className="w-full bg-white/50 dark:bg-slate-900/50"
-                                >
-                                    <FilterX className="h-4 w-4 mr-2" />
-                                    Clear Filters
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* Data Table */}
-                    <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 dark:border-slate-700/50 overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-slate-50 dark:bg-slate-800/50">
-                                <tr>
-                                    {columns.map((col) => (
-                                        <th
-                                            key={col.key}
-                                            className={`p-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ${col.className || ''} ${col.sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors' : ''}`}
-                                            onClick={() => col.sortable && handleSort(col.key)}
-                                        >
-                                            <div className="flex items-center gap-1">
-                                                {col.label}
-                                                {col.sortable && filters.sort === col.key && (
-                                                    filters.direction === 'asc' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />
-                                                )}
-                                            </div>
-                                        </th>
-                                    ))}
-                                    <th className="p-4 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                                {productsData.data.map((product) => (
-                                    <tr key={product.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
-                                        {columns.map((col) => (
-                                            <td key={`${product.id}-${col.key}`} className={`p-4 whitespace-nowrap ${col.className || ''}`}>
-                                                {(() => {
-                                                    const value = getNestedValue(product, col.key);
-                                                    return col.render(value, product);
-                                                })()}
-                                            </td>
-                                        ))}
-                                        <td className="p-4 whitespace-nowrap text-right">
-                                            <div className="flex items-center justify-end gap-2">
-                                                {actions.map((action, index) => (
-                                                    <Button
-                                                        key={index}
-                                                        onClick={() => action.onClick(product)}
-                                                        variant={action.variant}
-                                                        size="sm"
-                                                        // Adjusted className for destructive button icon color
-                                                        className={action.variant === 'destructive' ?
-                                                            "border-red-500 text-red-500 hover:bg-red-100 hover:text-red-700 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-900/50 dark:hover:text-red-300 [&>svg]:text-red-500 dark:[&>svg]:text-red-400"
-                                                            : "border-slate-300 text-slate-600 hover:bg-slate-50 hover:border-slate-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:hover:border-slate-500"
-                                                        }
-                                                    >
-                                                        {action.icon}
-                                                        <span className="sr-only">{action.label}</span>
-                                                    </Button>
-                                                ))}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+        {/* Banner */}
+        <div className="w-full h-48 sm:h-56 md:h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-8 overflow-hidden shadow-md">
+          <img
+            src="https://placehold.co/1200x300/E5E7EB/9CA3AF?text=Banner+Produk"
+            alt="Product Banner"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-                        {productsData.data.length === 0 && (
-                            <div className="text-center py-12">
-                                <Package className="h-16 w-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
-                                <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100 mb-2">
-                                    Tidak ada produk ditemukan
-                                </h3>
-                                <p className="text-slate-500 dark:text-slate-400 mb-6">
-                                    {searchTerm || selectedCategory || selectedStatus
-                                        ? "Coba sesuaikan kriteria pencarian atau filter Anda."
-                                        : "Mulai dengan membuat produk pertama Anda."
-                                    }
-                                </p>
-                                    <Button
-                                        onClick={() => router.visit(productsRoute.create().url)}
-                                        className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white"
-                                    >
-                                        <PlusCircle className="h-4 w-4 mr-2" />
-                                        Buat Produk Pertama Anda
-                                    </Button>
-                            </div>
-                        )}
-                    </div>
-
-                    {productsData.data.length > 0 && (
-                        <div className="flex justify-center pt-6">
-                            <Pagination links={productsData.links} />
-                        </div>
-                    )}
-                </div>
+        {/* Filter dan Form Pencarian */}
+{/* Header dengan Filter dan Pencarian */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-0">Daftar Produk</h2>
+          <form onSubmit={handleSubmit} className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            {/* Pilihan Sort */}
+            <div>
+              <select
+                name="sort"
+                value={form.sort}
+                onChange={(e) => setForm({ ...form, sort: e.target.value })}
+                className="border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out bg-white"
+              >
+                <option value="">Sort</option>
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
-        </AppLayout>
-    );
+
+            {/* Pilihan Kategori dengan Dropdown Interaktif (Checkbox) */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => { closeAllDropdowns(); setIsCategoryDropdownOpen(!isCategoryDropdownOpen); }}
+                className="border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out bg-white flex items-center justify-between w-full sm:w-auto"
+                aria-haspopup="true"
+                aria-expanded={isCategoryDropdownOpen}
+              >
+                {getButtonText('category', categories.map(cat => ({ value: cat.id, label: cat.name })))}
+                <svg className="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {isCategoryDropdownOpen && (
+                <div className="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    {categories.map((cat) => (
+                      <label
+                        key={cat.id}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                        role="menuitem"
+                      >
+                        <input
+                          type="checkbox"
+                          name="category"
+                          value={cat.id}
+                          checked={form.category.includes(cat.id)}
+                          onChange={() => handleCheckboxChange('category', cat.id)}
+                          className="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                        />
+                        <span className="ml-2">{cat.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Pilihan Status dengan Dropdown Interaktif (Checkbox)
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => { closeAllDropdowns(); setIsStatusDropdownOpen(!isStatusDropdownOpen); }}
+                className="border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out bg-white flex items-center justify-between w-full sm:w-auto"
+                aria-haspopup="true"
+                aria-expanded={isStatusDropdownOpen}
+              >
+                {getButtonText('status', statusOptions)}
+                <svg className="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {isStatusDropdownOpen && (
+                <div className="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    {statusOptions.map((option) => (
+                      <label
+                        key={option.value}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                        role="menuitem"
+                      >
+                        <input
+                          type="checkbox"
+                          name="status"
+                          value={option.value}
+                          checked={form.status.includes(option.value)}
+                          onChange={() => handleCheckboxChange('status', option.value)}
+                          className="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                        />
+                        <span className="ml-2">{option.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div> */}
+
+            {/* Input Pencarian */}
+            <div className="relative flex-1 min-w-full sm:min-w-[180px]">
+              <input
+                type="text"
+                name="search"
+                placeholder="Cari produk"
+                value={form.search}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md pl-10 pr-4 py-2 text-sm w-full focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out"
+                aria-label="Cari produk"
+              />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Tombol Cari */}
+            <button
+              type="submit"
+              className="bg-green-700 text-white px-5 py-2 rounded-md hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-md w-full sm:w-auto"
+            >
+              Cari
+            </button>
+          </form>
+        </div>
+
+        {/* Garis pemisah */}
+        <hr className="border-t border-gray-300 mb-8" />
+
+        {/* Grid Produk */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.data.length > 0 ? (
+            products.data.map((product) => (
+              <Link href={productsRoute.showPublic(product.slug).url} key={product.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out transform hover:-translate-y-1 cursor-pointer">
+                <div className="bg-gray-100 h-40 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+                  {product.photos?.[0]?.filePath ? (
+                    <img
+                      src={product.photos[0].filePath}
+                      alt={product.productName}
+                      className="h-full w-full object-cover rounded-md"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://placehold.co/160x160/F3F4F6/9CA3AF?text=Gambar+Produk`;
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={`https://placehold.co/160x160/F3F4F6/9CA3AF?text=Gambar+Produk`}
+                      alt="Placeholder"
+                      className="h-full w-full object-cover rounded-md"
+                    />
+                  )}
+                </div>
+                <div className="flex-1 flex flex-col justify-between">
+                  <div className="text-center">
+                    <h3 className="text-base font-semibold text-gray-900 mb-1">{product.productName}</h3>
+                    <p className="text-xs text-gray-600 line-clamp-2">{product.description}</p>
+                  </div>
+                  <p className="text-black font-bold text-sm mt-10 text-left">
+                    Rp {parseInt(product.price).toLocaleString('id-ID')}
+                  </p>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-10 text-gray-500">
+              Tidak ada produk yang ditemukan.
+            </div>
+          )}
+        </div>
+
+        {/* Paginasi */}
+        <div className="flex justify-center mt-10 space-x-2 flex-wrap">
+          {products.links.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.url || '#'}
+              dangerouslySetInnerHTML={{ __html: link.label }}
+              className={`px-4 py-2 text-sm rounded-md transition duration-150 ease-in-out my-1
+                ${
+                  link.active
+                    ? 'bg-green-700 text-white shadow-md'
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                }
+                ${link.url === null ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
+              aria-label={`Go to page ${link.label.replace(/&laquo;|&raquo;|Sebelumnya|Selanjutnya/g, '')}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
