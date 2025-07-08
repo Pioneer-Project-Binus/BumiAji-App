@@ -1,54 +1,6 @@
 import { queryParams, type QueryParams } from './../wayfinder'
 /**
- * @see routes/web.php:6
- * @route '/'
- */
-export const home = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: home.url(options),
-    method: 'get',
-})
-
-home.definition = {
-    methods: ['get','head'],
-    url: '/',
-}
-
-/**
- * @see routes/web.php:6
- * @route '/'
- */
-home.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return home.definition.url + queryParams(options)
-}
-
-/**
- * @see routes/web.php:6
- * @route '/'
- */
-home.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: home.url(options),
-    method: 'get',
-})
-/**
- * @see routes/web.php:6
- * @route '/'
- */
-home.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: home.url(options),
-    method: 'head',
-})
-
-/**
- * @see routes/web.php:12
+ * @see routes/web.php:11
  * @route '/dashboard'
  */
 export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -65,7 +17,7 @@ dashboard.definition = {
 }
 
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:11
  * @route '/dashboard'
  */
 dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -73,7 +25,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 }
 
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:11
  * @route '/dashboard'
  */
 dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -84,7 +36,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'get',
 })
 /**
- * @see routes/web.php:12
+ * @see routes/web.php:11
  * @route '/dashboard'
  */
 dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

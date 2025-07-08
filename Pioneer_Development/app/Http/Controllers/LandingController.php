@@ -2,67 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Inertia\Inertia; // <-- Import Inertia
 use App\Models\ProfileVillage;
 use App\Models\Tourism;
+use App\Models\TourismPhoto;
 use App\Models\Product;
-use App\Models\Galery;
+use App\Models\PhotoProduct;
 use App\Models\Testimonial;
+use App\Models\Galery;
+use App\Models\Contact;
+use App\Models\Article;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class LandingController extends Controller
 {
-    /**
-     * Merender komponen React Landing/Index dengan props yang diperlukan.
-     *
-     * @return \Inertia\Response
-     */
     public function index()
     {
         $profile = ProfileVillage::first();
 
-        $tourisms = Tourism::where('status', 'published')
-                           ->where('isDeleted', false)
-                           ->latest()
-                           ->get();
+        $latestArticle = Article::where('status', 'published')
+            ->where('isDeleted', false)
+            ->orderByDesc('created_at')
+            ->first();
 
-        $products = Product::where('status', 'tersedia')
-                           ->where('isDeleted', false)
-                           ->latest()
-                           ->get();
+        $otherArticles = Article::where('status', 'published')
+            ->where('isDeleted', false)
+            ->when($latestArticle, fn ($query) => $query->where('id', '!=', $latestArticle->id))
+            ->orderByDesc('created_at')
+            ->limit(3)
+            ->get();
 
-        $galleries = Galery::where('isDeleted', false)
-                           ->orderBy('displayOrder', 'asc')
-                           ->get();
+        $tourism = Tourism::with(['photos' => function ($q) {
+            $q->where('isDeleted', false);
+        }])
+            ->where('status', 'published')
+            ->where('isDeleted', false)
+            ->limit(4)
+            ->get();
 
-        $testimonials = Testimonial::where('isDeleted', false)
-                                   ->latest()
-                                   ->get();
+        $products = Product::with(['photos' => function ($q) {
+            $q->where('isDeleted', false);
+        }])
+            ->where('status', 'published')
+            ->where('isDeleted', false)
+            ->get();
 
-        return Inertia::render('Landing/Index', [
+        $testimonials = Testimonial::where('isDeleted', false)->get();
+
+        $galeries = Galery::where('isDeleted', false)
+            ->where('type', 'photo')  
+            ->orderBy('displayOrder')
+            ->limit(8)
+            ->get();
+
+
+        return Inertia::render('welcome', [
             'profile' => $profile,
-            'tourisms' => $tourisms,
+            'latestArticle' => $latestArticle,
+            'otherArticles' => $otherArticles,
+            'tourism' => $tourism,
             'products' => $products,
-            'galleries' => $galleries,
             'testimonials' => $testimonials,
+            'galeries' => $galeries,
         ]);
     }
 
-    public function showTourism($slug)
+    public function storeContact(Request $request)
     {
-        $tourism = Tourism::where('slug', $slug)->where('isDeleted', false)->firstOrFail();
-        
-        return Inertia::render('Landing/TourismDetail', [
-            'tourism' => $tourism
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'phone'   => 'nullable|string|max:20',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
-    }
 
-    public function showProduct($slug)
-    {
-        $product = Product::where('slug', $slug)->where('isDeleted', false)->firstOrFail();
-        
-        return Inertia::render('Landing/ProductDetail', [
-            'product' => $product
+        $contact = Contact::create([
+            'id'      => Str::uuid(),
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'phone'   => $request->phone,
+            'subject' => $request->subject,
+            'slug'    => Str::slug($request->subject . '-' . now()->timestamp),
+            'message' => $request->message,
         ]);
+
+        return response()->json(['message' => 'Pesan berhasil dikirim.'], 201);
     }
 }

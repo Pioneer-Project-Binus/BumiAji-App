@@ -26,17 +26,11 @@ class PhotoProducts extends Model
         'createdBy',
         'updatedBy',
         'isDeleted',
-        // 'createdAt' // createdAt dan updatedAt biasanya tidak di fillable jika dihandle otomatis
     ];
 
     protected $casts = [
         'displayOrder' => 'integer',
         'isDeleted' => 'boolean',
-        // Laravel otomatis handle createdAt dan updatedAt jika menggunakan timestamps()
-        // Migrasi Anda menggunakan createdAt (camelCase) pada kolom, tapi timestamps() membuat createdAt (snake_case)
-        // Pastikan konsisten. Jika kolomnya memang createdAt, maka cast di bawah benar.
-        // Jika kolomnya createdAt, hapus dari cast atau sesuaikan.
-        // 'createdAt' => 'datetime', // Migrasi Anda memiliki kolom `createdAt` dan bukan `createdAt` dari timestamps()
     ];
 
     // Relasi ke Produk

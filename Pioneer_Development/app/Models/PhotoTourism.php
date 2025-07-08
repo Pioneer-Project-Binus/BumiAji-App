@@ -27,8 +27,6 @@ class PhotoTourism extends Model
 
     protected $casts = [
         'isDeleted' => 'boolean',
-        // Migrasi Anda tidak menggunakan timestamps() standar (createdAt, updatedAt)
-        // Jadi tidak ada cast default untuk itu kecuali Anda menambahkannya secara manual
     ];
 
     // Relasi ke Destinasi Wisata (Tourism)

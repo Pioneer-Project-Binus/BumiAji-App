@@ -118,6 +118,13 @@ export default function PhotoProductIndex({ photoProducts: initialPhotoProducts,
 
                     <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-slate-700/30">
                         <div className="p-6 md:p-8 space-y-6">
+                            <div className="flex justify-between items-center">
+                                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+                                <Link href={photoProductsRoutes.archived().url}>
+                                    Archive
+                                </Link>
+                            </Button>
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="relative">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />

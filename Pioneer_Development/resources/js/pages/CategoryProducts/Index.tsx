@@ -105,13 +105,19 @@ export default function CategoryProductIndex({ categoryProducts, filters }: Prop
                                 </div>
                             </div>
                         </div>
-                        
+                        <div className="flex gap-3 ml-auto">
+                        <Link href={categoryProductRoutes.archived().url}>
+                            <Button className="bg-gradient-to-r from-pink-500 via-purple-500 to-purple-600 hover:from-pink-600 hover:via-purple-600 hover:to-purple-700 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 h-12 px-8 rounded-xl group">
+                                Archive
+                            </Button>
+                        </Link>
                         <Link href={categoryProductRoutes.create().url}>
                             <Button className="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 hover:from-emerald-600 hover:via-green-600 hover:to-teal-700 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 h-12 px-8 rounded-xl group">
                                 <PlusCircle className="h-5 w-5 mr-2 group-hover:rotate-90 transition-transform duration-300" /> 
                                 Add New Category
                             </Button>
                         </Link>
+                        </div>
                     </div>
 
                     {/* Enhanced Filters */}

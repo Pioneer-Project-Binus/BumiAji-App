@@ -14,34 +14,27 @@ use Inertia\Inertia;
 class ProfileVillageController extends Controller
 {
 
-    public function index(Request $request)
+    public function indexPublic(Request $request)
     {
         $profileVillages = ProfileVillage::where('isDeleted', false)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->orderBy('created_at', 'desc');
 
-        if ($request->wantsJson()) {
-            return response()->json([
-                'success' => true,
-                'data' => $profileVillages,
-                'message' => 'Daftar profil desa berhasil diambil.'
-            ]);
-        }
-        
-        if (Auth::check()) {
-            return Inertia::render('ProfileVillage/Index', [
+        return Inertia::render('ProfileVillage/Public/Index', [
             'profileVillages' => $profileVillages,
-            'filters' => $request->only(['search']),
         ]);
-        } else {
-            return Inertia::render('ProfileVillage/Public/Index', [
-            'profileVillages' => $profileVillages,
-            'filters' => $request->only(['search']),
-        ]);
-        }
-
-        
     }
+
+    public function indexAdmin(Request $request)
+    {
+        $profileVillages = ProfileVillage::where('isDeleted', false)
+            ->orderBy('created_at', 'desc');
+
+        return Inertia::render('ProfileVillage/Index', [
+            'profileVillages' => $profileVillages,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
 
     public function showOrCreate(Request $request)
     {

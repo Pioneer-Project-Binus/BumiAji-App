@@ -44,7 +44,7 @@ export default function CreateTourismPhoto({ destinations, selectedDestinationId
             });
         }
 
-        router.post(tourismPhotos.create().url, formData, {
+        router.post(tourismPhotos.store().url, formData, {
             forceFormData: true,
         });
     };

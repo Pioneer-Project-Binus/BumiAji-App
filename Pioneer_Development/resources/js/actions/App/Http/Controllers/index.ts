@@ -1,3 +1,4 @@
+import LandingController from './LandingController'
 import Auth from './Auth'
 import CategoryProductController from './CategoryProductController'
 import ProductController from './ProductController'
@@ -12,7 +13,8 @@ import GaleryController from './GaleryController'
 import ContactController from './ContactController'
 import Settings from './Settings'
 const Controllers = {
-    Auth,
+    LandingController,
+Auth,
 CategoryProductController,
 ProductController,
 PhotoProductController,

@@ -344,6 +344,172 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
+* @see \App\Http\Controllers\TourismController::archivedIndex
+ * @see app/Http/Controllers/TourismController.php:219
+ * @route '/tourism/archived'
+ */
+export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+
+archivedIndex.definition = {
+    methods: ['get','head'],
+    url: '/tourism/archived',
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::archivedIndex
+ * @see app/Http/Controllers/TourismController.php:219
+ * @route '/tourism/archived'
+ */
+archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archivedIndex.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::archivedIndex
+ * @see app/Http/Controllers/TourismController.php:219
+ * @route '/tourism/archived'
+ */
+archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\TourismController::archivedIndex
+ * @see app/Http/Controllers/TourismController.php:219
+ * @route '/tourism/archived'
+ */
+archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archivedIndex.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\TourismController::restore
+ * @see app/Http/Controllers/TourismController.php:247
+ * @route '/tourism/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/tourism/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::restore
+ * @see app/Http/Controllers/TourismController.php:247
+ * @route '/tourism/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::restore
+ * @see app/Http/Controllers/TourismController.php:247
+ * @route '/tourism/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\TourismController::deletePermanent
+ * @see app/Http/Controllers/TourismController.php:261
+ * @route '/tourism/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/tourism/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::deletePermanent
+ * @see app/Http/Controllers/TourismController.php:261
+ * @route '/tourism/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\TourismController::deletePermanent
+ * @see app/Http/Controllers/TourismController.php:261
+ * @route '/tourism/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+/**
 * @see \App\Http\Controllers\TourismController::edit
  * @see app/Http/Controllers/TourismController.php:142
  * @route '/tourism/{slug}/edit'
@@ -525,6 +691,6 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
-const TourismController = { index, show, create, store, edit, update, destroy }
+const TourismController = { index, show, create, store, archivedIndex, restore, deletePermanent, edit, update, destroy }
 
 export default TourismController

@@ -1,116 +1,163 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
-* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+* @see \App\Http\Controllers\ProfileVillageController::indexPublic
+ * @see app/Http/Controllers/ProfileVillageController.php:17
  * @route '/profil-desa'
  */
-const showOrCreate64b10973650c616db165b8758bd680c2 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 
-showOrCreate64b10973650c616db165b8758bd680c2.definition = {
+indexPublic.definition = {
     methods: ['get','head'],
     url: '/profil-desa',
 }
 
 /**
-* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+* @see \App\Http\Controllers\ProfileVillageController::indexPublic
+ * @see app/Http/Controllers/ProfileVillageController.php:17
  * @route '/profil-desa'
  */
-showOrCreate64b10973650c616db165b8758bd680c2.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return showOrCreate64b10973650c616db165b8758bd680c2.definition.url + queryParams(options)
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+* @see \App\Http\Controllers\ProfileVillageController::indexPublic
+ * @see app/Http/Controllers/ProfileVillageController.php:17
  * @route '/profil-desa'
  */
-showOrCreate64b10973650c616db165b8758bd680c2.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
+    url: indexPublic.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+* @see \App\Http\Controllers\ProfileVillageController::indexPublic
+ * @see app/Http/Controllers/ProfileVillageController.php:17
  * @route '/profil-desa'
  */
-showOrCreate64b10973650c616db165b8758bd680c2.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: showOrCreate64b10973650c616db165b8758bd680c2.url(options),
+    url: indexPublic.url(options),
     method: 'head',
 })
 
-    /**
+/**
+* @see \App\Http\Controllers\ProfileVillageController::indexAdmin
+ * @see app/Http/Controllers/ProfileVillageController.php:27
+ * @route '/profile-village'
+ */
+export const indexAdmin = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexAdmin.url(options),
+    method: 'get',
+})
+
+indexAdmin.definition = {
+    methods: ['get','head'],
+    url: '/profile-village',
+}
+
+/**
+* @see \App\Http\Controllers\ProfileVillageController::indexAdmin
+ * @see app/Http/Controllers/ProfileVillageController.php:27
+ * @route '/profile-village'
+ */
+indexAdmin.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexAdmin.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProfileVillageController::indexAdmin
+ * @see app/Http/Controllers/ProfileVillageController.php:27
+ * @route '/profile-village'
+ */
+indexAdmin.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexAdmin.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\ProfileVillageController::indexAdmin
+ * @see app/Http/Controllers/ProfileVillageController.php:27
+ * @route '/profile-village'
+ */
+indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: indexAdmin.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+ * @see app/Http/Controllers/ProfileVillageController.php:39
  * @route '/profile-village/edit'
  */
-const showOrCreatee64b231b455fa9e383ad591ebfd26091 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const showOrCreate = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
+    url: showOrCreate.url(options),
     method: 'get',
 })
 
-showOrCreatee64b231b455fa9e383ad591ebfd26091.definition = {
+showOrCreate.definition = {
     methods: ['get','head'],
     url: '/profile-village/edit',
 }
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+ * @see app/Http/Controllers/ProfileVillageController.php:39
  * @route '/profile-village/edit'
  */
-showOrCreatee64b231b455fa9e383ad591ebfd26091.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return showOrCreatee64b231b455fa9e383ad591ebfd26091.definition.url + queryParams(options)
+showOrCreate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return showOrCreate.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+ * @see app/Http/Controllers/ProfileVillageController.php:39
  * @route '/profile-village/edit'
  */
-showOrCreatee64b231b455fa9e383ad591ebfd26091.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreate.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
+    url: showOrCreate.url(options),
     method: 'get',
 })
 /**
 * @see \App\Http\Controllers\ProfileVillageController::showOrCreate
- * @see app/Http/Controllers/ProfileVillageController.php:46
+ * @see app/Http/Controllers/ProfileVillageController.php:39
  * @route '/profile-village/edit'
  */
-showOrCreatee64b231b455fa9e383ad591ebfd26091.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showOrCreate.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: showOrCreatee64b231b455fa9e383ad591ebfd26091.url(options),
+    url: showOrCreate.url(options),
     method: 'head',
 })
-
-export const showOrCreate = {
-    '/profil-desa': showOrCreate64b10973650c616db165b8758bd680c2,
-    '/profile-village/edit': showOrCreatee64b231b455fa9e383ad591ebfd26091,
-}
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:63
+ * @see app/Http/Controllers/ProfileVillageController.php:56
  * @route '/profile-village'
  */
 export const storeOrUpdate = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -128,7 +175,7 @@ storeOrUpdate.definition = {
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:63
+ * @see app/Http/Controllers/ProfileVillageController.php:56
  * @route '/profile-village'
  */
 storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -137,7 +184,7 @@ storeOrUpdate.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\ProfileVillageController::storeOrUpdate
- * @see app/Http/Controllers/ProfileVillageController.php:63
+ * @see app/Http/Controllers/ProfileVillageController.php:56
  * @route '/profile-village'
  */
 storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -147,6 +194,6 @@ storeOrUpdate.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
     url: storeOrUpdate.url(options),
     method: 'post',
 })
-const ProfileVillageController = { showOrCreate, storeOrUpdate }
+const ProfileVillageController = { indexPublic, indexAdmin, showOrCreate, storeOrUpdate }
 
 export default ProfileVillageController

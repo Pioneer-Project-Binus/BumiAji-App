@@ -115,7 +115,27 @@ class CategoryArticleController extends Controller
 
     }
 
-    public function show(Request $request, string $slug)
+    public function showPublic(Request $request, string $slug)
+{
+    $categoryArticle = CategoryArticle::withCount('articles')
+        ->where('slug', $slug)
+        ->where('isDeleted', false)
+        ->firstOrFail();
+
+    if ($request->wantsJson()) {
+        return response()->json([
+            'success' => true,
+            'data' => $categoryArticle,
+            'message' => 'Kategori artikel berhasil diambil (Publik)'
+        ]);
+    }
+
+    return Inertia::render('CategoryArticles/Public/Show', [
+        'categoryArticle' => $categoryArticle
+    ]);
+    }
+
+    public function showAdmin(Request $request, string $slug)
     {
         $categoryArticle = CategoryArticle::withCount('articles')
             ->where('slug', $slug)
@@ -123,19 +143,18 @@ class CategoryArticleController extends Controller
             ->firstOrFail();
 
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'data' => $categoryArticle, 'message' => 'Kategori artikel berhasil diambil']);
+            return response()->json([
+                'success' => true,
+                'data' => $categoryArticle,
+                'message' => 'Kategori artikel berhasil diambil (Admin)'
+            ]);
         }
 
-        if (Auth::check()) {
-            return Inertia::render('CategoryArticles/Show', [
-                'categoryArticle' => $categoryArticle,
-            ]);
-        } else {
-            return Inertia::render('CategoryArticles/Public/Show', [
-                'categoryArticle' => $categoryArticle
-            ]);
-        }
+        return Inertia::render('CategoryArticles/Show', [
+            'categoryArticle' => $categoryArticle
+        ]);
     }
+
 
     public function edit(string $slug)
     {
@@ -203,5 +222,72 @@ class CategoryArticleController extends Controller
         }
 
         return redirect()->route('category-articles.index')->with('success', 'Kategori artikel berhasil dihapus.');
+    }
+
+    public function archivedIndex(Request $request)
+    {
+        $query = CategoryArticle::where('isDeleted', true)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $categoryArticles = $query->paginate(10)->withQueryString();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $categoryArticles,
+                'message' => 'Data kategori terarsip berhasil diambil'
+            ]);
+        }
+
+        return Inertia::render('CategoryArticles/Archived', [
+            'categoryArticles' => $categoryArticles,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function restore(Request $request, string $slug)
+    {
+        $categoryArticle = CategoryArticle::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $categoryArticle->isDeleted = false;
+        $categoryArticle->updatedBy = Auth::id();
+        $categoryArticle->save();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kategori artikel berhasil dipulihkan'
+            ]);
+        }
+
+        return redirect()->route('category-articles.archived')->with('success', 'Kategori artikel berhasil dipulihkan.');
+    }
+
+    public function deletePermanent(Request $request, string $slug)
+    {
+        $categoryArticle = CategoryArticle::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $categoryArticle->delete(); // Hapus dari database
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kategori artikel berhasil dihapus permanen'
+            ]);
+        }
+
+        return redirect()->route('category-articles.archived')->with('success', 'Kategori artikel dihapus permanen.');
     }
 }

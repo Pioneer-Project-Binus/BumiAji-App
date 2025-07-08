@@ -229,6 +229,9 @@ class ProductController extends Controller
             'id' => $photo->id,
             'filePath' => Storage::url($photo->filePath),
             'originalPath' => $photo->filePath,
+            'title' => $photo->title,
+            'displayOrder' => $photo->displayOrder,
+            'slug' => $photo->slug,
         ]);
 
         $categories = CategoryProduct::where('isDeleted', false)->get();
@@ -312,8 +315,7 @@ class ProductController extends Controller
             ->firstOrFail();
 
         $product->isDeleted = true;
-        $product->deletedBy = Auth::id();
-        $product->deletedAt = now();
+        $product->updated_at = now();
         $product->save();
 
         if ($request->wantsJson() && !$request->header('X-Inertia')) {
@@ -325,5 +327,58 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')
             ->with('success', 'Produk berhasil dihapus.');
+    }
+
+    public function archived(Request $request)
+    {
+        $query = Product::with('category')
+            ->where('isDeleted', true);
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where('productName', 'like', "%{$searchTerm}%");
+        }
+
+        $products = $query->paginate(10)->through(fn($product) => [
+            'id' => $product->id,
+            'slug' => $product->slug,
+            'productName' => $product->productName,
+            'category' => $product->category ? ['name' => $product->category->name] : null,
+            'price' => $product->price,
+            'stock' => $product->stock,
+            'status' => $product->status,
+        ]);
+
+        $categories = CategoryProduct::where('isDeleted', false)->get();
+
+        return Inertia::render('Products/Archived', [
+            'products' => $products,
+            'categories' => $categories,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function restore($slug)
+    {
+        $product = Product::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $product->isDeleted = false;
+        $product->updatedBy = Auth::id();
+        $product->save();
+
+        return redirect()->back()->with('success', 'Produk berhasil dipulihkan.');
+    }
+
+    public function deletePermanent($slug)
+    {
+        $product = Product::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Produk berhasil dihapus permanen.');
     }
 }

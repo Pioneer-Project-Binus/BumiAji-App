@@ -17,22 +17,22 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->enum('type', ['photo', 'video'])->default('photo');
-            $table->string('filePath'); // camelCase
-            $table->integer('displayOrder')->default(0); // camelCase
+            $table->string('filePath');
+            $table->integer('displayOrder')->default(0);
             $table->timestamps();
-            $table->uuid('createdBy')->index(); // camelCase
+            $table->uuid('createdBy')->index();
             $table->foreign('createdBy')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->uuid('updatedBy')->nullable()->index(); // camelCase
+            $table->uuid('updatedBy')->nullable()->index();
             $table->foreign('updatedBy')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->boolean('isDeleted')->default(false); // camelCase
+            $table->boolean('isDeleted')->default(false);
         });
     }
 

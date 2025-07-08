@@ -20,7 +20,7 @@ import { dashboard } from '@/routes';
 // Declare global $ for TypeScript
 declare global {
     interface Window {
-        $: typeof $;
+        $: any;
     }
 }
 
@@ -70,7 +70,6 @@ export default function AdminProductCreate({ categories }: Props) {
         }
     }, [data.description, setData]);
 
-    // Effect untuk inisialisasi Summernote - hanya sekali
     useEffect(() => {
         if (summernoteRef.current && window.$ && typeof window.$.fn.summernote === 'function' && !summernoteInitialized.current) {
             // Hancurkan instance yang ada jika ada

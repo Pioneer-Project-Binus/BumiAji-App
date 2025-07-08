@@ -14,6 +14,9 @@ Route::post('hubungi-kami', [ContactController::class, 'store'])->name('public.c
 // --- RUTE ADMIN UNTUK MELIHAT PESAN KONTAK ---
 Route::middleware('auth')->group(function () {
     Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('contacts-archived', [ContactController::class, 'archivedIndex'])->name('contacts.archived');
     Route::get('contacts/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::put('contacts/{slug}/restore', [ContactController::class, 'restore'])->name('contacts.restore');
+    Route::delete('contacts/{slug}/delete-permanent', [ContactController::class, 'deletePermanent'])->name('contacts.deletePermanent');
 });

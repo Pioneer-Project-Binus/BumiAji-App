@@ -50,24 +50,21 @@ export interface PaginatedResponse<T> {
 }
 
 export interface Galery {
-    id: number;
-    title: string;
+    id: string;
+    createdBy: string;
+    created_at: string; // ISO timestamp string
+    description: string;
+    displayOrder: number;
+    filePath: string;
+    isDeleted: boolean;
     slug: string;
-    description: string | null;
-    type: 'photo' | 'video';
-    filePath: string; // Ini adalah path mentah dari database
-    displayOrder: number | null;
-    
-    // Properti ini ditambahkan di controller, jadi bersifat opsional
-    filePath?: string | null; 
+    title: string;
+    type: string;
+    updatedBy: string | null;
+    updated_at: string;
 }
-// =================================================================
-// 2. CORE & UTILITY TYPES
-// =================================================================
 
-/**
- * Represents a standard user of the application.
- */
+
 export interface User {
     id: number;
     name: string;
@@ -153,6 +150,11 @@ export interface Article {
     updated_at: string;
 }
 
+export interface ProductPhoto {
+  id?: string;        // kalau ada id photo
+  url?: string;       // biasanya URL foto ada di sini, sesuaikan dengan data real
+  [key: string]: any; // fallback untuk properti lain
+}
 
 // --- Products ---
 
@@ -185,13 +187,15 @@ export interface Product {
     price: number;
     stock: number;
     status: ProductStatus;
-    category_id: number | null;
+    categoryId: number | null;
     category?: CategoryProduct; // Optional relation
     photos?: PhotoProduct[]; // Optional relation
     creator?: User; // Optional relation
     updater?: User; // Optional relation
     created_at: string;
     updated_at: string;
+    isDeleted?: boolean;
+    photos: ProductPhoto[];
 }
 
 

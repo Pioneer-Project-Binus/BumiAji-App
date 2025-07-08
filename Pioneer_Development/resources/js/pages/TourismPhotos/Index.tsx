@@ -1,7 +1,10 @@
-import AppHeaderLayout from '@/layouts/app/app-header-layout';
+import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import React, { useState } from 'react';
 import tourismPhotosRoutes from '@/routes/tourism-photos';
+import { dashboard } from '@/routes';
+import tourismRoute from '@/routes/tourism';
+import { BreadcrumbItem } from '@/types';
 
 export interface TourismPhoto {
     id: number;
@@ -68,8 +71,13 @@ export default function IndexPage({ tourismPhotos, destinations, filters }: Inde
         });
     }
 
+    const breadcrumbs: BreadcrumbItem[] = [
+    { title: 'Admin Dashboard', href: dashboard().url },
+    { title: 'Product Management', href: tourismRoute.index().url },
+];
+
     return (
-        <AppHeaderLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gallery Foto Destinasi" />
             <div className="mx-auto max-w-2xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
@@ -183,6 +191,6 @@ export default function IndexPage({ tourismPhotos, destinations, filters }: Inde
                     </div>
                 </div>
             )}
-        </AppHeaderLayout>
+        </AppLayout>
     );
 }

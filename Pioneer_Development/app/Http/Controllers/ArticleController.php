@@ -37,169 +37,191 @@ class ArticleController extends Controller
     }
 
     public function indexPublic(Request $request)
-{
-    // Query artikel untuk publik: hanya yang status 'published' dan isDeleted false
-    $query = Article::with(['category', 'author'])
-        ->where('isDeleted', false)
-        ->where('status', 'published')
-        ->orderBy('created_at', 'desc');
+    {
+        // Query artikel untuk publik: hanya yang status 'published' dan isDeleted false
+        $query = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc');
 
-    // Search filter
-    if ($request->filled('search')) {
-        $searchTerm = $request->search;
-        $query->where(function ($q) use ($searchTerm) {
-            $q->where('title', 'like', "%{$searchTerm}%")
-              ->orWhere('content', 'like', "%{$searchTerm}%");
+        // Search filter
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('content', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category') && $request->category !== 'Semua Kategori') {
+            $query->where('categoryId', $request->category);
+        }
+
+        // Pagination
+        $articles = $query->paginate(10);
+
+        // Transform the data to match the expected format
+        $articles->getCollection()->transform(function ($article) {
+            return [
+                'id' => $article->id,
+                'title' => $article->title,
+                'content' => $article->content,
+                'slug' => $article->slug,
+                'status' => $article->status,
+                'image' => $article->image,
+                'created_at' => $article->created_at->toISOString(),
+                'updated_at' => $article->updated_at->toISOString(),
+                'category' => [
+                    'id' => $article->category->id,
+                    'name' => $article->category->name,
+                ],
+                'author' => [
+                    'id' => $article->author->id,
+                    'name' => $article->author->name,
+                ],
+                // Add these for backward compatibility
+                'date' => $article->created_at->format('d M Y'),
+                'createdAt' => $article->created_at->toISOString(),
+            ];
         });
-    }
 
-    // Category filter
-    if ($request->filled('category') && $request->category !== 'Semua Kategori') {
-        $query->where('categoryId', $request->category);
-    }
+        // Ambil artikel terbaru sebagai highlight
+        $highlight = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-    // Pagination
-    $articles = $query->paginate(10);
+        // Transform highlight data
+        if ($highlight) {
+            $highlight = [
+                'id' => $highlight->id,
+                'title' => $highlight->title,
+                'content' => $highlight->content,
+                'slug' => $highlight->slug,
+                'status' => $highlight->status,
+                'image' => $highlight->image,
+                'created_at' => $highlight->created_at->toISOString(),
+                'updated_at' => $highlight->updated_at->toISOString(),
+                'category' => [
+                    'id' => $highlight->category->id,
+                    'name' => $highlight->category->name,
+                ],
+                'author' => [
+                    'id' => $highlight->author->id,
+                    'name' => $highlight->author->name,
+                ],
+                // Add these for backward compatibility
+                'date' => $highlight->created_at->format('d M Y'),
+                'createdAt' => $highlight->created_at->toISOString(),
+            ];
+        }
 
-    // Transform the data to match the expected format
-    $articles->getCollection()->transform(function ($article) {
-        return [
-            'id' => $article->id,
-            'title' => $article->title,
-            'content' => $article->content,
-            'slug' => $article->slug,
-            'status' => $article->status,
-            'image' => $article->image,
-            'created_at' => $article->created_at->toISOString(),
-            'updated_at' => $article->updated_at->toISOString(),
-            'category' => [
-                'id' => $article->category->id,
-                'name' => $article->category->name,
-            ],
-            'author' => [
-                'id' => $article->author->id,
-                'name' => $article->author->name,
-            ],
-            // Add these for backward compatibility
-            'date' => $article->created_at->format('d M Y'),
-            'createdAt' => $article->created_at->toISOString(),
-        ];
-    });
+        // Get categories
+        $categories = CategoryArticle::where('isDeleted', false)
+            ->orderBy('name')
+            ->get(['id', 'name']);
 
-    // Ambil artikel terbaru sebagai highlight
-    $highlight = Article::with(['category', 'author'])
-        ->where('isDeleted', false)
-        ->where('status', 'published')
-        ->orderBy('created_at', 'desc')
-        ->first();
+        // API response
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $articles,
+                'highlight' => $highlight,
+                'categories' => $categories,
+                'message' => 'Artikel berhasil diambil'
+            ]);
+        }
 
-    // Transform highlight data
-    if ($highlight) {
-        $highlight = [
-            'id' => $highlight->id,
-            'title' => $highlight->title,
-            'content' => $highlight->content,
-            'slug' => $highlight->slug,
-            'status' => $highlight->status,
-            'image' => $highlight->image,
-            'created_at' => $highlight->created_at->toISOString(),
-            'updated_at' => $highlight->updated_at->toISOString(),
-            'category' => [
-                'id' => $highlight->category->id,
-                'name' => $highlight->category->name,
-            ],
-            'author' => [
-                'id' => $highlight->author->id,
-                'name' => $highlight->author->name,
-            ],
-            // Add these for backward compatibility
-            'date' => $highlight->created_at->format('d M Y'),
-            'createdAt' => $highlight->created_at->toISOString(),
-        ];
-    }
-
-    // Get categories
-    $categories = CategoryArticle::where('isDeleted', false)
-        ->orderBy('name')
-        ->get(['id', 'name']);
-
-    // API response
-    if ($request->wantsJson()) {
-        return response()->json([
-            'success' => true,
-            'data' => $articles,
+        // Web response
+        return Inertia::render('Articles/Public/Index', [
+            'articles' => $articles,
             'highlight' => $highlight,
             'categories' => $categories,
-            'message' => 'Artikel berhasil diambil'
+            'filters' => $request->only(['search', 'category']),
         ]);
     }
 
-    // Web response
-    return Inertia::render('Articles/Public/Index', [
-        'articles' => $articles,
-        'highlight' => $highlight,
-        'categories' => $categories,
-        'filters' => $request->only(['search', 'category']),
-    ]);
-}
+    public function indexAdmin(Request $request)
+    {
+        // Query untuk admin bisa lihat semua status
+        $query = Article::with(['category', 'author', 'creator', 'updater'])
+            ->where('isDeleted', false)
+            ->orderBy('created_at', 'desc');
 
-public function indexAdmin(Request $request)
-{
-    // Query untuk admin bisa lihat semua status
-    $query = Article::with(['category', 'author', 'creator', 'updater'])
-        ->where('isDeleted', false)
-        ->orderBy('created_at', 'desc');
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('content', 'like', "%{$searchTerm}%");
+            });
+        }
 
-    if ($request->filled('search')) {
-        $searchTerm = $request->search;
-        $query->where(function ($q) use ($searchTerm) {
-            $q->where('title', 'like', "%{$searchTerm}%")
-              ->orWhere('content', 'like', "%{$searchTerm}%");
-        });
-    }
+        if ($request->filled('category') && $request->category !== 'Semua Kategori') {
+            $query->where('categoryId', $request->category);
+        }
 
-    if ($request->filled('category') && $request->category !== 'Semua Kategori') {
-        $query->where('categoryId', $request->category);
-    }
+        if ($request->filled('status') && $request->status !== 'Semua Status') {
+            $query->where('status', $request->status);
+        }
 
-    if ($request->filled('status') && $request->status !== 'Semua Status') {
-        $query->where('status', $request->status);
-    }
+        if ($request->filled('author') && $request->author !== 'Semua Penulis') {
+            $query->where('authorId', $request->author);
+        }
 
-    if ($request->filled('author') && $request->author !== 'Semua Penulis') {
-        $query->where('authorId', $request->author);
-    }
+        $articles = $query->paginate(10);
 
-    $articles = $query->paginate(10);
+        // Highlight terbaru untuk admin juga (optional)
+        $highlight = Article::where('isDeleted', false)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-    // Highlight terbaru untuk admin juga (optional)
-    $highlight = Article::where('isDeleted', false)
-        ->orderBy('created_at', 'desc')
-        ->first();
+        $categories = CategoryArticle::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
+        $authors = User::orderBy('name')->get(['id', 'name']);
 
-    $categories = CategoryArticle::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
-    $authors = User::orderBy('name')->get(['id', 'name']);
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $articles,
+                'highlight' => $highlight,
+                'message' => 'Artikel berhasil diambil'
+            ]);
+        }
 
-    if ($request->wantsJson()) {
-        return response()->json([
-            'success' => true,
-            'data' => $articles,
+        return Inertia::render('Articles/Index', [
+            'articles' => $articles,
             'highlight' => $highlight,
-            'message' => 'Artikel berhasil diambil'
+            'categories' => $categories,
+            'authors' => $authors,
+            'filters' => $request->only(['search', 'category', 'status', 'author']),
         ]);
     }
 
-    return Inertia::render('Articles/Index', [
-        'articles' => $articles,
-        'highlight' => $highlight,
-        'categories' => $categories,
-        'authors' => $authors,
-        'filters' => $request->only(['search', 'category', 'status', 'author']),
-    ]);
-}
+    /**
+     * Menampilkan detail artikel untuk publik.
+     * Hanya artikel dengan status 'published' yang bisa diakses.
+     */
+    public function showPublic(Request $request, $slug)
+    {
+        $article = Article::with(['category', 'author'])
+            ->where('isDeleted', false)
+            ->where('status', 'published') // Kondisi khusus untuk publik
+            ->where('slug', $slug)
+            ->firstOrFail();
 
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'data' => $article, 'message' => 'Artikel berhasil diambil']);
+        }
 
-    public function show(Request $request, $slug)
+        return Inertia::render('Articles/Public/Show', ['article' => $article]);
+    }
+
+    /**
+     * Menampilkan detail artikel untuk admin.
+     * Admin bisa melihat artikel dengan status apapun.
+     */
+    public function showAdmin(Request $request, $slug)
     {
         $article = Article::with(['category', 'author', 'creator', 'updater'])
             ->where('isDeleted', false)
@@ -210,12 +232,9 @@ public function indexAdmin(Request $request)
             return response()->json(['success' => true, 'data' => $article, 'message' => 'Artikel berhasil diambil']);
         }
 
-        $view = Auth::check()
-            ? 'Articles/Show'
-            : 'Articles/Public/Show';
-
-        return Inertia::render($view, ['article' => $article]);
+        return Inertia::render('Articles/Show', ['article' => $article]);
     }
+
 
     public function create()
     {
@@ -267,7 +286,7 @@ public function indexAdmin(Request $request)
             return response()->json(['success' => true, 'data' => $article->load(['category', 'author']), 'message' => 'Artikel berhasil dibuat'], 201);
         }
 
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dibuat.');
+        return redirect()->route('articles.indexAdmin')->with('success', 'Artikel berhasil dibuat.');
     }
 
     public function edit($slug)
@@ -338,27 +357,95 @@ public function indexAdmin(Request $request)
         $article->save();
 
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, '
-            data' => $article->load(['category', 'author']), 'message' => 'Artikel berhasil diperbarui']);
+            return response()->json(['success' => true, 'data' => $article->load(['category', 'author']), 'message' => 'Artikel berhasil diperbarui']);
         }
 
-            return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui.');
-        }
-
-        public function destroy(Request $request, $slug)
-        {
-            $article = Article::where('slug', $slug)
-                ->where('isDeleted', false)
-                ->firstOrFail();
-
-            $article->isDeleted = true;
-            $article->updatedBy = Auth::id();
-            $article->save();
-
-            if ($request->wantsJson()) {
-                return response()->json(['success' => true, 'message' => 'Artikel berhasil dihapus'], 200);
-            }
-
-            return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
-        }
+        return redirect()->route('articles.indexAdmin')->with('success', 'Artikel berhasil diperbarui.');
     }
+
+    public function destroy(Request $request, $slug)
+    {
+        $article = Article::where('slug', $slug)
+            ->where('isDeleted', false)
+            ->firstOrFail();
+
+        $article->isDeleted = true;
+        $article->updatedBy = Auth::id();
+        $article->save();
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Artikel berhasil dihapus'], 200);
+        }
+
+        return redirect()->route('articles.indexAdmin')->with('success', 'Artikel berhasil dihapus.');
+    }
+
+    public function archivedIndex(Request $request)
+    {
+        $query = Article::with(['category', 'author'])
+            ->where('isDeleted', true);
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('category') && $request->category !== 'Semua Kategori') {
+            $query->where('categoryId', $request->category);
+        }
+
+        if ($request->filled('status') && $request->status !== 'Semua Status') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('author') && $request->author !== 'Semua Penulis') {
+            $query->where('authorId', $request->author);
+        }
+
+        $articles = $query->latest()->paginate(10)->withQueryString();
+
+        return Inertia::render('Articles/Archived', [
+            'articles' => $articles,
+            'categories' => CategoryArticle::all(),
+            'authors' => User::all(),
+            'filters' => $request->only(['search', 'category', 'status', 'author']),
+        ]);
+    }
+
+
+    public function restore(Request $request, $slug)
+    {
+        $article = Article::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $article->isDeleted = false;
+        $article->updatedBy = Auth::id();
+        $article->save();
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Artikel berhasil dipulihkan']);
+        }
+
+        return redirect()->route('articles.indexAdmin')->with('success', 'Artikel berhasil dipulihkan.');
+    }
+
+    public function deletePermanent(Request $request, $slug)
+    {
+        $article = Article::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        // Hapus gambar jika ada
+        if ($article->featuredImage && Storage::disk('public')->exists($article->featuredImage)) {
+            Storage::disk('public')->delete($article->featuredImage);
+        }
+
+        $article->delete(); // Hapus permanen dari DB
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Artikel dihapus permanen']);
+        }
+
+        return redirect()->route('articles.archived')->with('success', 'Artikel berhasil dihapus permanen.');
+    }
+}

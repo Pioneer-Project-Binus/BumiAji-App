@@ -1,5 +1,126 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+export const indexPublic = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexPublic.url(options),
+    method: 'get',
+})
+
+indexPublic.definition = {
+    methods: ['get','head'],
+    url: '/galeri',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexPublic.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexPublic.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::indexPublic
+ * @see app/Http/Controllers/GaleryController.php:47
+ * @route '/galeri'
+ */
+indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: indexPublic.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
+ * @route '/galeri/{slug}'
+ */
+export const showPublic = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showPublic.url(args, options),
+    method: 'get',
+})
+
+showPublic.definition = {
+    methods: ['get','head'],
+    url: '/galeri/{slug}',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
+ * @route '/galeri/{slug}'
+ */
+showPublic.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return showPublic.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
+ * @route '/galeri/{slug}'
+ */
+showPublic.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showPublic.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::showPublic
+ * @see app/Http/Controllers/GaleryController.php:172
+ * @route '/galeri/{slug}'
+ */
+showPublic.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: showPublic.url(args, options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\GaleryController::indexAdmin
  * @see app/Http/Controllers/GaleryController.php:17
  * @route '/galeries'
@@ -48,6 +169,58 @@ indexAdmin.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
     method: 'head',
 } => ({
     url: indexAdmin.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\GaleryController::archived
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+
+archived.definition = {
+    methods: ['get','head'],
+    url: '/galeries/archived',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::archived
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return archived.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::archived
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: archived.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\GaleryController::archived
+ * @see app/Http/Controllers/GaleryController.php:307
+ * @route '/galeries/archived'
+ */
+archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: archived.url(options),
     method: 'head',
 })
 
@@ -144,29 +317,29 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
-* @see \App\Http\Controllers\GaleryController::show
+* @see \App\Http\Controllers\GaleryController::showAdmin
  * @see app/Http/Controllers/GaleryController.php:155
  * @route '/galeries/{slug}/preview'
  */
-export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const showAdmin = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show.url(args, options),
+    url: showAdmin.url(args, options),
     method: 'get',
 })
 
-show.definition = {
+showAdmin.definition = {
     methods: ['get','head'],
     url: '/galeries/{slug}/preview',
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::show
+* @see \App\Http\Controllers\GaleryController::showAdmin
  * @see app/Http/Controllers/GaleryController.php:155
  * @route '/galeries/{slug}/preview'
  */
-show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showAdmin.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { slug: args }
     }
@@ -182,33 +355,33 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
                         slug: args.slug,
                 }
 
-    return show.definition.url
+    return showAdmin.definition.url
             .replace('{slug}', parsedArgs.slug.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\GaleryController::show
+* @see \App\Http\Controllers\GaleryController::showAdmin
  * @see app/Http/Controllers/GaleryController.php:155
  * @route '/galeries/{slug}/preview'
  */
-show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showAdmin.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show.url(args, options),
+    url: showAdmin.url(args, options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\GaleryController::show
+* @see \App\Http\Controllers\GaleryController::showAdmin
  * @see app/Http/Controllers/GaleryController.php:155
  * @route '/galeries/{slug}/preview'
  */
-show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show.url(args, options),
+    url: showAdmin.url(args, options),
     method: 'head',
 })
 
@@ -394,14 +567,133 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+restore.definition = {
+    methods: ['put'],
+    url: '/galeries/{slug}/restore',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return restore.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::restore
+ * @see app/Http/Controllers/GaleryController.php:332
+ * @route '/galeries/{slug}/restore'
+ */
+restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: restore.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
+
+deletePermanent.definition = {
+    methods: ['delete'],
+    url: '/galeries/{slug}/delete-permanent',
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { slug: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    slug: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        slug: args.slug,
+                }
+
+    return deletePermanent.definition.url
+            .replace('{slug}', parsedArgs.slug.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\GaleryController::deletePermanent
+ * @see app/Http/Controllers/GaleryController.php:344
+ * @route '/galeries/{slug}/delete-permanent'
+ */
+deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: deletePermanent.url(args, options),
+    method: 'delete',
+})
 const galeries = {
-    indexAdmin,
+    indexPublic,
+showPublic,
+indexAdmin,
+archived,
 create,
 store,
-show,
+showAdmin,
 edit,
 update,
 destroy,
+restore,
+deletePermanent,
 }
 
 export default galeries

@@ -3,20 +3,20 @@
 use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
-// --- RUTE PUBLIK UNTUK ARTIKEL ---
-// Menampilkan daftar semua artikel yang dipublikasikan
-Route::get('artikel', [ArticleController::class, 'indexPublic'])->name('public.articles.indexPublic');
-Route::get('artikel/landing', [ArticleController::class, 'landing'])->name('public.articles.landing');
-Route::get('artikel/{slug}', [ArticleController::class, 'show'])->name('public.articles.show');
-
-// --- RUTE ADMIN UNTUK MANAJEMEN ARTIKEL ---
-Route::middleware('auth')->group(function () {
-    Route::get('articles', [ArticleController::class, 'indexAdmin'])->name('articles.indexAdmin'); 
-    Route::get('articles/create', [ArticleController::class, 'create'])->name('articles.create');
-    Route::post('articles', [ArticleController::class, 'store'])->name('articles.store');
-    Route::get('articles/{slug}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::get('articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::put('articles/{slug}', [ArticleController::class, 'update'])->name('articles.update'); 
-    Route::post('articles/{slug}/update', [ArticleController::class, 'update'])->name('articles.update.withfile'); 
-    Route::delete('articles/{slug}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+Route::get('artikel/landing', [ArticleController::class, 'landing'])->name('articles.landing');
+Route::get('artikel', [ArticleController::class, 'indexPublic'])->name('articles.indexPublic');
+Route::get('artikel/{slug}', [ArticleController::class, 'showPublic'])->name('articles.showPublic');
+Route::middleware(['auth', 'verified'])->prefix('articles')->name('articles.')->group(function () {
+    Route::get('/', [ArticleController::class, 'indexAdmin'])->name('indexAdmin');
+    Route::get('/create', [ArticleController::class, 'create'])->name('create');
+    Route::post('/', [ArticleController::class, 'store'])->name('store');
+    Route::get('/archived', [ArticleController::class, 'archivedIndex'])->name('archived');
+    Route::get('/{slug}', [ArticleController::class, 'showAdmin'])->name('showAdmin');
+    Route::get('/{slug}/edit', [ArticleController::class, 'edit'])->name('edit');
+    Route::put('/{slug}', [ArticleController::class, 'update'])->name('update');
+    Route::post('/{slug}/update', [ArticleController::class, 'update'])->name('update.withfile');
+    Route::delete('/{slug}', [ArticleController::class, 'destroy'])->name('destroy');
+    Route::post('/{slug}/restore', [ArticleController::class, 'restore'])->name('restore');
+    Route::delete('/{slug}/permanent-delete', [ArticleController::class, 'deletePermanent'])->name('deletePermanent');
 });
+

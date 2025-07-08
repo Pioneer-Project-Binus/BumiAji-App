@@ -16,7 +16,8 @@ import {
     ChevronDown
 } from 'lucide-react';
 
-const TourismManagement = () => {
+const TourismManagement = ({tourism}) => {
+    console.log('tourism', tourism);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [isRefreshing, setIsRefreshing] = useState(false);

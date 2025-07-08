@@ -119,14 +119,21 @@ export default function GaleryIndex({ galeries, filters }: Props) {
                         </div>
                     </div>
 
-                    {/* Filter dan Pencarian dengan design modern */}
-                    <div className=" rounded-3xl shadow-xl border border-green-100 p-6 backdrop-blur-sm bg-white/80">
+                    {/* Filter dan Pencarian dengan desain hijau modern */}
+                    <div className="rounded-3xl shadow-xl border border-green-100 p-6 backdrop-blur-sm bg-white/80 space-y-4">
+                        {/* Tombol Archive */}
+                        <Link
+                            href={galeriesRoutes.archived().url}
+                            className="inline-flex items-center px-4 py-2 rounded-xl border border-purple-600 text-purple-700 bg-white hover:bg-purple-50 transition-all font-medium text-sm"
+                        >
+                            Archive
+                        </Link>
+
+                        {/* Filter dan Search */}
                         <div className="flex flex-col lg:flex-row items-center gap-6">
                             {/* Search Bar */}
                             <div className="relative w-full lg:flex-1">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-green-500">
-                                    <Search className="h-full w-full" />
-                                </div>
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-green-500" />
                                 <Input
                                     type="search"
                                     placeholder="Cari berdasarkan judul atau deskripsi..."
@@ -136,8 +143,9 @@ export default function GaleryIndex({ galeries, filters }: Props) {
                                 />
                             </div>
 
-                            {/* Filter Buttons */}
+                            {/* Filter dan Toggle */}
                             <div className="flex items-center gap-3 flex-wrap">
+                                {/* Filter Tipe */}
                                 <div className="flex items-center gap-2 bg-green-50 rounded-2xl p-1">
                                     <Button 
                                         variant={!filters.type ? 'default' : 'ghost'}
@@ -177,7 +185,7 @@ export default function GaleryIndex({ galeries, filters }: Props) {
                                     </Button>
                                 </div>
 
-                                {/* View Mode Toggle */}
+                                {/* Toggle View Mode */}
                                 <div className="flex items-center gap-1 bg-green-50 rounded-2xl p-1">
                                     <Button
                                         variant={viewMode === 'grid' ? 'default' : 'ghost'}

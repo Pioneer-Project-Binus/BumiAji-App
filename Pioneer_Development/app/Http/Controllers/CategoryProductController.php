@@ -200,7 +200,6 @@ class CategoryProductController extends Controller
 
         $categoryProduct->isDeleted = true;
         $categoryProduct->updatedBy = Auth::id();
-        $categoryProduct->deletedBy = Auth::id();
         $categoryProduct->save();
 
         if ($request->wantsJson()) {
@@ -212,5 +211,74 @@ class CategoryProductController extends Controller
 
         return redirect()->route('category-products.index')
             ->with('success', 'Kategori produk berhasil dihapus.');
+    }
+
+    public function archivedIndex(Request $request)
+    {
+        $query = CategoryProduct::withCount('products')
+            ->where('isDeleted', true)
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $archivedCategories = $query->paginate(10);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $archivedCategories,
+                'message' => 'Data kategori produk terarsip berhasil diambil'
+            ]);
+        }
+
+        return Inertia::render('CategoryProducts/Archived', [
+            'categoryProducts' => $archivedCategories,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    public function restore(Request $request, string $slug)
+    {
+        $categoryProduct = CategoryProduct::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $categoryProduct->isDeleted = false;
+        $categoryProduct->updatedBy = Auth::id();
+        $categoryProduct->save();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kategori produk berhasil dipulihkan'
+            ]);
+        }
+
+        return redirect()->route('category-products.archived')
+            ->with('success', 'Kategori produk berhasil dipulihkan.');
+    }
+    public function deletePermanent(Request $request, string $slug)
+    {
+        $categoryProduct = CategoryProduct::where('slug', $slug)
+            ->where('isDeleted', true)
+            ->firstOrFail();
+
+        $categoryProduct->delete(); // benar-benar hapus dari database
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Kategori produk berhasil dihapus permanen'
+            ]);
+        }
+
+        return redirect()->route('category-products.archived')
+            ->with('success', 'Kategori produk berhasil dihapus permanen.');
     }
 }
