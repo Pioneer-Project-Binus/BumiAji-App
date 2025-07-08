@@ -197,10 +197,14 @@ export default function ArticleCreate({ categories, authors, errors: pageErrors 
                                     type="text"
                                     id="title"
                                     value={data.title}
-                                    onChange={(e) => setData('title', e.target.value)}
+                                    onChange={(e) => setData('title', e.target.value.slice(0, 100))}
+                                    maxLength={100}
                                     className="w-full px-6 py-4 border-2 border-green-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 transition-all text-lg"
-                                    placeholder="Masukkan judul yang menarik..."
+                                    placeholder="Masukkan judul yang menarik (maksimal 100 karakter)..."
                                 />
+                                <div className="text-sm text-gray-500 text-right">
+                                    {data.title.length}/100 karakter
+                                </div>
                                 <InputError message={errors.title} className="mt-2" />
                             </div>
 

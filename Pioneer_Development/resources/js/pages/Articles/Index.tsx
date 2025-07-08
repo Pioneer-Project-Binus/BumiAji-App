@@ -284,7 +284,7 @@ export default function Index({ articles, categories, authors, filters }: Props)
                                                             {/* --- PERUBAHAN DIMULAI DI SINI --- */}
                                                             <Tooltip>
                                                                 <TooltipTrigger asChild>
-                                                                    <Link href={articlesRoute.show(article.slug).url}>
+                                                                    <Link href={articlesRoute.showAdmin(article.slug).url}>
                                                                         <Button variant="outline" size="icon" className="h-9 w-9 border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700/50">
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
