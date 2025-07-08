@@ -28,6 +28,7 @@ import {
     Search,
     BarChart3
 } from 'lucide-react';
+import KontakPopup from '@/components/KontakPopUp';
 
 
 const ALL_CATEGORIES_VALUE = "__ALL_CATEGORIES__";
@@ -58,22 +59,22 @@ interface Product {
   slug: string; // Make sure slug is available for routing
   category: {
     name: string;
-    [key: string]: any; 
+    [key: string]: any;
   };
   price: number;
   stock: number;
-  status: 'published' | 'draft' | string; 
-  createdAt: string; 
+  status: 'published' | 'draft' | string;
+  createdAt: string;
   description?: string; // Added for completeness from render
   photos?: Array<{ id: string | number; filePath: string }>; // Added for completeness
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 interface Column<T> {
-  key: string;           
-  label: string;                       
-  sortable?: boolean;               
-  className?: string;                 
+  key: string;
+  label: string;
+  sortable?: boolean;
+  className?: string;
   render: (value: any, row: T) => React.ReactNode;
 }
 
@@ -146,7 +147,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
     }, [searchTerm, selectedCategory, selectedStatus, filters.sort, filters.direction]);
 
     const handleDelete = useCallback((product: Product) => {
-        if (confirm(`Anda yakin ingin menghapus "${product.productName}"? Tindakan ini adalah soft delete.`)) { 
+        if (confirm(`Anda yakin ingin menghapus "${product.productName}"? Tindakan ini adalah soft delete.`)) {
             router.delete(productsRoute.destroy(product.slug).url, { // Assuming destroy uses slug
                 preserveScroll: true,
             });
@@ -179,7 +180,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
                 }
             }
         }
-        
+
         const exportUrl = productsRoute.export(activeFilters).url;
         window.location.href = exportUrl;
 
@@ -191,7 +192,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
         }
         return path.split('.').reduce((acc, part) => acc && acc[part], obj);
     };
-    
+
     const columns = useMemo<Column<Product>[]>(() => [
     {
         key: 'productName',
@@ -355,7 +356,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
 
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Admin: Product Management">
                 <meta name="description" content="Halaman untuk mengelola produk admin, termasuk filter, sorting, dan operasi lainnya pada katalog produk." />
             </Head>
@@ -390,9 +391,9 @@ export default function AdminProductIndex({ products: productsData, categories, 
                             </Button>
 
                             {/* UPDATED EXPORT BUTTON */}
-                            <Button 
-                                variant="outline" 
-                                size="sm" 
+                            <Button
+                                variant="outline"
+                                size="sm"
                                 className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
                                 onClick={handleExport} // Call the new handler
                             >
@@ -400,13 +401,9 @@ export default function AdminProductIndex({ products: productsData, categories, 
                                 Export
                             </Button>
 
-                            <Button
-                                onClick={() => router.visit(productsRoute.create().url)}
-                                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg"
-                            >
-                                <PlusCircle className="h-4 w-4 mr-2" />
-                                Add Product
-                            </Button>
+                            <KontakPopup>
+
+                            </KontakPopup>
                         </div>
                     </div>
 
@@ -543,7 +540,7 @@ export default function AdminProductIndex({ products: productsData, categories, 
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Data Table */}
                     <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 dark:border-slate-700/50 overflow-x-auto">
                         <table className="w-full">
@@ -632,6 +629,6 @@ export default function AdminProductIndex({ products: productsData, categories, 
                     )}
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
