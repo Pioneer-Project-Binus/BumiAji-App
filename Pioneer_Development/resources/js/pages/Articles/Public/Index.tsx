@@ -454,7 +454,7 @@ export default function ArticleSection({
                                     ))}
                                 </div>
                             </div>
-                            <div className="bg-gray-100 rounded-lg mt-6 h-70"></div>
+                            <div className="bg-gray-100 rounded-lg mt-6 min-h-screen"></div>
                         </div>
                     </div>
                 </div>
