@@ -13,68 +13,108 @@ use Inertia\Inertia;
 
 class TestimonialController extends Controller
 {
-    // Menampilkan daftar testimoni (bisa untuk publik atau admin)
-    public function index(Request $request)
+    public function indexPublic(Request $request)
     {
-        $query = Testimonial::with('creator')
-            ->where('isDeleted', false)
+        $query = Testimonial::where('isDeleted', false)
             ->orderBy('created_at', 'desc');
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
                 ->orWhere('message', 'like', "%{$searchTerm}%");
             });
         }
+
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
         }
 
         $testimonials = $query->paginate(10);
-
         $testimonials->getCollection()->transform(function ($testimonial) {
             $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
             return $testimonial;
         });
 
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'data' => $testimonials, 'message' => 'Testimoni berhasil diambil']);
+            return response()->json([
+                'success' => true,
+                'data' => $testimonials,
+                'message' => 'Data testimoni berhasil diambil (Publik)'
+            ]);
         }
 
-        if (Auth::check()) {
-            // User sudah login, render halaman admin
-            return Inertia::render('Testimonials/Index', [
-                'testimonials' => $testimonials,
-                'filters' => $request->only(['search', 'rating']),
-                'can' => [
-                    'create_testimonial' => Auth::user()->can('create', Testimonial::class),
-                ],
-            ]);
-        } else {
-            return Inertia::render('Public/Testimonials/Index', [
-                'testimonials' => $testimonials,
-                'filters' => $request->only(['search', 'rating']),
-            ]);
-        }
+        return Inertia::render('Public/Testimonials/Index', [
+            'testimonials' => $testimonials,
+            'filters' => $request->only(['search', 'rating']),
+        ]);
     }
 
+    public function indexAdmin(Request $request)
+    {
+        $query = Testimonial::with('creator')
+            ->where('isDeleted', false)
+            ->orderBy('created_at', 'desc');
 
-    // Menampilkan form untuk membuat testimoni baru (untuk admin)
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                ->orWhere('message', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        if ($request->filled('rating')) {
+            $query->where('rating', $request->rating);
+        }
+
+        $testimonials = $query->paginate(10);
+        $testimonials->getCollection()->transform(function ($testimonial) {
+            $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
+            return $testimonial;
+        });
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $testimonials,
+                'message' => 'Data testimoni berhasil diambil (Admin)'
+            ]);
+        }
+
+        return Inertia::render('Testimonials/Index', [
+            'testimonials' => $testimonials,
+            'filters' => $request->only(['search', 'rating']),
+        ]);
+    }
+
     public function create()
     {
-        return Inertia::render('Testimonials/Create'); // Sesuaikan path view admin
+        return Inertia::render('Testimonials/Create');
     }
 
-    // Menyimpan testimoni baru (untuk admin)
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'rating' => 'nullable|integer|min:1|max:5',
             'message' => 'required|string',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'name.string' => 'Nama harus berupa teks.',
+            'photo.required' => 'Gambar harus diisi.',
+            'photo.image' => 'File harus berupa gambar.',
+            'photo.mimes' => 'Foto harus dalam format: jpeg, png, jpg, gif, svg, atau webp.',
+            'photo.max' => 'Ukuran foto tidak boleh lebih dari :max KB.',
+            'rating.integer' => 'Rating harus berupa angka.',
+            'rating.min' => 'Rating minimal adalah :min.',
+            'rating.max' => 'Rating maksimal adalah :max.',
+            'message.required' => 'Pesan testimoni wajib diisi.',
+            'message.string' => 'Pesan testimoni harus berupa teks.',
         ]);
+
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -110,34 +150,50 @@ class TestimonialController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $testimonial, 'message' => 'Testimoni berhasil dibuat'], 201);
         }
-        return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil dibuat.'); // Arahkan ke index admin
+        return redirect()->route('testimonials.indexAdmin')->with('success', 'Testimoni berhasil dibuat.'); // Arahkan ke index admin
     }
 
-    // Menampilkan detail testimoni berdasarkan slug (bisa untuk publik atau admin)
-    public function show(Request $request, string $slug)
+    public function showPublic(Request $request, string $slug)
+    {
+        $testimonial = Testimonial::where('slug', $slug)
+            ->where('isDeleted', false)
+            ->firstOrFail();
+
+        $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $testimonial,
+                'message' => 'Testimoni berhasil diambil (Publik)'
+            ]);
+        }
+
+        return Inertia::render('Testimonials/Public/Show', [
+            'testimonial' => $testimonial,
+        ]);
+    }
+
+    public function showAdmin(Request $request, string $slug)
     {
         $testimonial = Testimonial::with('creator')
             ->where('slug', $slug)
             ->where('isDeleted', false)
             ->firstOrFail();
-            
+
         $testimonial->photo_url = $testimonial->photo ? Storage::url($testimonial->photo) : null;
 
         if ($request->wantsJson()) {
-            return response()->json(['success' => true, 'data' => $testimonial, 'message' => 'Testimoni berhasil diambil']);
+            return response()->json([
+                'success' => true,
+                'data' => $testimonial,
+                'message' => 'Testimoni berhasil diambil (Admin)'
+            ]);
         }
 
-        if (Auth::check()) {
-            // Render admin component kalau sudah login
-            return Inertia::render('Testimonials/Show', [
-                'testimonial' => $testimonial,
-            ]);
-        } else {
-            // Render public component kalau belum login
-            return Inertia::render('Testimonials/Public/Show', [
-                'testimonial' => $testimonial,
-            ]);
-        }
+        return Inertia::render('Testimonials/Show', [
+            'testimonial' => $testimonial,
+        ]);
     }
 
 
@@ -160,10 +216,24 @@ class TestimonialController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'rating' => 'nullable|integer|min:1|max:5',
             'message' => 'required|string',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'name.string' => 'Nama harus berupa teks.',
+            'photo.required' => 'Gambar harus diisi.',
+            'photo.image' => 'File harus berupa gambar.',
+            'photo.mimes' => 'Foto harus dalam format: jpeg, png, jpg, gif, svg, atau webp.',
+            'photo.max' => 'Ukuran foto tidak boleh lebih dari :max KB.',
+            'rating.integer' => 'Rating harus berupa angka.',
+            'rating.min' => 'Rating minimal adalah :min.',
+            'rating.max' => 'Rating maksimal adalah :max.',
+            'message.required' => 'Pesan testimoni wajib diisi.',
+            'message.string' => 'Pesan testimoni harus berupa teks.',
         ]);
+
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -207,7 +277,7 @@ class TestimonialController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'data' => $testimonial, 'message' => 'Testimoni berhasil diperbarui']);
         }
-        return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil diperbarui.'); // Arahkan ke index admin
+        return redirect()->route('testimonials.indexAdmin')->with('success', 'Testimoni berhasil diperbarui.'); // Arahkan ke index admin
     }
 
     // Menghapus testimoni (untuk admin)
@@ -230,7 +300,7 @@ class TestimonialController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Testimoni berhasil dihapus'], 200);
         }
-        return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil dihapus.'); // Arahkan ke index admin
+        return redirect()->route('testimonials.index')->with('success', 'Testimoni berhasil dihapus.'); // Arahkan ke index admin
     }
     // Menampilkan daftar testimoni yang diarsipkan
     public function archivedIndex(Request $request)

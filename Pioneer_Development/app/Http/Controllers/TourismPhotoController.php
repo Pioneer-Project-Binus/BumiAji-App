@@ -20,8 +20,8 @@ class TourismPhotoController extends Controller
             ->where('isDeleted', false)
             ->orderBy('created_at', 'desc'); 
 
-        if ($request->has('destination_id')) {
-            $query->where('destinationId', $request->destination_id);
+        if ($request->has('destinationId')) {
+            $query->where('destinationId', $request->destinationId);
         }
          if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -59,7 +59,7 @@ class TourismPhotoController extends Controller
     public function create(Request $request)
     {
         $destinations = Tourism::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
-        $destinationId = $request->get('destination_id');
+        $destinationId = $request->get('destinationId');
 
         return Inertia::render('TourismPhotos/Create', [
             'destinations' => $destinations,
@@ -70,12 +70,28 @@ class TourismPhotoController extends Controller
     // Menyimpan foto wisata baru
     public function store(Request $request)
     {
+        $messages = [
+            'destinationId.required' => 'Destinasi wisata wajib dipilih.',
+            'destinationId.exists' => 'Destinasi wisata yang dipilih tidak valid.',
+
+            'photos.required' => 'Minimal satu foto harus diunggah.',
+            'photos.array' => 'Format foto tidak valid.',
+
+            'photos.*.required' => 'Setiap foto wajib diunggah.',
+            'photos.*.image' => 'Setiap file harus berupa gambar.',
+            'photos.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, svg, atau webp.',
+            'photos.*.max' => 'Ukuran masing-masing gambar tidak boleh melebihi 2MB (2048 KB).',
+
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'destinationId' => 'required|exists:tourism,id', 
             'photos' => 'required|array',
             'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -91,8 +107,8 @@ class TourismPhotoController extends Controller
                 $extension = $file->getClientOriginalExtension();
                 $uniqueName = Str::uuid() . '.' . $extension;
                 $filePath = $file->storeAs('tourism_photos', $uniqueName, 'public');
-
                 $tourismPhoto = new PhotoTourism();
+                $tourismPhoto->slug = Str::slug(pathinfo($originalName, PATHINFO_FILENAME) . '-' . now()->timestamp);
                 $tourismPhoto->destinationId = $request->destinationId;
                 $tourismPhoto->filePath = $filePath;
                 $tourismPhoto->description = $request->description; 
@@ -110,9 +126,9 @@ class TourismPhotoController extends Controller
     }
     
     // Menampilkan form untuk mengedit foto wisata
-    public function edit($id)
+    public function edit($slug)
     {
-        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($id);
+        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($slug);
         $destinations = Tourism::where('isDeleted', false)->orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('TourismPhotos/Edit', [
@@ -122,13 +138,30 @@ class TourismPhotoController extends Controller
     }
 
     // Memperbarui foto wisata
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
+        $messages = [
+            'destinationId.required' => 'Destinasi wisata wajib dipilih.',
+            'destinationId.exists' => 'Destinasi wisata yang dipilih tidak valid.',
+
+            'photos.required' => 'Minimal satu foto harus diunggah.',
+            'photos.array' => 'Format foto tidak valid.',
+
+            'photos.*.required' => 'Setiap foto wajib diunggah.',
+            'photos.*.image' => 'Setiap file harus berupa gambar.',
+            'photos.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, svg, atau webp.',
+            'photos.*.max' => 'Ukuran masing-masing gambar tidak boleh melebihi 2MB (2048 KB).',
+
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'destinationId' => 'sometimes|required|exists:tourism,id',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'destinationId' => 'required|exists:tourism,id', 
+            'photos' => 'required|array',
+            'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -137,7 +170,7 @@ class TourismPhotoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($id);
+        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($slug);
         
         if($request->has('destinationId')){
             $tourismPhoto->destinationId = $request->destinationId;
@@ -166,9 +199,9 @@ class TourismPhotoController extends Controller
     }
 
     // Menghapus foto wisata (soft delete)
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $slug)
     {
-        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($id);
+        $tourismPhoto = PhotoTourism::where('isDeleted', false)->findOrFail($slug);
 
         if ($request->input('delete_file', false)) {
              if ($tourismPhoto->filePath && Storage::disk('public')->exists($tourismPhoto->filePath)) {
@@ -211,9 +244,9 @@ class TourismPhotoController extends Controller
     }
 
     // Mengembalikan (restore) foto wisata yang diarsipkan
-    public function restore($id)
+    public function restore($slug)
     {
-        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($id);
+        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($slug);
         $tourismPhoto->isDeleted = false;
         $tourismPhoto->updatedBy = Auth::id();
         $tourismPhoto->save();
@@ -222,9 +255,9 @@ class TourismPhotoController extends Controller
     }
 
     // Menghapus permanen foto wisata dari arsip
-    public function deletePermanent($id)
+    public function deletePermanent($slug)
     {
-        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($id);
+        $tourismPhoto = PhotoTourism::where('isDeleted', true)->findOrFail($slug);
 
         if ($tourismPhoto->filePath && Storage::disk('public')->exists($tourismPhoto->filePath)) {
             Storage::disk('public')->delete($tourismPhoto->filePath);

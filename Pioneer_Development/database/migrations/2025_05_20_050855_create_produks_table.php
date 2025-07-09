@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('productName'); 
             $table->string('slug')->unique();
             $table->text('description');
+            $table->string('waNumber')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
             $table->enum('status', ['draft', 'published', 'outofstock'])->default('draft');

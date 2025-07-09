@@ -27,6 +27,7 @@ class Product extends Model
         'productName',
         'slug',
         'description',
+        'waNumber',
         'price',
         'stock',
         'status',

@@ -59,10 +59,18 @@ class CategoryProductController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'name.required' => 'Nama kategori produk wajib diisi.',
+            'name.string' => 'Nama kategori produk harus berupa teks.',
+            'name.max' => 'Nama kategori produk tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori produk sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:categoryProducts,name',
             'description' => 'nullable|string',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -149,10 +157,18 @@ class CategoryProductController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
 
+        $messages = [
+            'name.required' => 'Nama kategori produk wajib diisi.',
+            'name.string' => 'Nama kategori produk harus berupa teks.',
+            'name.max' => 'Nama kategori produk tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori produk sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categoryProducts,name,' . $categoryProduct->id,
+            'name' => 'required|string|max:255|unique:categoryProducts,name',
             'description' => 'nullable|string',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
