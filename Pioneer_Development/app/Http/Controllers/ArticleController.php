@@ -69,7 +69,7 @@ class ArticleController extends Controller
             'content' => $article->content,
             'slug' => $article->slug,
             'status' => $article->status,
-            'image' => $article->image,
+            'featuredImage' => $article->featuredImage,
             'created_at' => $article->created_at->toISOString(),
             'updated_at' => $article->updated_at->toISOString(),
             'category' => [
@@ -101,7 +101,7 @@ class ArticleController extends Controller
             'content' => $highlight->content,
             'slug' => $highlight->slug,
             'status' => $highlight->status,
-            'image' => $highlight->image,
+            'featuredImage' => $highlight->featuredImage,
             'created_at' => $highlight->created_at->toISOString(),
             'updated_at' => $highlight->updated_at->toISOString(),
             'category' => [

@@ -26,6 +26,7 @@ type Article = {
     created_at: string; // Laravel uses snake_case
     status: string;
     content?: string;
+    featuredImage?: string; // Added for new image logic
 };
 
 type Category = { id: number; name: string };
@@ -53,7 +54,7 @@ const defaultHighlight: Article = {
     id: 1,
     title: "Selamat Datang di Portal Berita Desa Bumi Aji",
     date: "20 Jun 2024",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+    image: '', // will be set below
     category: { id: 1, name: "Berita Utama" },
     slug: "selamat-datang-portal-berita",
     createdAt: "20 Jun 2024",
@@ -85,6 +86,8 @@ export default function ArticleSection({
     
     // Use highlight from props or default
     const displayHighlight = highlight || defaultHighlight;
+    // Set image for highlight
+    const highlightImage = displayHighlight.featuredImage ? `/storage/${displayHighlight.featuredImage}` : displayHighlight.image || '';
     
     // Handle category change
     const handleCategoryChange = (categoryName: string | null) => {
@@ -208,41 +211,73 @@ export default function ArticleSection({
             <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 px-10">
                 <div className="lg:col-span-3 flex flex-col gap-0">
                     {/* Highlight Article */}
-                    {displayHighlight && (
+                    {articles.data.length > 0 && (
                         <div className="relative rounded-lg overflow-hidden mb-4">
+                            {/* Custom navigation buttons */}
+                            <button
+                                className="swiper-button-prev-custom absolute top-1/2 left-2 z-20 p-0 bg-transparent border-none hover:bg-gray-200 transition"
+                                style={{ transform: 'translateY(-50%)' }}
+                                aria-label="Sebelumnya"
+                            >
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button
+                                className="swiper-button-next-custom absolute top-1/2 right-2 z-20 p-0 bg-transparent border-none hover:bg-gray-200 transition"
+                                style={{ transform: 'translateY(-50%)' }}
+                                aria-label="Berikutnya"
+                            >
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="9 6 15 12 9 18" />
+                                </svg>
+                            </button>
                             <Swiper
-                                spaceBetween={0}
+                                spaceBetween={30}
                                 slidesPerView={1}
                                 navigation={{
                                     nextEl: ".swiper-button-next-custom",
                                     prevEl: ".swiper-button-prev-custom",
                                 }}
-                                modules={[Navigation]}
-                                className="h-64"
+                                pagination={{ clickable: true }}
+                                modules={[Navigation, Pagination]}
+                                className="h-150"
                             >
-                                <SwiperSlide>
-                                    <div 
-                                        className="relative h-64 w-full cursor-pointer"
-                                        onClick={handleHighlightClick}
-                                    >
-                                        <div className="absolute inset-0 bg-gray-100">
-                                            <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/square-bg.png')] opacity-40" />
-                                        </div>
-                                        <div className="absolute top-4 left-4 z-10">
-                                            <span className="bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                                                {displayHighlight.category.name}
-                                            </span>
-                                        </div>
-                                        <div className="absolute bottom-0 left-0 right-0 bg-[#25603B] p-4">
-                                            <h2 className="text-white text-lg font-bold mb-1">
-                                                {displayHighlight.title}
-                                            </h2>
-                                            <p className="text-gray-200 text-xs">
-                                                {dayjs(displayHighlight.created_at).locale('id').format('DD MMMM YYYY')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
+                                {articles.data.map((article: Article) => {
+                                    const articleImage = article.featuredImage ? `/storage/${article.featuredImage}` : article.image || '';
+                                    return (
+                                        <SwiperSlide key={article.id}>
+                                            <div
+                                                className="relative h-150 w-full cursor-pointer"
+                                                onClick={() => handleArticleClick(article)}
+                                            >
+                                                <div className="absolute inset-0 bg-gray-100">
+                                                    {articleImage && (
+                                                        <img
+                                                            src={articleImage}
+                                                            alt={article.title}
+                                                            className="w-full h-130 object-fill object-center"
+                                                        />
+                                                    )}
+                                                    <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/square-bg.png')] opacity-40" />
+                                                </div>
+                                                <div className="absolute top-4 left-4 z-10">
+                                                    <span className="bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                                        {article.category.name}
+                                                    </span>
+                                                </div>
+                                                <div className="absolute bottom-0 left-0 right-0 bg-[#25603B] p-4">
+                                                    <h2 className="text-white text-lg font-bold mb-1">
+                                                        {article.title}
+                                                    </h2>
+                                                    <p className="text-gray-200 text-xs">
+                                                        {dayjs(article.created_at).locale('id').format('DD MMMM YYYY')}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </SwiperSlide>
+                                    );
+                                })}
                             </Swiper>
                         </div>
                     )}
@@ -304,19 +339,27 @@ export default function ArticleSection({
                                         const tanggalWaktu = dayjs(article.created_at)
                                             .locale('id')
                                             .format('DD MMMM YYYY – HH:mm [WIB]');
+                                        const articleImage = article.featuredImage ? `/storage/${article.featuredImage}` : article.image || '';
                                         return (
                                             <div
                                                 key={article.id}
                                                 className="flex items-center bg-white border border-gray-200 rounded-lg hover:shadow transition-shadow cursor-pointer"
                                                 onClick={() => handleArticleClick(article)}
                                             >
-                                                <div className="w-20 h-20 flex-shrink-0 relative">
+                                                <div className="w-80 h-40 flex-shrink-0 relative">
                                                     <div className="absolute inset-0 bg-gray-100 rounded-l-lg">
+                                                        {articleImage && (
+                                                            <img
+                                                                src={articleImage}
+                                                                alt={article.title}
+                                                                className="w-full h-full object-fill object-center rounded-l-lg"
+                                                            />
+                                                        )}
                                                         <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/square-bg.png')] opacity-40 rounded-l-lg" />
                                                     </div>
                                                 </div>
                                                 <div className="flex-1 p-4">
-                                                    <p className="text-gray-500 text-xs mb-1">{article.category.name}</p>
+                                                    <p className="text-gray-500 text-sm mb-1">{article.category.name}</p>
                                                     <h4 className="font-medium text-gray-900 text-sm mb-1">{article.title}</h4>
                                                     <p className="text-gray-500 text-xs">{tanggalWaktu}</p>
                                                 </div>
