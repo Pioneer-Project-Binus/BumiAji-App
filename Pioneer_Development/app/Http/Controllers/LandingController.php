@@ -65,7 +65,7 @@ class LandingController extends Controller
             ->get();
 
 
-        return Inertia::render('welcome', [
+        return Inertia::render('Welcome', [
             'profile' => $profile,
             'latestArticles' => $latestArticles,
             'otherArticles' => $otherArticles,

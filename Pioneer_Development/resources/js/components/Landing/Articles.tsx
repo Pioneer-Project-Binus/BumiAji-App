@@ -62,7 +62,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                 <p className="text-center text-lg sm:text-xl text-gray-700 mb-8 sm:mb-12 px-4">Berita dan informasi terbaru seputar Desa Bumi Aji</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 min-h-[400px]">
                     {/* Artikel besar Swiper (Latest Articles - 5 data terbaru) */}
-                    <div className="relative h-[550px] w-[640px]">
+                    <div className="relative h-[550px] w-full lg:w-[640px] mx-auto px-2 sm:px-4 md:px-8 lg:px-0">
                         {/* Tombol custom */}
                         <button
                             className="swiper-button-prev-custom absolute top-1/2 left-2 z-20 p-2 bg-white/80 border-none hover:bg-white rounded-full shadow-md transition duration-300"
@@ -105,9 +105,9 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                         >
                             {mappedLatestArticles.map((item: Article) => (
                                 <SwiperSlide key={item.id} className="!h-full">
-                                    <div className='relative h-full w-[640px] flex flex-col'>
+                                    <div className='relative h-full w-full lg:w-[640px] flex flex-col'>
                                         {/* Image Container - 70% dari tinggi */}
-                                        <div className="relative h-[70%] w-[640px] bg-gray-300 flex-shrink-0">
+                                        <div className="relative h-[70%] w-[380px] md:w-[722px] lg:w-[640px] bg-gray-300 flex-shrink-0">
                                             {/* Category Badge */}
                                             <div className="absolute top-4 left-4 z-10">
                                                 <span className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-2 shadow-sm">
@@ -126,7 +126,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                         </div>
                                         
                                         {/* Content Container - 30% dari tinggi */}
-                                        <div className="bg-[#25603B] h-[22%] w-[640px] p-6 flex flex-col justify-between">
+                                        <div className="bg-[#25603B] h-[22%] w-full lg:w-[640px] p-6 flex flex-col justify-between">
                                             <div className="flex-2">
                                                 <Link 
                                                     href={articlesRoute.showPublic(item.slug).url} 
