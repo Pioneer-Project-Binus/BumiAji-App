@@ -62,7 +62,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                 <p className="text-center text-lg sm:text-xl text-gray-700 mb-8 sm:mb-12 px-4">Berita dan informasi terbaru seputar Desa Bumi Aji</p>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 min-h-[400px]">
                         {/* Artikel besar Swiper (Latest Articles - 5 data terbaru) */}
-                        <div className="relative h-[550px] w-full mx-auto">
+                        <div className="relative h-[450px] md:h-[550px] lg:h-[550px] w-full mx-auto">
                             {/* Tombol custom */}
                             <button
                                 className="swiper-button-prev-custom absolute top-1/2 left-2 z-20 p-2 bg-white/80 border-none hover:bg-white rounded-full shadow-md transition duration-300"
@@ -101,7 +101,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                 >
                                     {mappedLatestArticles.map((item: Article) => (
                                         <SwiperSlide key={item.id} className="!w-full">
-                                            <div className='overflow-hidden static h-[550px] w-full flex flex-col'>
+                                            <div className='overflow-hidden static h-full w-full flex flex-col'>
                                                 {/* Image Container - 70% dari tinggi */}
                                                 <div className="relative h-[70%] w-full mx-auto bg-gray-300 flex-shrink-0">
                                                     {/* Category Badge */}
