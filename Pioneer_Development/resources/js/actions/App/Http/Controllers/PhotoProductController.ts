@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 const show979d564baa13f46818584f18383d74a1 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ show979d564baa13f46818584f18383d74a1.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show979d564baa13f46818584f18383d74a1.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -45,7 +45,7 @@ show979d564baa13f46818584f18383d74a1.url = (args: { slug: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show979d564baa13f46818584f18383d74a1.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -57,7 +57,7 @@ show979d564baa13f46818584f18383d74a1.get = (args: { slug: string | number } | [s
 })
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show979d564baa13f46818584f18383d74a1.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -70,7 +70,7 @@ show979d564baa13f46818584f18383d74a1.head = (args: { slug: string | number } | [
 
     /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/photo-products/{slug}'
  */
 const showcb089c672e8f5c840d0b5ec689e0b985 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -88,7 +88,7 @@ showcb089c672e8f5c840d0b5ec689e0b985.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/photo-products/{slug}'
  */
 showcb089c672e8f5c840d0b5ec689e0b985.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -114,7 +114,7 @@ showcb089c672e8f5c840d0b5ec689e0b985.url = (args: { slug: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/photo-products/{slug}'
  */
 showcb089c672e8f5c840d0b5ec689e0b985.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -126,7 +126,7 @@ showcb089c672e8f5c840d0b5ec689e0b985.get = (args: { slug: string | number } | [s
 })
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/photo-products/{slug}'
  */
 showcb089c672e8f5c840d0b5ec689e0b985.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -288,7 +288,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::archived
- * @see app/Http/Controllers/PhotoProductController.php:306
+ * @see app/Http/Controllers/PhotoProductController.php:324
  * @route '/photo-products/archived'
  */
 export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -306,7 +306,7 @@ archived.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::archived
- * @see app/Http/Controllers/PhotoProductController.php:306
+ * @see app/Http/Controllers/PhotoProductController.php:324
  * @route '/photo-products/archived'
  */
 archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -315,7 +315,7 @@ archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => 
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::archived
- * @see app/Http/Controllers/PhotoProductController.php:306
+ * @see app/Http/Controllers/PhotoProductController.php:324
  * @route '/photo-products/archived'
  */
 archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -327,7 +327,7 @@ archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\PhotoProductController::archived
- * @see app/Http/Controllers/PhotoProductController.php:306
+ * @see app/Http/Controllers/PhotoProductController.php:324
  * @route '/photo-products/archived'
  */
 archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -340,7 +340,7 @@ archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::edit
- * @see app/Http/Controllers/PhotoProductController.php:191
+ * @see app/Http/Controllers/PhotoProductController.php:200
  * @route '/photo-products/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -358,7 +358,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::edit
- * @see app/Http/Controllers/PhotoProductController.php:191
+ * @see app/Http/Controllers/PhotoProductController.php:200
  * @route '/photo-products/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -384,7 +384,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::edit
- * @see app/Http/Controllers/PhotoProductController.php:191
+ * @see app/Http/Controllers/PhotoProductController.php:200
  * @route '/photo-products/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -396,7 +396,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\PhotoProductController::edit
- * @see app/Http/Controllers/PhotoProductController.php:191
+ * @see app/Http/Controllers/PhotoProductController.php:200
  * @route '/photo-products/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -409,7 +409,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::update
- * @see app/Http/Controllers/PhotoProductController.php:206
+ * @see app/Http/Controllers/PhotoProductController.php:215
  * @route '/photo-products/{slug}'
  */
 export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -427,7 +427,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::update
- * @see app/Http/Controllers/PhotoProductController.php:206
+ * @see app/Http/Controllers/PhotoProductController.php:215
  * @route '/photo-products/{slug}'
  */
 update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -453,7 +453,7 @@ update.url = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::update
- * @see app/Http/Controllers/PhotoProductController.php:206
+ * @see app/Http/Controllers/PhotoProductController.php:215
  * @route '/photo-products/{slug}'
  */
 update.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -466,7 +466,7 @@ update.post = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::destroy
- * @see app/Http/Controllers/PhotoProductController.php:276
+ * @see app/Http/Controllers/PhotoProductController.php:294
  * @route '/photo-products/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -484,7 +484,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::destroy
- * @see app/Http/Controllers/PhotoProductController.php:276
+ * @see app/Http/Controllers/PhotoProductController.php:294
  * @route '/photo-products/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -510,7 +510,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::destroy
- * @see app/Http/Controllers/PhotoProductController.php:276
+ * @see app/Http/Controllers/PhotoProductController.php:294
  * @route '/photo-products/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -523,7 +523,7 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::restore
- * @see app/Http/Controllers/PhotoProductController.php:335
+ * @see app/Http/Controllers/PhotoProductController.php:353
  * @route '/photo-products/{slug}/restore'
  */
 export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -541,7 +541,7 @@ restore.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::restore
- * @see app/Http/Controllers/PhotoProductController.php:335
+ * @see app/Http/Controllers/PhotoProductController.php:353
  * @route '/photo-products/{slug}/restore'
  */
 restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -567,7 +567,7 @@ restore.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::restore
- * @see app/Http/Controllers/PhotoProductController.php:335
+ * @see app/Http/Controllers/PhotoProductController.php:353
  * @route '/photo-products/{slug}/restore'
  */
 restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -580,7 +580,7 @@ restore.put = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::deletePermanent
- * @see app/Http/Controllers/PhotoProductController.php:348
+ * @see app/Http/Controllers/PhotoProductController.php:366
  * @route '/photo-products/{slug}/delete-permanent'
  */
 export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -598,7 +598,7 @@ deletePermanent.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::deletePermanent
- * @see app/Http/Controllers/PhotoProductController.php:348
+ * @see app/Http/Controllers/PhotoProductController.php:366
  * @route '/photo-products/{slug}/delete-permanent'
  */
 deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -624,7 +624,7 @@ deletePermanent.url = (args: { slug: string | number } | [slug: string | number 
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::deletePermanent
- * @see app/Http/Controllers/PhotoProductController.php:348
+ * @see app/Http/Controllers/PhotoProductController.php:366
  * @route '/photo-products/{slug}/delete-permanent'
  */
 deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

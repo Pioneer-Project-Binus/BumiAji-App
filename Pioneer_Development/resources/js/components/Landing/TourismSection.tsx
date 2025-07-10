@@ -27,7 +27,7 @@ const overlayAnimation = {
 
 export default function TourismSection({ tourism }: TourismSectionProps) {
   return (
-    <div className="py-20 text-center bg-[#FBFBFB]">
+    <div className="py-20 text-center bg-white">
       <h2 className="text-4xl tablet:text-5xl font-bold text-[#0E2815] mb-12">
         Destinasi
       </h2>
@@ -36,7 +36,7 @@ export default function TourismSection({ tourism }: TourismSectionProps) {
         {tourism.map((tourismItem) => (
           <motion.div
             key={tourismItem.id}
-            className="relative rounded-lg overflow-hidden shadow-lg cursor-pointer h-[200px] phone:h-[250px] tablet:h-[300px] desktop:h-[400px]"
+            className="relative rounded-lg overflow-hidden shadow-2xl cursor-pointer h-[200px] phone:h-[250px] tablet:h-[300px] desktop:h-[400px]"
             initial="initial"
             whileHover="hover"
           >

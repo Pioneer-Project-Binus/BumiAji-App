@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -17,103 +17,173 @@ type Article = {
     slug: string;
 };
 
-interface ArticleSectionProps {
-    latestArticles: any[]; // sekarang array
+interface LandingProps {
+    latestArticles: any[];
     otherArticles: any[];
 }
 
-export default function ArticleSection({ latestArticles: highlight, otherArticles: articles }: ArticleSectionProps) {
-    console.log(highlight)
-    console.log(articles)
-    // Mapping highlight
-    const mappedHighlight = (highlight || []).map((item: any) => ({
+export default function ArticleSection({ latestArticles, otherArticles }: LandingProps) {
+    console.log(latestArticles, "latestArticles <<");
+    console.log(otherArticles, 'otherArticles <<');
+    
+    // Map latest articles (5 data terbaru) for the Swiper
+    const mappedLatestArticles = (latestArticles || []).map((item: any) => ({
         id: item.id,
         title: item.title,
-        date: item.createdAt ? (new Date(item.createdAt)).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '',
+        date: item.created_at ? (new Date(item.created_at)).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '',
         image: item.featuredImage ? `/storage/${item.featuredImage}` : '',
-        kategori: item.category?.name || '',
+        kategori: item.category?.name || 'Umum',
         slug: item.slug,
     }));
 
-
-    // Mapping articles (otherArticles)
-    const mappedArticles = (articles || []).map((item: any) => ({
+    // Map other articles (3 data) for the sidebar
+    const mappedOtherArticles = (otherArticles || []).map((item: any) => ({
         id: item.id,
         title: item.title,
-        date: item.createdAt ? (new Date(item.createdAt)).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '',
+        date: item.created_at ? (new Date(item.created_at)).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '',
         image: item.featuredImage ? `/storage/${item.featuredImage}` : '',
-        kategori: item.category?.name || '',
+        kategori: item.category?.name || 'Umum',
         slug: item.slug,
     }));
+
+    console.log("Latest Articles", mappedLatestArticles);
+    console.log("Other Articles", mappedOtherArticles);
 
     return (
-        <section className="min-h-screen py-0 px-10 bg-white mt-4 font-poppins">
-            <h2 className="text-5xl font-bold text-black text-center mt-10 mb-2">Article</h2>
-            <p className="text-center text-xl text-gray-700 mb-12">Berita dan informasi terbaru seputar Desa Bumi Aji</p>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 min-h-[400px]">
-                {/* Highlight Article Swiper */}
-                <div>
-                    {mappedHighlight && (
-                        <Swiper
-                            spaceBetween={30}
-                            slidesPerView={1}
-                            navigation
-                            pagination={{ clickable: true }}
-                            modules={[Navigation, Pagination]}
-                            className="h-[550px]"
+        <div
+            className="relative min-h-screen w-full font-poppins leading-normal text-gray-800"
+            style={{ minHeight: '100vh' }}
+        >
+            {/* Background putih full screen */}
+            <div className="fixed inset-0 bg-white z-[-10]" />
+            {/* Article Section */}
+            <section className="min-h-screen py-0 px-4 sm:px-6 lg:px-10 bg-white mt-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black text-center mt-10 mb-2">Article</h2>
+                <p className="text-center text-lg sm:text-xl text-gray-700 mb-8 sm:mb-12 px-4">Berita dan informasi terbaru seputar Desa Bumi Aji</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 min-h-[400px]">
+                    {/* Artikel besar Swiper (Latest Articles - 5 data terbaru) */}
+                    <div className="relative h-[550px] w-[640px]">
+                        {/* Tombol custom */}
+                        <button
+                            className="swiper-button-prev-custom absolute top-1/2 left-2 z-20 p-2 bg-white/80 border-none hover:bg-white rounded-full shadow-md transition duration-300"
+                            style={{ transform: 'translateY(-50%)' }}
+                            aria-label="Sebelumnya"
                         >
-                            {mappedHighlight.map((item) => (
-                                <SwiperSlide key={item.id} className="h-full">
-                                    <div className='overflow-hidden relative h-full flex flex-col rounded-lg'>
-                                        <div className="w-full mx-auto flex-1 bg-gray-300 flex items-center text-gray-500 relative">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+                        <button
+                            className="swiper-button-next-custom absolute top-1/2 right-2 z-20 p-2 bg-white/80 border-none hover:bg-white rounded-full shadow-md transition duration-300"
+                            style={{ transform: 'translateY(-50%)' }}
+                            aria-label="Berikutnya"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="9 6 15 12 9 18" />
+                            </svg>
+                        </button>
+                        
+                        {/* Swiper */}
+                        <Swiper
+                            spaceBetween={0}
+                            slidesPerView={1}
+                            navigation={{
+                                nextEl: ".swiper-button-next-custom",
+                                prevEl: ".swiper-button-prev-custom",
+                            }}
+                            pagination={{ 
+                                clickable: true,
+                                bulletClass: 'swiper-pagination-bullet',
+                                bulletActiveClass: 'swiper-pagination-bullet-active'
+                            }}
+                            modules={[Navigation, Pagination]}
+                            className="h-full w-full"
+                            style={{
+                                '--swiper-pagination-color': '#25603B',
+                                '--swiper-pagination-bullet-inactive-color': '#B6CFC6',
+                            }}
+                        >
+                            {mappedLatestArticles.map((item: Article) => (
+                                <SwiperSlide key={item.id} className="!h-full">
+                                    <div className='relative h-full w-[640px] flex flex-col'>
+                                        {/* Image Container - 70% dari tinggi */}
+                                        <div className="relative h-[70%] w-[640px] bg-gray-300 flex-shrink-0">
+                                            {/* Category Badge */}
                                             <div className="absolute top-4 left-4 z-10">
-                                                <p className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-1">
+                                                <span className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-2 shadow-sm">
                                                     {item.kategori}
-                                                </p>
+                                                </span>
                                             </div>
-                                            <Link href={articlesRoute.showPublic(item.slug).url} className="absolute object-cover w-full h-full">
-                                                <img src={item.image} alt={item.title} className="object-cover w-full h-full" />
+                                            
+                                            {/* Image Link */}
+                                            <Link href={articlesRoute.showPublic(item.slug).url} className="block w-full h-full">
+                                                <img 
+                                                    src={item.image} 
+                                                    alt={item.title} 
+                                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
+                                                />
                                             </Link>
                                         </div>
-                                        <div className="bg-[#25603B] shadow-md p-8 text-start">
-                                            <Link href={articlesRoute.showPublic(item.slug).url} className="font-bold text-xl mb-2 text-white hover:underline block">
-                                                {item.title}
-                                            </Link>
-                                            <p className="text-[#B6CFC6]">{item.date}</p>
+                                        
+                                        {/* Content Container - 30% dari tinggi */}
+                                        <div className="bg-[#25603B] h-[22%] w-[640px] p-6 flex flex-col justify-between">
+                                            <div className="flex-2">
+                                                <Link 
+                                                    href={articlesRoute.showPublic(item.slug).url} 
+                                                    className="font-bold text-lg leading-tight text-white hover:underline block transition-colors duration-200"
+                                                >
+                                                    {/* Truncate title jika terlalu panjang */}
+                                                    {item.title.length > 80 ? `${item.title.substring(0, 80)}...` : item.title}
+                                                </Link>
+                                            </div>
+                                            <div className="">
+                                                <p className="text-[#B6CFC6] text-sm">{item.date}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
+                    </div>
+                    {/* Artikel kecil (Other Articles - 3 data) - RESPONSIVE */}
+                    <div className="flex flex-col h-auto lg:h-[550px]">
+                        <div className="flex-grow overflow-y-auto space-y-4 sm:space-y-6" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            {mappedOtherArticles.map((item: Article) => (
+                                <div
+                                key={item.id}
+                                className="relative w-full h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px]" // Responsive height
+                                >
+                                {/* Image */}
+                                <div className="w-[180px] sm:w-[200px] md:w-[220px] lg:w-[260px] h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] rounded-[1px] overflow-hidden">
+                                    <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover rounded-lg"
+                                    />
+                                </div>
 
-                    )}
-                </div>
-                {/* Other Articles List */}
-                <div className="flex flex-col h-[550px]">
-                    <div className="flex-grow overflow-y-auto space-y-6" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-                        {mappedArticles.map((item: Article) => (
-                            <div key={item.id} className="bg-white rounded-lg shadow-[5px_5px_10px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row w-full">
-                                <div className="w-full lg:w-1/4 h-48 lg:h-full">
-                                    <Link href={articlesRoute.showPublic(item.slug).url}>
-                                        <img src={item.image} alt={item.title} className="object-cover w-full h-full" />
+                                {/* Text over image, centered vertically, slightly offset right - RESPONSIVE */}
+                                <div className="absolute top-1/2 left-[160px] sm:left-[180px] md:left-[200px] lg:left-[220px] transform -translate-y-1/2 z-10 bg-white bg-opacity-90 backdrop-blur-md rounded-lg p-3 sm:p-4 lg:p-6 w-[calc(100%-180px)] sm:w-[calc(100%-200px)] md:w-[calc(100%-220px)] lg:w-[calc(100%-240px)] shadow-md">
+                                    <p className="inline-block bg-green-800 text-white text-xs sm:text-sm font-semibold rounded-lg px-2 sm:px-3 lg:px-4 py-1 mb-1">
+                                    {item.kategori}
+                                    </p>
+                                    <Link
+                                    href={articlesRoute.showPublic(item.slug).url}
+                                    className="font-bold text-sm sm:text-base lg:text-[16px] mb-1 lg:mb-2 hover:underline block line-clamp-2"
+                                    >
+                                    {item.title}
                                     </Link>
+                                    <p className="text-gray-600 text-xs sm:text-sm lg:text-base">{item.date}</p>
                                 </div>
-                                <div className="p-4 lg:p-8 flex-1 flex flex-col justify-center">
-                                    <div className="flex">
-                                        <p className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-1 mb-2">{item.kategori}</p>
-                                    </div>
-                                    <Link href={articlesRoute.showPublic(item.slug).url} className="font-bold text-lg mb-1 lg:mb-2 hover:underline block">{item.title}</Link>
-                                    <p className="text-gray-600 text-sm lg:text-base">{item.date}</p>
                                 </div>
+                            ))}
                             </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-end pt-4">
-                        <Link href={articlesRoute.indexPublic().url} className="font-bold text-xl text-black hover:underline">Berita Lainya...</Link>
+                        <div className="flex justify-end pt-4">
+                            <Link href={articlesRoute.indexPublic.url()} className="font-bold text-lg sm:text-xl text-black hover:underline">Berita Lainya...</Link>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     );
 }

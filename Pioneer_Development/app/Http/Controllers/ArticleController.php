@@ -218,14 +218,31 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'title.required' => 'Judul artikel wajib diisi.',
+            'title.string' => 'Judul artikel harus berupa teks.',
+            'title.max' => 'Judul artikel tidak boleh lebih dari :max karakter.',
+            'content.required' => 'Konten artikel wajib diisi.',
+            'content.string' => 'Konten artikel harus berupa teks.',
+            'featuredImage.required' => 'Gambar unggulan wajib diunggah.',
+            'featuredImage.image' => 'Gambar unggulan harus berupa file gambar.',
+            'featuredImage.mimes' => 'Gambar unggulan harus bertipe: jpeg, png, jpg, gif, svg, atau webp.',
+            'featuredImage.max' => 'Ukuran gambar unggulan tidak boleh lebih dari 2MB.',
+            'status.required' => 'Status artikel wajib dipilih.',
+            'status.in' => 'Status artikel harus salah satu dari: draft, published, atau archived.',
+            'categoryId.exists' => 'Kategori yang dipilih tidak valid.',
+            'categoryId.required' => 'Kategori artikel wajib dipilih.',
+            'authorId.exists' => 'Penulis yang dipilih tidak valid.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'featuredImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featuredImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
-            'categoryId' => 'nullable|exists:categoryArticles,id',
+            'categoryId' => 'required|exists:categoryArticles,id',
             'authorId' => 'nullable|exists:users,id',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -277,14 +294,33 @@ class ArticleController extends Controller
 
     public function update(Request $request, $slug)
     {
+        $article = Article::where('isDeleted', false)
+            ->where('slug', $slug)
+            ->firstOrFail();
+        $messages = [
+            'title.required' => 'Judul artikel wajib diisi.',
+            'title.string' => 'Judul artikel harus berupa teks.',
+            'title.max' => 'Judul artikel tidak boleh lebih dari :max karakter.',
+            'content.required' => 'Konten artikel wajib diisi.',
+            'content.string' => 'Konten artikel harus berupa teks.',
+            'featuredImage.required' => 'Gambar unggulan wajib diunggah.',
+            'featuredImage.image' => 'Gambar unggulan harus berupa file gambar.',
+            'featuredImage.mimes' => 'Gambar unggulan harus bertipe: jpeg, png, jpg, gif, svg, atau webp.',
+            'featuredImage.max' => 'Ukuran gambar unggulan tidak boleh lebih dari 2MB.',
+            'status.required' => 'Status artikel wajib dipilih.',
+            'status.in' => 'Status artikel harus salah satu dari: draft, published, atau archived.',
+            'categoryId.required' => 'Kategori artikel wajib dipilih.',
+            'categoryId.exists' => 'Kategori yang dipilih tidak valid.',
+            'authorId.exists' => 'Penulis yang dipilih tidak valid.',
+        ];
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:articles,title,' . $article->id,
             'content' => 'required|string',
-            'featuredImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featuredImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
-            'categoryId' => 'nullable|exists:categoryArticles,id',
+            'categoryId' => 'required|exists:categoryArticles,id',
             'authorId' => 'nullable|exists:users,id',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -293,13 +329,13 @@ class ArticleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $article = Article::where('isDeleted', false)
-            ->where('slug', $slug)
-            ->firstOrFail();
+
 
         if ($article->title !== $request->title) {
             $article->slug = Str::slug($request->title) . '-' . Str::random(5);
         }
+
+
 
         $article->title = $request->title;
         $article->content = $request->content;

@@ -82,10 +82,20 @@ class CategoryArticleController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.string' => 'Nama kategori harus berupa teks.',
+            'name.max' => 'Nama kategori tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.min' => 'Deskripsi harus lebih dari :min karakter',
+            'description.max' => 'Deskripsi harus kurang dari :max karakter',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categoryArticles,name',
-            'description' => 'nullable|string',
-        ]);
+            'name' => 'required|string|max:20|unique:categoryArticles,name',
+            'description' => 'nullable|string|min:10|max:200',
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -173,10 +183,20 @@ class CategoryArticleController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
 
+        $messages = [
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.string' => 'Nama kategori harus berupa teks.',
+            'name.max' => 'Nama kategori tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.min' => 'Deskripsi harus lebih dari :min karakter',
+            'description.max' => 'Deskripsi harus kurang dari :max karakter',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categoryArticles,name,' . $categoryArticle->id,
-            'description' => 'nullable|string',
-        ]);
+            'name' => 'required|string|max:20|unique:categoryArticles,name,' . $categoryArticle->id,
+            'description' => 'nullable|string|min:10|max:200',
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {

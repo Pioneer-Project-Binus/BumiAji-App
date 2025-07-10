@@ -118,7 +118,7 @@ export default function CategoryArticleCreate({ errors: pageErrors }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tambah Kategori Artikel" />
-            
+
             {/* Hero Section with Gradient Background */}
             <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-green-100 relative overflow-hidden">
                 {/* Decorative Elements */}
@@ -172,7 +172,7 @@ export default function CategoryArticleCreate({ errors: pageErrors }: Props) {
                                         type="text"
                                         value={data.name}
                                         onChange={(e) => setData('name', e.target.value)}
-                                        className="w-full border-2 border-gray-200 rounded-2xl px-6 py-4 text-lg focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all duration-300 bg-gray-50 hover:bg-white group-hover:border-emerald-300"
+                                        className="text-black w-full border-2 border-gray-200 rounded-2xl px-6 py-4 text-lg focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all duration-300 bg-gray-50 hover:bg-white group-hover:border-emerald-300"
                                         placeholder="Masukkan nama kategori..."
                                     />
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-4">
@@ -192,10 +192,10 @@ export default function CategoryArticleCreate({ errors: pageErrors }: Props) {
                                 </label>
                                 <div className="relative">
                                     <div className="border-2 border-gray-200 rounded-2xl focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-100 transition-all duration-300 bg-gray-50 hover:bg-white group-hover:border-emerald-300 overflow-hidden">
-                                        <textarea 
-                                            ref={summernoteRef} 
-                                            defaultValue={data.description} 
-                                            className="hidden" 
+                                        <textarea
+                                            ref={summernoteRef}
+                                            defaultValue={data.description}
+                                            className="hidden"
                                         />
                                     </div>
                                 </div>

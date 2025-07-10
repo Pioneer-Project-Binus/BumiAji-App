@@ -11,9 +11,8 @@ interface HeroSectionProps {
 
 export default function HeroSection({ profile }: HeroSectionProps) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen shadow-2xl w-full">
       <div className="pt-32 pl-10 tablet:pt-40 tablet:pl-20 desktop:pt-[230px] desktop:pl-[92px]">
-        <img src={logo} alt="Logo" className="w-[400px] h-[172px]" />
         <div className="w-[574px] h-[192px] pt-2 text-[64px] font-extrabold leading-none">
           <div className="text-black">AMAZING</div>
           <div className="text-[#295740]">BUMIAJI</div>

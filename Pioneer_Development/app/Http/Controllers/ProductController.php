@@ -23,13 +23,9 @@ class ProductController extends Controller
         $query = Product::with(['category', 'photos'])
             ->where('isDeleted', false);
 
-        // Filtering
         if ($request->filled('search')) {
             $searchTerm = $request->search;
-            $query->where(fn($q) =>
-                $q->where('productName', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%")
-            );
+            $query->where('productName', 'like', "%{$searchTerm}%");
         }
 
         if ($request->filled('category')) {
@@ -73,6 +69,7 @@ class ProductController extends Controller
             'slug' => $product->slug,
             'productName' => $product->productName,
             'description' => Str::limit($product->description, 100),
+            'waNumber' => $product->waNumber,
             'price' => $product->price,
             'status' => $product->status,
             'highlight' => $product->highlight,
@@ -112,6 +109,7 @@ class ProductController extends Controller
             'slug' => $product->slug,
             'productName' => $product->productName,
             'price' => $product->price,
+            'waNumber' => $product->waNumber,
             'stock' => $product->stock,
             'status' => $product->status,
             'highlight' => $product->highlight,
@@ -156,6 +154,7 @@ class ProductController extends Controller
             'slug' => $product->slug,
             'productName' => $product->productName,
             'description' => $product->description,
+            'waNumber' => $product->waNumber,
             'price' => $product->price,
             'stock' => $product->stock,
             'status' => $product->status,
@@ -209,6 +208,7 @@ class ProductController extends Controller
             'slug' => $product->slug,
             'productName' => $product->productName,
             'description' => $product->description,
+            'waNumber' => $product->waNumber,
             'price' => $product->price,
             'stock' => $product->stock,
             'status' => $product->status,
@@ -239,15 +239,30 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'productName.required' => 'Nama produk wajib diisi.',
+            'productName.unique' => 'Nama produk sudah digunakan.',
+            'description.required' => 'Deskripsi produk wajib diisi.',
+            'waNumber.string' => 'Nomor WhatsApp harus berupa teks.',
+            'waNumber.max' => 'Nomor WhatsApp tidak boleh lebih dari 20 karakter.',
+            'waNumber.regex' => 'Nomor WhatsApp hanya boleh berisi angka dan boleh diawali dengan tanda +.',
+            'price.required' => 'Harga produk wajib diisi.',
+            'price.numeric' => 'Harga harus berupa angka.',
+            'stock.required' => 'Stok produk wajib diisi.',
+            'categoryId.required' => 'Kategori produk wajib diisi.',
+            'status.in' => 'Status harus berupa draft, published, atau outofstock.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'productName' => 'required|string|max:255|unique:products,productName',
             'description' => 'required|string',
+            'waNumber' => 'nullable|string|max:20|regex:/^\+?[0-9]+$/',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'categoryId' => 'nullable|exists:categoryProducts,id',
+            'categoryId' => 'required|exists:categoryProducts,id',
             'status' => 'required|in:draft,published,outofstock',
             'highlight' => 'nullable|boolean',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -266,6 +281,7 @@ class ProductController extends Controller
         $product->slug = $slug;
 
         $product->description = $request->description;
+        $product->waNumber = $request->waNumber;
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->categoryId = $request->categoryId;
@@ -313,15 +329,30 @@ class ProductController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
 
+        $messages = [
+            'productName.required' => 'Nama produk wajib diisi.',
+            'productName.unique' => 'Nama produk sudah digunakan.',
+            'description.required' => 'Deskripsi produk wajib diisi.',
+            'waNumber.string' => 'Nomor WhatsApp harus berupa teks.',
+            'waNumber.max' => 'Nomor WhatsApp tidak boleh lebih dari 20 karakter.',
+            'waNumber.regex' => 'Nomor WhatsApp hanya boleh berisi angka dan boleh diawali dengan tanda +.',
+            'price.required' => 'Harga produk wajib diisi.',
+            'price.numeric' => 'Harga harus berupa angka.',
+            'stock.required' => 'Stok produk wajib diisi.',
+            'categoryId.required' => 'Kategori produk wajib diisi.',
+            'status.in' => 'Status harus berupa draft, published, atau outofstock.',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'productName' => 'required|string|max:255|unique:products,productName,' . $product->id,
+            'productName' => 'required|string|max:255|unique:products,productName',
             'description' => 'required|string',
+            'waNumber' => 'nullable|string|max:20|regex:/^\+?[0-9]+$/',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'categoryId' => 'nullable|exists:categoryProducts,id',
+            'categoryId' => 'required|exists:categoryProducts,id',
             'status' => 'required|in:draft,published,outofstock',
             'highlight' => 'nullable|boolean',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -339,6 +370,7 @@ class ProductController extends Controller
 
         $product->productName = $request->productName;
         $product->description = $request->description;
+        $product->waNumber = $request->waNumber;
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->categoryId = $request->categoryId;

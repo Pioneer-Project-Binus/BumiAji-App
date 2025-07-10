@@ -79,6 +79,15 @@ class PhotoProductController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'productId.required' => 'Produk wajib dipilih.',
+            'photos.required' => 'Minimal satu foto wajib diunggah.',
+            'photos.*.image' => 'File harus berupa gambar.',
+            'photos.*.max' => 'Ukuran gambar maksimal 2MB.',
+            'titles.*.max' => 'Judul foto maksimal 255 karakter.',
+            'displayOrders.*.integer' => 'Urutan tampilan harus berupa angka.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'productId' => 'required|exists:products,id',
             'photos' => 'required|array',
@@ -87,7 +96,7 @@ class PhotoProductController extends Controller
             'titles.*' => 'nullable|string|max:255',
             'displayOrders' => 'nullable|array',
             'displayOrders.*' => 'nullable|integer|min:0',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -209,12 +218,21 @@ class PhotoProductController extends Controller
             ->where('isDeleted', false)
             ->firstOrFail();
 
+        $messages = [
+            'productId.required' => 'Produk wajib dipilih.',
+            'photos.required' => 'Minimal satu foto wajib diunggah.',
+            'photos.*.image' => 'File harus berupa gambar.',
+            'photos.*.max' => 'Ukuran gambar maksimal 2MB.',
+            'titles.*.max' => 'Judul foto maksimal 255 karakter.',
+            'displayOrders.*.integer' => 'Urutan tampilan harus berupa angka.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'productId' => 'sometimes|required|exists:products,id',
             'title' => 'required|string|max:255', // Validasi untuk title baru
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'displayOrder' => 'nullable|integer|min:0',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {

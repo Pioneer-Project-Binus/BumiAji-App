@@ -70,12 +70,28 @@ class TourismPhotoController extends Controller
     // Menyimpan foto wisata baru
     public function store(Request $request)
     {
+        $messages = [
+            'destinationId.required' => 'Destinasi wisata wajib dipilih.',
+            'destinationId.exists' => 'Destinasi wisata yang dipilih tidak valid.',
+
+            'photos.required' => 'Minimal satu foto harus diunggah.',
+            'photos.array' => 'Format foto tidak valid.',
+
+            'photos.*.required' => 'Setiap foto wajib diunggah.',
+            'photos.*.image' => 'Setiap file harus berupa gambar.',
+            'photos.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, svg, atau webp.',
+            'photos.*.max' => 'Ukuran masing-masing gambar tidak boleh melebihi 2MB (2048 KB).',
+
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'destinationId' => 'required|exists:tourism,id', 
             'photos' => 'required|array',
             'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -124,11 +140,28 @@ class TourismPhotoController extends Controller
     // Memperbarui foto wisata
     public function update(Request $request, $slug)
     {
+        $messages = [
+            'destinationId.required' => 'Destinasi wisata wajib dipilih.',
+            'destinationId.exists' => 'Destinasi wisata yang dipilih tidak valid.',
+
+            'photos.required' => 'Minimal satu foto harus diunggah.',
+            'photos.array' => 'Format foto tidak valid.',
+
+            'photos.*.required' => 'Setiap foto wajib diunggah.',
+            'photos.*.image' => 'Setiap file harus berupa gambar.',
+            'photos.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, svg, atau webp.',
+            'photos.*.max' => 'Ukuran masing-masing gambar tidak boleh melebihi 2MB (2048 KB).',
+
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
         $validator = Validator::make($request->all(), [
-            'destinationId' => 'sometimes|required|exists:tourism,id',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'destinationId' => 'required|exists:tourism,id', 
+            'photos' => 'required|array',
+            'photos.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'nullable|string|max:255',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {

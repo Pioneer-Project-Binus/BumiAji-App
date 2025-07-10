@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 export const show = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -45,7 +45,7 @@ show.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -57,7 +57,7 @@ show.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\PhotoProductController::show
- * @see app/Http/Controllers/PhotoProductController.php:155
+ * @see app/Http/Controllers/PhotoProductController.php:164
  * @route '/foto-produk/{slug}'
  */
 show.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

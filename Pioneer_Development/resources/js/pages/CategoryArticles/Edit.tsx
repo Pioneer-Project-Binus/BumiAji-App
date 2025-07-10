@@ -36,7 +36,7 @@ interface Props extends InertiaSharedProps {
 export default function CategoryArticleEdit({ categoryArticle, errors: pageErrors }: Props) {
     const breadcrumbs: BreadcrumbItem[] = useMemo(() => [
         { title: 'Dashboard', href: dashboard().url },
-        { title: 'Article Categories', href: categoryArticles.admin().url },
+        { title: 'Article Categories', href: categoryArticles.indexAdmin().url },
         { title: `Edit: ${categoryArticle.name}`, href: categoryArticles.edit(categoryArticle.slug).url },
     ], [categoryArticle]);
 
@@ -178,7 +178,7 @@ export default function CategoryArticleEdit({ categoryArticle, errors: pageError
                                 </label>
                                 <textarea
                                     ref={summernoteRef}
-                                    className="hidden" // Sembunyikan textarea karena Summernote akan menginisialisasi sendiri
+                                    className="hidden text-white" // Sembunyikan textarea karena Summernote akan menginisialisasi sendiri
                                 />
                                 <InputError message={errors.description || pageErrors?.description} className="mt-2" />
                             </div>

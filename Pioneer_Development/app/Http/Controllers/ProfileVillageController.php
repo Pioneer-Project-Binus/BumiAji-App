@@ -63,7 +63,7 @@ class ProfileVillageController extends Controller
             'history' => 'nullable|string',
             'vision' => 'nullable|string',
             'mission' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'address' => 'nullable|string',
             'postalCode' => 'nullable|string|max:10',
             'phone' => 'nullable|string|max:20',
@@ -74,7 +74,46 @@ class ProfileVillageController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $messages = [
+            'name.required' => 'Nama desa wajib diisi.',
+            'name.string' => 'Nama desa harus berupa teks.',
+            'name.max' => 'Nama desa tidak boleh lebih dari 255 karakter.',
+
+            'history.string' => 'Sejarah desa harus berupa teks.',
+
+            'vision.string' => 'Visi desa harus berupa teks.',
+
+            'mission.string' => 'Misi desa harus berupa teks.',
+
+            'logo.image' => 'Logo harus berupa file gambar.',
+            'logo.mimes' => 'Logo harus dalam format: jpeg, png, jpg, gif, svg, atau webp.',
+            'logo.max' => 'Ukuran file logo maksimal 2MB.',
+            'logo.required' => 'Logo wajib diisi.',
+
+            'address.string' => 'Alamat harus berupa teks.',
+
+            'postalCode.string' => 'Kode pos harus berupa teks.',
+            'postalCode.max' => 'Kode pos tidak boleh lebih dari 10 karakter.',
+
+            'phone.string' => 'Nomor telepon harus berupa teks.',
+            'phone.max' => 'Nomor telepon tidak boleh lebih dari 20 karakter.',
+
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+
+            'website.url' => 'Format URL website tidak valid.',
+            'website.max' => 'URL website tidak boleh lebih dari 255 karakter.',
+
+            'socialMedia.string' => 'Link media sosial harus berupa teks.',
+
+            'latitude.numeric' => 'Latitude harus berupa angka.',
+            'latitude.between' => 'Latitude harus berada di antara -90 hingga 90.',
+
+            'longitude.numeric' => 'Longitude harus berupa angka.',
+            'longitude.between' => 'Longitude harus berada di antara -180 hingga 180.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {

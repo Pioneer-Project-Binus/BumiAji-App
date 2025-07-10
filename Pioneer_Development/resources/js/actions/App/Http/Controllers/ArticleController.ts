@@ -318,7 +318,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ArticleController::archivedIndex
- * @see app/Http/Controllers/ArticleController.php:353
+ * @see app/Http/Controllers/ArticleController.php:389
  * @route '/articles/archived'
  */
 export const archivedIndex = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -336,7 +336,7 @@ archivedIndex.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::archivedIndex
- * @see app/Http/Controllers/ArticleController.php:353
+ * @see app/Http/Controllers/ArticleController.php:389
  * @route '/articles/archived'
  */
 archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -345,7 +345,7 @@ archivedIndex.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\ArticleController::archivedIndex
- * @see app/Http/Controllers/ArticleController.php:353
+ * @see app/Http/Controllers/ArticleController.php:389
  * @route '/articles/archived'
  */
 archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -357,7 +357,7 @@ archivedIndex.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 })
 /**
 * @see \App\Http\Controllers\ArticleController::archivedIndex
- * @see app/Http/Controllers/ArticleController.php:353
+ * @see app/Http/Controllers/ArticleController.php:389
  * @route '/articles/archived'
  */
 archivedIndex.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -439,7 +439,7 @@ showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:262
+ * @see app/Http/Controllers/ArticleController.php:279
  * @route '/articles/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -457,7 +457,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:262
+ * @see app/Http/Controllers/ArticleController.php:279
  * @route '/articles/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -483,7 +483,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:262
+ * @see app/Http/Controllers/ArticleController.php:279
  * @route '/articles/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -495,7 +495,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\ArticleController::edit
- * @see app/Http/Controllers/ArticleController.php:262
+ * @see app/Http/Controllers/ArticleController.php:279
  * @route '/articles/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -508,7 +508,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}'
  */
 const update86fec96e7cf877c1b0bd578f6a396d90 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -526,7 +526,7 @@ update86fec96e7cf877c1b0bd578f6a396d90.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}'
  */
 update86fec96e7cf877c1b0bd578f6a396d90.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -552,7 +552,7 @@ update86fec96e7cf877c1b0bd578f6a396d90.url = (args: { slug: string | number } | 
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}'
  */
 update86fec96e7cf877c1b0bd578f6a396d90.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -565,7 +565,7 @@ update86fec96e7cf877c1b0bd578f6a396d90.put = (args: { slug: string | number } | 
 
     /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}/update'
  */
 const updatefb3e211aaeffad621cbf940d1b3375c6 = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -583,7 +583,7 @@ updatefb3e211aaeffad621cbf940d1b3375c6.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}/update'
  */
 updatefb3e211aaeffad621cbf940d1b3375c6.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -609,7 +609,7 @@ updatefb3e211aaeffad621cbf940d1b3375c6.url = (args: { slug: string | number } | 
 
 /**
 * @see \App\Http\Controllers\ArticleController::update
- * @see app/Http/Controllers/ArticleController.php:278
+ * @see app/Http/Controllers/ArticleController.php:295
  * @route '/articles/{slug}/update'
  */
 updatefb3e211aaeffad621cbf940d1b3375c6.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -627,7 +627,7 @@ export const update = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:336
+ * @see app/Http/Controllers/ArticleController.php:372
  * @route '/articles/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -645,7 +645,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:336
+ * @see app/Http/Controllers/ArticleController.php:372
  * @route '/articles/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -671,7 +671,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ArticleController::destroy
- * @see app/Http/Controllers/ArticleController.php:336
+ * @see app/Http/Controllers/ArticleController.php:372
  * @route '/articles/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -684,7 +684,7 @@ destroy.delete = (args: { slug: string | number } | [slug: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\ArticleController::restore
- * @see app/Http/Controllers/ArticleController.php:385
+ * @see app/Http/Controllers/ArticleController.php:421
  * @route '/articles/{slug}/restore'
  */
 export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -702,7 +702,7 @@ restore.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::restore
- * @see app/Http/Controllers/ArticleController.php:385
+ * @see app/Http/Controllers/ArticleController.php:421
  * @route '/articles/{slug}/restore'
  */
 restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -728,7 +728,7 @@ restore.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ArticleController::restore
- * @see app/Http/Controllers/ArticleController.php:385
+ * @see app/Http/Controllers/ArticleController.php:421
  * @route '/articles/{slug}/restore'
  */
 restore.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -741,7 +741,7 @@ restore.post = (args: { slug: string | number } | [slug: string | number ] | str
 
 /**
 * @see \App\Http\Controllers\ArticleController::deletePermanent
- * @see app/Http/Controllers/ArticleController.php:402
+ * @see app/Http/Controllers/ArticleController.php:438
  * @route '/articles/{slug}/permanent-delete'
  */
 export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -759,7 +759,7 @@ deletePermanent.definition = {
 
 /**
 * @see \App\Http\Controllers\ArticleController::deletePermanent
- * @see app/Http/Controllers/ArticleController.php:402
+ * @see app/Http/Controllers/ArticleController.php:438
  * @route '/articles/{slug}/permanent-delete'
  */
 deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -785,7 +785,7 @@ deletePermanent.url = (args: { slug: string | number } | [slug: string | number 
 
 /**
 * @see \App\Http\Controllers\ArticleController::deletePermanent
- * @see app/Http/Controllers/ArticleController.php:402
+ * @see app/Http/Controllers/ArticleController.php:438
  * @route '/articles/{slug}/permanent-delete'
  */
 deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -53,7 +53,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\LandingController::storeContact
- * @see app/Http/Controllers/LandingController.php:71
+ * @see app/Http/Controllers/LandingController.php:79
  * @route '/contact'
  */
 export const storeContact = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ storeContact.definition = {
 
 /**
 * @see \App\Http\Controllers\LandingController::storeContact
- * @see app/Http/Controllers/LandingController.php:71
+ * @see app/Http/Controllers/LandingController.php:79
  * @route '/contact'
  */
 storeContact.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -80,7 +80,7 @@ storeContact.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams })
 
 /**
 * @see \App\Http\Controllers\LandingController::storeContact
- * @see app/Http/Controllers/LandingController.php:71
+ * @see app/Http/Controllers/LandingController.php:79
  * @route '/contact'
  */
 storeContact.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

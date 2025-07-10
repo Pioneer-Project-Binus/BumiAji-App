@@ -149,6 +149,25 @@ export interface Product {
     isDeleted?: boolean;
 }
 
+export interface Products {
+    id: number;
+    productName: string;
+    slug: string;
+    description: string; // Can contain HTML
+    price: number;
+    stock: number;
+    status: ProductStatus;
+    highlight?: boolean;
+    categoryId: number | null;
+    category?: CategoryProduct;
+    photo: file
+    creator?: User;
+    updater?: User;
+    created_at: string;
+    updated_at: string;
+    isDeleted?: boolean;
+}
+
 // --- Gallery ---
 
 export interface Galery {

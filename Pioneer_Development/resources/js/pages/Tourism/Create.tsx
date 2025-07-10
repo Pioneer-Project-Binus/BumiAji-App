@@ -48,12 +48,12 @@ interface Props extends InertiaSharedProps {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin Dashboard', href: dashboard.url },
-    { title: 'Tourism Management', href: tourism.index().url },
+    { title: 'Tourism Management', href: tourism.indexAdmin().url },
     { title: 'Add New Destination', href: tourism.create().url },
 ];
 
 export default function AdminTourismCreate() {
-    const { data, setData, post, processing, errors } = useForm<CreateTourismForm>({
+    const { data, setData, post, processing, errors } = useForm<Required<CreateTourismForm>>({
         name: '',
         description: '',
         address: '',
@@ -111,7 +111,7 @@ export default function AdminTourismCreate() {
                         </div>
 
                         <Link
-                            href={tourism.index().url}
+                            href={tourism.indexAdmin().url}
                             className="group inline-flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 rounded-xl border border-slate-200/50 dark:border-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 backdrop-blur-sm"
                         >
                             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />

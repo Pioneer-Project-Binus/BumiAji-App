@@ -21,13 +21,15 @@ class LandingController extends Controller
     {
         $profile = ProfileVillage::first();
 
-        $latestArticles = Article::where('status', 'published')
+        $latestArticles = Article::with(['category:id,name'])
+            ->where('status', 'published')
             ->where('isDeleted', false)
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
-
-        $otherArticles = Article::where('status', 'published')
+            
+        $otherArticles = Article::with(['category:id,name'])
+            ->where('status', 'published')
             ->where('isDeleted', false)
             ->orderByDesc('created_at')
             ->limit(3)
@@ -41,12 +43,18 @@ class LandingController extends Controller
             ->limit(4)
             ->get();
 
-        $products = Product::with(['photos' => function ($q) {
-            $q->where('isDeleted', false);
-        }])
+        $products = Product::with([
+            'photos' => function ($q) {
+                $q->where('isDeleted', false);
+            },
+            'category' => function ($q) {
+                $q->where('isDeleted', false);
+            }
+        ])
             ->where('status', 'published')
             ->where('isDeleted', false)
             ->get();
+
 
         $testimonials = Testimonial::where('isDeleted', false)->get();
 

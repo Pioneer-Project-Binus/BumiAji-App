@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import type { Galery } from '@/types';
 
 interface FooterSectionProps {
@@ -14,7 +14,7 @@ interface FooterSectionProps {
 }
 
 export default function FooterSection({ profile, galeries }: FooterSectionProps) {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -25,17 +25,19 @@ export default function FooterSection({ profile, galeries }: FooterSectionProps)
     }
   };
 
-  const itemVariants = {
+    const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
+        ease: [0.0, 0.0, 0.58, 1.0] // ✅ cubic bezier untuk easeOut
       }
     }
   };
+
+
 
   const navigationLinks = [
     { href: '/', label: 'Beranda' },
@@ -52,7 +54,7 @@ export default function FooterSection({ profile, galeries }: FooterSectionProps)
       <div className="absolute inset-0 bg-gradient-to-br from-[#0E2815] via-[#0E2815] to-[#1a3a22] opacity-50"></div>
       
       <motion.div 
-        className="max-w-7xl mx-auto relative z-10"
+        className="w-full relative z-10"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

@@ -1,4 +1,5 @@
 import Navbar from '@/components/ui/navbar';
+import { BlurFade } from "@/components/magicui/blur-fade";
 
 function chunkArray<T>(array: T[], chunkSize: number): T[][] {
     const result: T[][] = [];
@@ -40,8 +41,9 @@ export default function Gallery({ galeries }: { galeries: PaginationData }) {
     console.log('Gallery data:', galleryItems);
     
     return (
-        <div className="min-h-screen bg-white px-8 py-6">
+        <>
             <Navbar />
+        <div className="min-h-screen bg-white px-8 py-6">
 
             <div className="mx-10 my-12 flex flex-col gap-[50px]">
                 <div>
@@ -138,5 +140,6 @@ export default function Gallery({ galeries }: { galeries: PaginationData }) {
                 })}
             </div>
         </div>
+    </>
     );
 }

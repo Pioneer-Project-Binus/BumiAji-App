@@ -51,13 +51,33 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari :max karakter.',
+
+            'phone.string' => 'Nomor telepon harus berupa teks.',
+            'phone.max' => 'Nomor telepon tidak boleh lebih dari :max karakter.',
+
+            'subject.required' => 'Subjek wajib diisi.',
+            'subject.string' => 'Subjek harus berupa teks.',
+            'subject.max' => 'Subjek tidak boleh lebih dari :max karakter.',
+
+            'message.required' => 'Pesan wajib diisi.',
+            'message.string' => 'Pesan harus berupa teks.',
+        ];
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             if ($request->wantsJson()) {

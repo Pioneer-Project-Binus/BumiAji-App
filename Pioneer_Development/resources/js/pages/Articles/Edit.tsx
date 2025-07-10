@@ -36,7 +36,7 @@ interface EditArticleForm {
     content: string;
     featuredImage: File | null;
     status: Article['status'];
-    category_id: number | string;
+    categoryId: number | string;
     author_id: number | string;
     _method: 'PUT'; // Method spoofing for file uploads
 }
@@ -53,7 +53,7 @@ export default function ArticleEdit({ article, categories, authors, errors: page
         content: article.content || '',
         featuredImage: null,
         status: article.status,
-        category_id: article.category?.id || '',
+        categoryId: article.category?.id || '',
         author_id: article.author?.id || '',
         _method: 'PUT',
     });
@@ -201,12 +201,12 @@ export default function ArticleEdit({ article, categories, authors, errors: page
                             <div className="grid md:grid-cols-3 gap-8">
                                 {/* Category */}
                                 <div className="space-y-3">
-                                    <label htmlFor="category_id" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Kategori</label>
-                                    <select id="category_id" value={data.category_id} onChange={(e) => setData('category_id', e.target.value)} className="w-full px-6 py-4 border-2 border-green-200 rounded-xl text-lg">
+                                    <label htmlFor="categoryId" className="block text-lg font-semibold text-gray-800 dark:text-gray-200">Kategori</label>
+                                    <select id="categoryId" value={data.categoryId} onChange={(e) => setData('categoryId', e.target.value)} className="w-full px-6 py-4 border-2 border-green-200 rounded-xl text-lg">
                                         <option value="">Pilih Kategori</option>
                                         {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
                                     </select>
-                                    <InputError message={errors.category_id} className="mt-2" />
+                                    <InputError message={errors.categoryId} className="mt-2" />
                                 </div>
                                 {/* Author */}
                                 <div className="space-y-3">

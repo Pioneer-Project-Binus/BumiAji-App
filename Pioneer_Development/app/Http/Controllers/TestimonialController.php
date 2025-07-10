@@ -97,12 +97,14 @@ class TestimonialController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'rating' => 'nullable|integer|min:1|max:5',
             'message' => 'required|string',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'name.string' => 'Nama harus berupa teks.',
+            'photo.required' => 'Gambar harus diisi.',
             'photo.image' => 'File harus berupa gambar.',
             'photo.mimes' => 'Foto harus dalam format: jpeg, png, jpg, gif, svg, atau webp.',
             'photo.max' => 'Ukuran foto tidak boleh lebih dari :max KB.',
@@ -110,6 +112,7 @@ class TestimonialController extends Controller
             'rating.min' => 'Rating minimal adalah :min.',
             'rating.max' => 'Rating maksimal adalah :max.',
             'message.required' => 'Pesan testimoni wajib diisi.',
+            'message.string' => 'Pesan testimoni harus berupa teks.',
         ]);
 
 
@@ -213,12 +216,14 @@ class TestimonialController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'rating' => 'nullable|integer|min:1|max:5',
             'message' => 'required|string',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'name.string' => 'Nama harus berupa teks.',
+            'photo.required' => 'Gambar harus diisi.',
             'photo.image' => 'File harus berupa gambar.',
             'photo.mimes' => 'Foto harus dalam format: jpeg, png, jpg, gif, svg, atau webp.',
             'photo.max' => 'Ukuran foto tidak boleh lebih dari :max KB.',
@@ -226,6 +231,7 @@ class TestimonialController extends Controller
             'rating.min' => 'Rating minimal adalah :min.',
             'rating.max' => 'Rating maksimal adalah :max.',
             'message.required' => 'Pesan testimoni wajib diisi.',
+            'message.string' => 'Pesan testimoni harus berupa teks.',
         ]);
 
 

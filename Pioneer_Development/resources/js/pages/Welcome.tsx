@@ -9,6 +9,7 @@ import TestimoniSection from '@/components/Landing/TestimonialSection';
 import ArticleSection from '@/components/Landing/Articles';
 
 import type { Galery as GaleryType, Product } from '@/types';
+import Navbar from '@/components/ui/navbar';
 
 interface WelcomeProps {
     profile: any;
@@ -26,6 +27,7 @@ export default function Index({ profile, tourism, products, galeries, testimonia
   
     return (
         <div className="w-full bg-white flex flex-col items-center">
+            <Navbar />
             <HeroSection profile={profile} />
             <TourismSection tourism={tourism} />
             <ProductSection products={products} />

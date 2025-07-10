@@ -53,7 +53,7 @@ indexPublic.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams })
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showPublic
- * @see app/Http/Controllers/TestimonialController.php:153
+ * @see app/Http/Controllers/TestimonialController.php:156
  * @route '/testimoni/{slug}'
  */
 export const showPublic = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -71,7 +71,7 @@ showPublic.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showPublic
- * @see app/Http/Controllers/TestimonialController.php:153
+ * @see app/Http/Controllers/TestimonialController.php:156
  * @route '/testimoni/{slug}'
  */
 showPublic.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -97,7 +97,7 @@ showPublic.url = (args: { slug: string | number } | [slug: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showPublic
- * @see app/Http/Controllers/TestimonialController.php:153
+ * @see app/Http/Controllers/TestimonialController.php:156
  * @route '/testimoni/{slug}'
  */
 showPublic.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -109,7 +109,7 @@ showPublic.get = (args: { slug: string | number } | [slug: string | number ] | s
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::showPublic
- * @see app/Http/Controllers/TestimonialController.php:153
+ * @see app/Http/Controllers/TestimonialController.php:156
  * @route '/testimoni/{slug}'
  */
 showPublic.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -266,7 +266,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::archived
- * @see app/Http/Controllers/TestimonialController.php:300
+ * @see app/Http/Controllers/TestimonialController.php:306
  * @route '/testimonials/archived'
  */
 export const archived = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -284,7 +284,7 @@ archived.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::archived
- * @see app/Http/Controllers/TestimonialController.php:300
+ * @see app/Http/Controllers/TestimonialController.php:306
  * @route '/testimonials/archived'
  */
 archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -293,7 +293,7 @@ archived.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => 
 
 /**
 * @see \App\Http\Controllers\TestimonialController::archived
- * @see app/Http/Controllers/TestimonialController.php:300
+ * @see app/Http/Controllers/TestimonialController.php:306
  * @route '/testimonials/archived'
  */
 archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -305,7 +305,7 @@ archived.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::archived
- * @see app/Http/Controllers/TestimonialController.php:300
+ * @see app/Http/Controllers/TestimonialController.php:306
  * @route '/testimonials/archived'
  */
 archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -318,7 +318,7 @@ archived.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::restore
- * @see app/Http/Controllers/TestimonialController.php:328
+ * @see app/Http/Controllers/TestimonialController.php:334
  * @route '/testimonials/{slug}/restore'
  */
 export const restore = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -336,7 +336,7 @@ restore.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::restore
- * @see app/Http/Controllers/TestimonialController.php:328
+ * @see app/Http/Controllers/TestimonialController.php:334
  * @route '/testimonials/{slug}/restore'
  */
 restore.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -362,7 +362,7 @@ restore.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\TestimonialController::restore
- * @see app/Http/Controllers/TestimonialController.php:328
+ * @see app/Http/Controllers/TestimonialController.php:334
  * @route '/testimonials/{slug}/restore'
  */
 restore.put = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -375,7 +375,7 @@ restore.put = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\TestimonialController::deletePermanent
- * @see app/Http/Controllers/TestimonialController.php:341
+ * @see app/Http/Controllers/TestimonialController.php:347
  * @route '/testimonials/{slug}/delete-permanent'
  */
 export const deletePermanent = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -393,7 +393,7 @@ deletePermanent.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::deletePermanent
- * @see app/Http/Controllers/TestimonialController.php:341
+ * @see app/Http/Controllers/TestimonialController.php:347
  * @route '/testimonials/{slug}/delete-permanent'
  */
 deletePermanent.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -419,7 +419,7 @@ deletePermanent.url = (args: { slug: string | number } | [slug: string | number 
 
 /**
 * @see \App\Http\Controllers\TestimonialController::deletePermanent
- * @see app/Http/Controllers/TestimonialController.php:341
+ * @see app/Http/Controllers/TestimonialController.php:347
  * @route '/testimonials/{slug}/delete-permanent'
  */
 deletePermanent.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -432,7 +432,7 @@ deletePermanent.delete = (args: { slug: string | number } | [slug: string | numb
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showAdmin
- * @see app/Http/Controllers/TestimonialController.php:174
+ * @see app/Http/Controllers/TestimonialController.php:177
  * @route '/testimonials/{slug}'
  */
 export const showAdmin = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -450,7 +450,7 @@ showAdmin.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showAdmin
- * @see app/Http/Controllers/TestimonialController.php:174
+ * @see app/Http/Controllers/TestimonialController.php:177
  * @route '/testimonials/{slug}'
  */
 showAdmin.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -476,7 +476,7 @@ showAdmin.url = (args: { slug: string | number } | [slug: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\TestimonialController::showAdmin
- * @see app/Http/Controllers/TestimonialController.php:174
+ * @see app/Http/Controllers/TestimonialController.php:177
  * @route '/testimonials/{slug}'
  */
 showAdmin.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -488,7 +488,7 @@ showAdmin.get = (args: { slug: string | number } | [slug: string | number ] | st
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::showAdmin
- * @see app/Http/Controllers/TestimonialController.php:174
+ * @see app/Http/Controllers/TestimonialController.php:177
  * @route '/testimonials/{slug}'
  */
 showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -501,7 +501,7 @@ showAdmin.head = (args: { slug: string | number } | [slug: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\TestimonialController::edit
- * @see app/Http/Controllers/TestimonialController.php:198
+ * @see app/Http/Controllers/TestimonialController.php:201
  * @route '/testimonials/{slug}/edit'
  */
 export const edit = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -519,7 +519,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::edit
- * @see app/Http/Controllers/TestimonialController.php:198
+ * @see app/Http/Controllers/TestimonialController.php:201
  * @route '/testimonials/{slug}/edit'
  */
 edit.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -545,7 +545,7 @@ edit.url = (args: { slug: string | number } | [slug: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\TestimonialController::edit
- * @see app/Http/Controllers/TestimonialController.php:198
+ * @see app/Http/Controllers/TestimonialController.php:201
  * @route '/testimonials/{slug}/edit'
  */
 edit.get = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -557,7 +557,7 @@ edit.get = (args: { slug: string | number } | [slug: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\TestimonialController::edit
- * @see app/Http/Controllers/TestimonialController.php:198
+ * @see app/Http/Controllers/TestimonialController.php:201
  * @route '/testimonials/{slug}/edit'
  */
 edit.head = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -570,7 +570,7 @@ edit.head = (args: { slug: string | number } | [slug: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\TestimonialController::update
- * @see app/Http/Controllers/TestimonialController.php:208
+ * @see app/Http/Controllers/TestimonialController.php:211
  * @route '/testimonials/{slug}'
  */
 export const update = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -588,7 +588,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::update
- * @see app/Http/Controllers/TestimonialController.php:208
+ * @see app/Http/Controllers/TestimonialController.php:211
  * @route '/testimonials/{slug}'
  */
 update.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -614,7 +614,7 @@ update.url = (args: { slug: string | number } | [slug: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\TestimonialController::update
- * @see app/Http/Controllers/TestimonialController.php:208
+ * @see app/Http/Controllers/TestimonialController.php:211
  * @route '/testimonials/{slug}'
  */
 update.post = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -627,7 +627,7 @@ update.post = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\TestimonialController::destroy
- * @see app/Http/Controllers/TestimonialController.php:278
+ * @see app/Http/Controllers/TestimonialController.php:284
  * @route '/testimonials/{slug}'
  */
 export const destroy = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -645,7 +645,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\TestimonialController::destroy
- * @see app/Http/Controllers/TestimonialController.php:278
+ * @see app/Http/Controllers/TestimonialController.php:284
  * @route '/testimonials/{slug}'
  */
 destroy.url = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -671,7 +671,7 @@ destroy.url = (args: { slug: string | number } | [slug: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\TestimonialController::destroy
- * @see app/Http/Controllers/TestimonialController.php:278
+ * @see app/Http/Controllers/TestimonialController.php:284
  * @route '/testimonials/{slug}'
  */
 destroy.delete = (args: { slug: string | number } | [slug: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
