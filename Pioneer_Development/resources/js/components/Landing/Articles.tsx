@@ -97,13 +97,13 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                         bulletActiveClass: 'swiper-pagination-bullet-active'
                                     }}
                                     modules={[Navigation, Pagination]}
-                                    className="h-full w-full overflow-hidden"
+                                    className="h-full w-full"
                                 >
                                     {mappedLatestArticles.map((item: Article) => (
                                         <SwiperSlide key={item.id} className="!w-full">
                                             <div className='overflow-hidden static h-[550px] w-full flex flex-col'>
                                                 {/* Image Container - 70% dari tinggi */}
-                                                <div className="relative h-[70%] w-full mx-auto bg-gray-300 flex-shrink-0 border border-black">
+                                                <div className="relative h-[70%] w-full mx-auto bg-gray-300 flex-shrink-0">
                                                     {/* Category Badge */}
                                                     <div className="absolute top-4 left-4 z-10">
                                                         <span className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-2 shadow-sm">
