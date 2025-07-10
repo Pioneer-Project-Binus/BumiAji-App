@@ -105,9 +105,9 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                         >
                             {mappedLatestArticles.map((item: Article) => (
                                 <SwiperSlide key={item.id} className="!h-full">
-                                    <div className='relative h-full w-full lg:w-[640px] flex flex-col'>
+                                    <div className='relative h-full w-full md:w-[722px] lg:w-[640px] flex flex-col'>
                                         {/* Image Container - 70% dari tinggi */}
-                                        <div className="relative h-[70%] w-[380px] md:w-[722px] lg:w-[640px] bg-gray-300 flex-shrink-0">
+                                        <div className="relative h-[70%] w-screen max-w-[380px] md:w-[722px] md:max-w-[722px] lg:w-[640px] lg:max-w-[640px] mx-auto bg-gray-300 flex-shrink-0">
                                             {/* Category Badge */}
                                             <div className="absolute top-4 left-4 z-10">
                                                 <span className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-2 shadow-sm">
@@ -116,7 +116,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                             </div>
                                             
                                             {/* Image Link */}
-                                            <Link href={articlesRoute.showPublic(item.slug).url} className="block w-full h-full">
+                                            <Link href={articlesRoute.showPublic(item.slug).url} className="absolute block w-full h-full">
                                                 <img 
                                                     src={item.image} 
                                                     alt={item.title} 
@@ -126,7 +126,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                         </div>
                                         
                                         {/* Content Container - 30% dari tinggi */}
-                                        <div className="bg-[#25603B] h-[22%] w-full lg:w-[640px] p-6 flex flex-col justify-between">
+                                        <div className="bg-[#25603B] h-[22%] w-full md:w-[722px] md:max-w-[722px] lg:w-[640px] lg:max-w-[640px] p-6 flex flex-col justify-between">
                                             <div className="flex-2">
                                                 <Link 
                                                     href={articlesRoute.showPublic(item.slug).url} 
