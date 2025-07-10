@@ -60,9 +60,9 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
             <section className="min-h-screen py-0 px-4 sm:px-6 lg:px-10 bg-white mt-4">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black text-center mt-10 mb-2">Article</h2>
                 <p className="text-center text-lg sm:text-xl text-gray-700 mb-8 sm:mb-12 px-4">Berita dan informasi terbaru seputar Desa Bumi Aji</p>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 min-h-[400px]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 min-h-[400px]">
                         {/* Artikel besar Swiper (Latest Articles - 5 data terbaru) */}
-                        <div className="relative h-[550px] w-full lg:max-w-[640px] mx-auto px-4 sm:px-6 md:px-8 lg:px-0">
+                        <div className="relative h-[550px] w-full mx-auto border border-black">
                             {/* Tombol custom */}
                             <button
                                 className="swiper-button-prev-custom absolute top-1/2 left-2 z-20 p-2 bg-white/80 border-none hover:bg-white rounded-full shadow-md transition duration-300"
@@ -83,7 +83,7 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                 </svg>
                             </button>
                             {/* Swiper */}
-                            <div className="w-full h-full">
+                            <div className="h-full">
                                 <Swiper
                                     spaceBetween={0}
                                     slidesPerView={1}
@@ -100,10 +100,10 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                     className="h-full w-full overflow-hidden"
                                 >
                                     {mappedLatestArticles.map((item: Article) => (
-                                        <SwiperSlide key={item.id} className='h-full w-full'>
-                                            <div className='overflow-hidden relative h-full w-full md:w-[722px] lg:w-[640px] flex flex-col'>
+                                        <SwiperSlide key={item.id} className="!w-full">
+                                            <div className='overflow-hidden static h-[550px] w-full flex flex-col'>
                                                 {/* Image Container - 70% dari tinggi */}
-                                                <div className="relative h-[70%] w-screen max-w-[368px] md:w-[722px] md:max-w-[722px] lg:w-[640px] lg:max-w-[640px] mx-auto bg-gray-300 flex flex-shrink-0">
+                                                <div className="relative h-[70%] w-full mx-auto bg-gray-300 flex-shrink-0 border border-black">
                                                     {/* Category Badge */}
                                                     <div className="absolute top-4 left-4 z-10">
                                                         <span className="inline-block bg-green-800 text-white text-sm font-semibold rounded-lg px-4 py-2 shadow-sm">
@@ -115,12 +115,12 @@ export default function ArticleSection({ latestArticles, otherArticles }: Landin
                                                         <img 
                                                             src={item.image} 
                                                             alt={item.title} 
-                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
+                                                            className="w-full h-full object-fill hover:scale-105 transition-transform duration-300" 
                                                         />
                                                     </Link>
                                                 </div>
                                                 {/* Content Container - 30% dari tinggi */}
-                                                <div className="bg-[#25603B] h-[22%] w-full md:w-screen md:max-w-[722px] lg:w-screen lg:max-w-[640px] p-6 flex flex-col justify-between">
+                                                <div className="relative bg-[#25603B] h-[22%] w-full mx-auto p-6 flex flex-col justify-between">
                                                     <div className="flex-2">
                                                         <Link 
                                                             href={articlesRoute.showPublic(item.slug).url} 
